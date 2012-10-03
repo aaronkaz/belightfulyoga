@@ -2,7 +2,7 @@
 	<% Page.where(:show_in_menu => true).roots.each do |parent| %>
 	<%= content_tag :li, :class => 'point' do %>
 		<% link = !parent.skip_to_first_child? ? "/#{parent.permalink}" : "/#{parent.children.first.permalink}" %>
-		<%= link_to "#{parent.page_title}", link, :class => @page.permalink == parent.permalink || @page.parent.permalink == parent.permalink ? 'point on' : 'point' %>
+		<%= link_to "#{parent.page_title}", link, :class => !@page.nil? && (@page.permalink == parent.permalink || (!@page.parent.nil? && @page.parent.permalink == parent.permalink)) ? 'point on' : 'point' %>
 		<% unless parent.children.empty? %>
 		<ul>
 			<% parent.children.each do |child| %>

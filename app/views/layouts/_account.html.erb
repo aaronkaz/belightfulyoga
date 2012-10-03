@@ -1,0 +1,14 @@
+
+<h2 style="background-color:#262262;color:#FFFFFF;margin-right:20px;padding:5px;"><%= current_user.client_group.title %></h2>
+<ul class="nav nav-list">
+<%= content_tag :li, link_to("Available Classes", client_group_courses_path(current_user.client_group)) %>
+</ul>
+
+<hr>
+
+<h2>Your Account</h2>
+<ul class="nav nav-list">
+<li><%= link_to "Edit Your Account Details", edit_user_registration_path %></li>
+<li><a href="registrations.dna">Your Classes</a></li>
+<li><a href="logout.dna">Logout</a></li>
+</ul>

@@ -1,6 +1,6 @@
 /* Main Styles */
 
-body {background: #88c656 url("../images/background_business.jpg"); font-family: Arial, Geneva, sans-serif; font-size: 115%; line-height: 120%; color: white; padding: 10px; margin-bottom: 30px;}
+body {background: #88c656 url("/images/background_business.jpg"); font-family: Arial, Geneva, sans-serif; font-size: 115%; line-height: 120%; color: white; padding: 10px; margin-bottom: 30px;}
 
 #container {width: 980px; background: #fff; margin: auto; padding: 10px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
 
@@ -28,7 +28,7 @@ h6 {}
 #nav ul li a {display: block; padding: 0 20px 10px 10px; color: #262262; text-decoration: none;}
 #nav ul li a:hover {color: #88c656;}
 #nav ul li a.on {color: #88c656;}
-#nav ul li a.point {background: url("../images/purple_dot.gif") right 20% no-repeat;}
+#nav ul li a.point {background: url("/images/purple_dot.gif") right 20% no-repeat;}
 
 
 /* Rotating Image Styles */
@@ -39,9 +39,9 @@ ul#portfolio { list-style: none; z-index: 0}
 
 /* Main Body Content Styles */
 
-#body_content {float: left; width: 635px; margin: 20px 0 0 0; padding: 45px 20px 0 0; background: #88c656 url("../images/business_content_bg.gif") top no-repeat; line-height: 140%; font-size: 90%; letter-spacing: 1px}
+#body_content {float: left; width: 635px; margin: 20px 0 0 0; padding: 45px 20px 0 0; background: #88c656 url("/images/business_content_bg.gif") top no-repeat; line-height: 140%; font-size: 90%; letter-spacing: 1px}
 
-#body_content h3 {display: inline; width: auto; height: auto; background: #fff url("../images/business_left_tab.gif") right no-repeat; color: #88c656; font-size: 24px; font-weight: bold; margin: 0 0 10px 0; padding: 5px 33px 2px 20px; text-transform: uppercase;}
+#body_content h3 {display: inline; width: auto; height: auto; background: #fff url("/images/business_left_tab.gif") right no-repeat; color: #88c656; font-size: 24px; font-weight: bold; margin: 0 0 10px 0; padding: 5px 33px 2px 20px; text-transform: uppercase;}
 
 #body_content {float: left; }
 #body_content a {color: #262262; font-weight: bold;}
@@ -66,7 +66,7 @@ ul#portfolio { list-style: none; z-index: 0}
 
 /* Sidebar Styles */
 
-#sidebar {float: right; width: 280px; margin: 0 0 0 0; padding: 106px 0 0 0; background: url("../images/be_light.gif") top no-repeat; color: #262262;}
+#sidebar {float: right; width: 280px; margin: 0 0 0 0; padding: 106px 0 0 0; background: url("/images/be_light.gif") top no-repeat; color: #262262;}
 
 #sidebar img {margin: 0 0 0 0; vertical-align: bottom;}
 

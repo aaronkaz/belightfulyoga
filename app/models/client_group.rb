@@ -1,4 +1,8 @@
 class ClientGroup < AbstractModel
+  
+  has_many :users
+  has_many :courses
+  
   attr_accessible :code, :image, :title, :type
   validates_presence_of :code, :title
   

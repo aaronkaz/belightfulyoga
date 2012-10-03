@@ -1,6 +1,6 @@
 /* Main Styles */
 
-body {background: #ab499b url("../images/background_home.jpg"); font-family: Arial, Geneva, sans-serif; font-size: 115%; line-height: 120%; color: white; padding: 10px; margin-bottom: 30px;}
+body {background: #ab499b url("/images/background_home.jpg"); font-family: Arial, Geneva, sans-serif; font-size: 115%; line-height: 120%; color: white; padding: 10px; margin-bottom: 30px;}
 
 
 #container {position:relative;width: 980px; background: #fff; margin:0 auto; margin-top:35px; padding: 10px; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
@@ -39,7 +39,7 @@ h6 {}
 #nav ul li a {display: block; padding: 0 14px 10px 10px; color: #262262; text-decoration: none;}
 #nav ul li a:hover {color: #ab499b;}
 #nav ul li a.on {color: #ab499b;}
-#nav ul li a.point {background: url("../images/purple_dot.gif") right 20% no-repeat;}
+#nav ul li a.point {background: url("/images/purple_dot.gif") right 20% no-repeat;}
 
 
 /* Rotating Image Styles */
@@ -50,9 +50,9 @@ ul#portfolio { list-style: none; z-index: 0}
 
 /* Main Body Content Styles */
 
-#body_content {float: left;height:100%; width: 615px; margin: 20px 0 0 0; padding: 45px 20px 20px 20px; background: #ab499b url("../images/home_content_bg.gif") top no-repeat; line-height: 140%; font-size: 90%; letter-spacing: 1px;}
+#body_content {float: left;height:100%; width: 615px; margin: 20px 0 0 0; padding: 45px 20px 20px 20px; background: #ab499b url("/images/home_content_bg.gif") top no-repeat; line-height: 140%; font-size: 90%; letter-spacing: 1px;}
 
-#body_content h1.lefttab {display: inline; width: auto; height: auto; background: #fff url("../images/basic_left_tab.gif") right no-repeat; color: #ab499b; font-size: 24px; font-weight: bold; margin: 0 0 10px -20px; padding: 5px 33px 2px 20px; text-transform: uppercase;}
+#body_content h1.lefttab {display: inline; width: auto; height: auto; background: #fff url("/images/basic_left_tab.gif") right no-repeat; color: #ab499b; font-size: 24px; font-weight: bold; margin: 0 0 10px -20px; padding: 5px 33px 2px 20px; text-transform: uppercase;}
 
 #body_content {float: left; }
 #body_content a {color: #262262; font-weight: bold;}
@@ -83,7 +83,7 @@ ul#portfolio { list-style: none; z-index: 0}
 
 /* Sidebar Styles */
 
-#sidebar {float: right; width: 280px; margin: 0 0 0 0; padding: 106px 0 0 0; background: url("../images/be_light.gif") top no-repeat; color: #262262;}
+#sidebar {float: right; width: 280px; margin: 0 0 0 0; padding: 106px 0 0 0; background: url("/images/be_light.gif") top no-repeat; color: #262262;}
 
 #sidebar img {margin: 0 0 0 0; vertical-align: bottom;}
 
@@ -206,3 +206,7 @@ div#cartWin table.tighten tr td {padding:1px;}
 
 .white{color:#FFFFFF;}
 
+div.offering { background-color:white;margin:20px 10px;padding:10px;color:#262262;font-size:90%; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
+div.offering img {margin-right:10px;width:150px;height:auto;}
+div.offering p {margin:0;}
+div.offering table tr td {valign:top;text-align:left;}

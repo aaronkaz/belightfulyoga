@@ -2,13 +2,15 @@
 <html>
 <head>
   <title><%= "#{@page.page_title} - " rescue nil %> Belightful Yoga</title>
-	<meta name="description" content="<%= @page.meta_description %>" />
-	<meta name="keywords" content="<%= @page.meta_keywords %>" />
+	<meta name="description" content="<%= @page.meta_description rescue nil %>" />
+	<meta name="keywords" content="<%= @page.meta_keywords rescue nil %>" />
 
+	<%= stylesheet_link_tag    "bootstrap_and_overrides", :media => "all" %>
   <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
-	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? %>
+	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? rescue nil %>
 
-  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" %>
+  <%= javascript_include_tag "jquery" %>
+	<%= javascript_include_tag "jquery_ujs" %>
 	<%= javascript_include_tag "/javascripts/iepngfix_tilebg.js" %>
 	<%= javascript_include_tag "/javascripts/jquery.innerfade.js" %>
 	<%= javascript_include_tag "/javascripts/home_rotator.js" %>
@@ -22,7 +24,7 @@
 		<menu><div id="topNav"><%= render 'layouts/top_nav' %></div></menu>
 		<!-- <h1>Belightful Yoga.  Mobile Yoga, we come to U.</h1> -->
 		<div id="logo">
-			<a href="index.dna"><img src="images/logo-header.gif" height="210" width="652" border="0" /></a>
+			<a href="index.dna"><img src="/images/logo-header.gif" height="210" width="652" border="0" /></a>
 			<!-- Navigation -->
 			<nav><div id="nav"><%= render 'layouts/nav' %></div></nav>
 		    	<!-- Navigation -->    
@@ -35,8 +37,13 @@
 		<!-- Content -->
 
 		<!-- SideBar -->
-		<% unless @sidebar.nil? || @sidebar.text.blank? %>
-		<aside><div id="sidebar"><%= @sidebar.text.html_safe %></div></aside>
+		<% unless @sidebar.nil? %>
+		<aside><div id="sidebar">
+			<% if @sidebar_override.present? %>
+				<%= @sidebar_override.html_safe %>
+			<% else %>	
+				<%= @sidebar.text.html_safe %>
+			<% end %></div></aside>
 		<% end %>
 		<!-- SideBar -->
 

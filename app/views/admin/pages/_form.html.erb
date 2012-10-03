@@ -45,7 +45,7 @@
 		<div class="control-group">
 		  <%= f.label :add_css, :class => "control-label" %>
 			<div class="controls">
-		  	<%= f.select :add_css, Dir["public/stylesheets/*.css"].collect { |file| [ file[/\/*\/.*/], file[/\/.*/] ]} %>
+		  	<%= f.select :add_css, Dir["public/stylesheets/*.css"].collect { |file| [ file[/\/*\/.*/], file[/\/.*/] ]}, {:include_blank => true } %>
 			</div>
 		</div>
 		

@@ -1,5 +1,7 @@
 class Admin::BaseController < Admin::ApplicationController
   
+  before_filter :authenticate_admin!
+  
   before_filter { @model_class = params[:controller].gsub('admin/', '').singularize.camelize.constantize }
   before_filter :find_or_initialize, :only => [:show, :new, :edit, :update, :destroy]
   before_filter :initialize_create, :only => [:create]

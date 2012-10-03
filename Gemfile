@@ -7,6 +7,7 @@ gem 'rails', '3.2.3'
 
 gem 'mysql2'
 
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -31,6 +32,10 @@ gem "carrierwave"
 gem "acts_as_list"
 gem 'ckeditor'
 gem 'acts_as_tree'
+
+gem 'letter_opener', :group => :development
+
+gem 'seed_dumper'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

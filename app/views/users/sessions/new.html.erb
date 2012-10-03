@@ -1,0 +1,31 @@
+<h1 class="lefttab">Login</h1>
+
+<div id="cartWin">
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form-horizontal"}) do |f| %>
+
+<div class="control-group">
+  <%= f.label :email, :class => "control-label" %>
+	<div class="controls">
+  	<%= f.text_field :email %>
+	</div>
+</div>
+
+<div class="control-group">
+  <%= f.label :password, :class => "control-label" %>
+	<div class="controls">
+  	<%= f.password_field :password %>
+	<% if devise_mapping.rememberable? -%>
+	    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+	  <% end -%>
+	</div>
+</div>
+
+  
+
+  <div class="form-actions"><%= f.submit "Sign in", :class => "btn btn-primary" %></div>
+<% end %>
+
+<%= render "users/links" %>
+
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003010353) do
+ActiveRecord::Schema.define(:version => 20121003013517) do
 
   create_table "admins", :force => true do |t|
     t.string   "first_name"
@@ -120,5 +120,42 @@ ActiveRecord::Schema.define(:version => 20121003010353) do
     t.text     "meta_keywords"
     t.boolean  "google_analytics",    :default => true
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                  :default => "",    :null => false
+    t.string   "encrypted_password",     :default => "",    :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.integer  "client_group_id"
+    t.boolean  "synced_to_mailchimp",    :default => false
+    t.string   "first_name"
+    t.string   "middle_initial"
+    t.string   "last_name"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "home_phone"
+    t.string   "work_phone"
+    t.string   "work_phone_ext"
+    t.string   "cell_phone"
+    t.string   "occupation"
+    t.string   "emergency_contact"
+    t.date     "birthdate"
+    t.string   "guardian"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
+
+  add_index "users", ["client_group_id"], :name => "index_users_on_client_group_id"
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end
