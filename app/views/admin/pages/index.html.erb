@@ -1,0 +1,24 @@
+<%= render 'admin/shared/head_index', model_class: @model_class, no_filter: true %>
+
+<ul id="page_list" data-path="<%= sort_admin_pages_path %>">
+<% @pages.each do |page| %>
+  <%= content_tag_for :li, page do %>
+    <i class="handle icon-move"></i>
+    <%= page.page_title %> <%= link_to "Edit", edit_admin_page_path(page) %>
+	<%= link_to "Delete", [:admin, page], :method => :delete, :confirm => 'Are you sure you want to delete this page?' %>
+
+		<% unless page.children.empty? %>
+		<ul class="submenu">
+		  <% for page in page.children %>
+		    <li><%= page.page_title %> <%= link_to "Edit", edit_admin_page_path(page) %></li>
+		  <% end %>
+		</ul>
+		<% end %>
+		
+
+
+  <% end %>
+<% end %>
+</ul>
+
+

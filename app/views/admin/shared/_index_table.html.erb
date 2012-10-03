@@ -1,0 +1,27 @@
+<table class="table table-condensed table-striped">
+<thead>
+	<tr>
+		<% model_class::VIEW_COLUMNS.each do |column| %>
+		<th><%= model_class.human_attribute_name(column[0].to_sym) %></th>
+		<% end %>
+		<th></th>
+	</tr>	
+</thead>	
+
+<tbody>
+	<% instance_variable_get("@#{model_class.model_name.tableize}").each do |record| %>
+	<tr>
+		<% model_class::VIEW_COLUMNS.each do |column| %>
+		<td>
+			<% if column[1].blank? %>
+				<%= record.send(column[0])%>
+			<% else %>
+				<%= render "admin/shared/show_fields/#{column[1]}", instance: record, column: column[0] %>
+			<% end %>
+			</td>
+		<% end %>
+		<td><%= render 'admin/shared/record_actions', :model_class => model_class, :instance => record %></td>
+	</tr>	
+	<% end %>
+</tbody>	
+</table>

@@ -1,0 +1,20 @@
+<ul>
+	<% Page.where(:show_in_menu => true).roots.each do |parent| %>
+	<%= content_tag :li, :class => 'point' do %>
+		<% link = !parent.skip_to_first_child? ? "/#{parent.permalink}" : "/#{parent.children.first.permalink}" %>
+		<%= link_to "#{parent.page_title}", link, :class => @page.permalink == parent.permalink || @page.parent.permalink == parent.permalink ? 'point on' : 'point' %>
+		<% unless parent.children.empty? %>
+		<ul>
+			<% parent.children.each do |child| %>
+			<%= content_tag_for :li, child do %>
+				<%= link_to "#{child.page_title}", "/#{child.permalink}" %>
+			<% end %>
+			<% end %>
+		</ul>		
+		<% end %>	
+	<% end %>
+	<% end %>
+</ul>
+
+
+

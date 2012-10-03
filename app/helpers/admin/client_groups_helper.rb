@@ -1,0 +1,2 @@
+module Admin::ClientGroupsHelper
+end

@@ -1,0 +1,27 @@
+.record-action {
+	color: #000;
+	margin-right:10px;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.filter-row {
+	margin-bottom: 15px;
+	a, select, input {
+		margin-right: 7px;
+	}	
+}
+
+.info-list {
+	dt {
+		background-color: #999;
+		border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		padding:1px 3px;
+		margin: 10px 0;
+		color: #fff;
+		font-size: 9pt;
+	}
+}

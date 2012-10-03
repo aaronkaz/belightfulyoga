@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  client_group: 
+  course_title: 
+  is_family: false
+  start_date: 2012-10-02
+  end_date: 2012-10-02
+  hide_date: 2012-10-02
+  start_time: 2012-10-02 11:44:00
+  end_time: 2012-10-02 11:44:00
+  day: MyString
+  location: MyText
+  price: 9.99
+  notes: MyText
+
+two:
+  client_group: 
+  course_title: 
+  is_family: false
+  start_date: 2012-10-02
+  end_date: 2012-10-02
+  hide_date: 2012-10-02
+  start_time: 2012-10-02 11:44:00
+  end_time: 2012-10-02 11:44:00
+  day: MyString
+  location: MyText
+  price: 9.99
+  notes: MyText

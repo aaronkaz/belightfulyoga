@@ -1,0 +1,6 @@
+<ul class="nav nav-tabs nav-stacked">
+	<% nav_models = ['Page', 'PagePart', 'CourseTitle', 'ClientGroup', 'Course'] %>
+	<% nav_models.each do |m| %>
+		<%= sidebar_link(m) %>
+	<% end %>	
+</ul>	

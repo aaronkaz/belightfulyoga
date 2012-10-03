@@ -1,0 +1,6 @@
+<div class="control-group">
+  <%= f.label column.to_sym, :class => 'control-label' %>
+  <div class="controls">
+		<%= f.collection_select column.to_sym, Course::DAYS, :to_s, :humanize %>
+  </div>
+</div>

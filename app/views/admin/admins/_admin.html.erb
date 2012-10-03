@@ -1,0 +1,7 @@
+<tr id="record_<%= admin.id %>">
+  <td><%= "#{admin.first_name} #{admin.last_name}" %></td>
+  <td><%= admin.email %></td>
+  <td>	<%= link_to raw("<i class='icon-edit'></i> Edit"), edit_admin_admin_path(admin), :class => 'btn btn-mini' %>
+		<%= link_to raw("<i class='icon-remove icon-white'></i>"), [:admin, admin], :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-mini btn-danger' %>
+	</td>
+</tr>

@@ -1,0 +1,12 @@
+/* Main Styles */
+
+body {background: #88c656 url("../images/background_business.jpg");}
+
+
+
+/* Main Body Content Styles */
+
+#body_content {background: #88c656 url("../images/business_content_bg.gif") top no-repeat;}
+#body_content h1.lefttab {background: #fff url("../images/business_left_tab.gif") right no-repeat; color: #88c656;}
+
+

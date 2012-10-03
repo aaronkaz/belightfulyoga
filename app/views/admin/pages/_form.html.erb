@@ -1,0 +1,119 @@
+<%= form_for [:admin, @page], :html => { :class => "form-horizontal"} do |f| %>
+	
+	<fieldset>
+		<legend>General Info</legend>
+	<div class="control-group">
+	  <%= f.label :parent_id, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.collection_select :parent_id, Page.all(:order => "page_title"), :id, :page_title, :include_blank => true %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :page_title, :class => "control-label" %>
+		<div class="controls">
+	  	<%= f.text_field :page_title %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :permalink, :class => "control-label" %>
+		<div class="controls">
+	  	<%= f.text_field :permalink %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :show_in_menu, :class => "control-label" %>
+		<div class="controls">
+	  	<%= f.check_box :show_in_menu %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :skip_to_first_child, :class => "control-label" %>
+		<div class="controls">
+	  	<%= f.check_box :skip_to_first_child %>
+		</div>
+	</div>
+	
+	</fieldset>
+	
+	<fieldset>
+		<legend>Meta Content</legend>
+		
+		<div class="control-group">
+		  <%= f.label :add_css, :class => "control-label" %>
+			<div class="controls">
+		  	<%= f.select :add_css, Dir["public/stylesheets/*.css"].collect { |file| [ file[/\/*\/.*/], file[/\/.*/] ]} %>
+			</div>
+		</div>
+		
+		<div class="control-group">
+		  <%= f.label :meta_description, :class => "control-label" %>
+			<div class="controls">
+		  	<%= f.text_area :meta_description, :class => "span6", :rows => "5" %>
+			</div>
+		</div>
+		
+		<div class="control-group">
+		  <%= f.label :meta_keywords, :class => "control-label" %>
+			<div class="controls">
+		  	<%= f.text_area :meta_keywords, :class => "span6", :rows => "5" %>
+			</div>
+		</div>
+		
+		<div class="control-group">
+		  <%= f.label :google_analytics, :class => "control-label" %>
+			<div class="controls">
+		  	<%= f.check_box :google_analytics %>
+			</div>
+		</div>
+		
+	</fieldset>	
+	
+
+	<fieldset>
+		<legend>Content</legend>
+
+		<ul class="nav nav-tabs">
+			<% PagePart.all.each do |pp| %>
+   			<%= content_tag :li, link_to(pp.title, "##{pp.title.gsub(' ', '_')}", "data-toggle" => "tab"), :class => pp.id == PagePart.first.id ? "active" : nil %>
+			<% end %>
+   	</ul>
+
+		<div id="myTabContent" class="tab-content">
+			<% PagePart.all.each do |pp| %>
+				<%= content_tag :div, :id => pp.title.gsub(' ', '_'), :class => pp.id == PagePart.first.id ? "tab-pane fade in active" : "tab-pane fade" do %>
+					<% has_section = @page.page_part_placements.find_by_page_part_id(pp.id) %>
+					<% if !has_section.nil? %>
+						<%= f.fields_for(:page_part_placements, has_section) do |builder| %>
+							<%= render 'page_part', :f => builder, :pp => pp %>
+						<% end %>	
+					<% else %>
+
+						<% 
+							new_object = f.object.send(:page_part_placements).klass.new
+				  		id = new_object.object_id
+						%>
+						<%= f.fields_for(:page_part_placements, new_object, child_index: id) do |builder| %>
+							<%= builder.hidden_field :page_part_id, :value => pp.id %>
+							<%= render 'page_part', :f => builder, :pp => pp %>
+						<% end %>	
+					<% end %>
+				
+				<% end %>
+		  <% end %>
+		</div>
+		
+	</fieldset>
+	
+	<div class="form-actions">
+
+		
+		<%= f.submit "Save", :class => 'btn-primary' %>
+	</div>	
+	
+
+	
+<% end %>

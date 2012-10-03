@@ -1,0 +1,3 @@
+<%= link_to raw("<i class='icon-info-sign'></i>"), eval("admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})"), :class => "show-tooltip record-action", :title => "Show" %>
+<%= link_to raw("<i class='icon-pencil'></i>"), eval("edit_admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})"), :class => "show-tooltip record-action", :title => "Edit" %>
+<%= link_to raw("<i class='icon-remove'></i>"), eval("admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})"), :method => :delete, :confirm => "Are you sure?", :class => "show-tooltip record-action", :title => "Delete" %>

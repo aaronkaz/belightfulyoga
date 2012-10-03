@@ -1,0 +1,6 @@
+<div class="control-group">
+  <%= f.label column.to_sym, :class => 'control-label' %>
+  <div class="controls">
+		<%= f.time_select column.to_sym, { :prompt => true, :include_seconds => false, :ampm => true }, { :style => 'width:70px;' } %>
+  </div>
+</div>
