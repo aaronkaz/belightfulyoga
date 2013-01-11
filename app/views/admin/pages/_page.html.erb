@@ -1,3 +1,27 @@
-<tr>
-	<td><%= page.page_title %></td>
-</tr>	
+<%= content_tag_for :li, page do %>
+  <div>
+    <%= fields_for 'pages[]', page do |f| %>
+      <%= f.hidden_field :parent_id, :class => "parent" %>
+      <%= f.hidden_field :position, :class => "position" %>
+    <% end %>
+    <span class="bar"></span>
+    <%= page.page_title %> <%= "*" if page.skip_to_first_child? %>
+    <span class="actions">
+      <%= link_to "Edit", edit_admin_page_path(page) %>
+      <%= link_to "Delete", [:admin, page], :method => :delete, :confirm => 'Are you sure you want to delete this page?', :style => "color:red;" %>
+    </span>
+  </div>    
+
+  <ul data-parent-id="<%= page.id %>" class="sub">
+	<% unless page.children.empty? %>
+	
+	  <% for page in page.children %>
+	    <%= render 'page', :page => page %>
+	  <% end %>
+	
+	<% end %>
+	</ul>
+	
+
+
+<% end %>

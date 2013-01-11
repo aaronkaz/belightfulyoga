@@ -1,0 +1,57 @@
+<h2>Review Order</h2>
+
+<%= error_messages_for(@cart) %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sku</th>
+      <th>Product</th>
+      <th style="text-align:right;">Price</th>
+      <th style="text-align:center;">Qty</th>
+      <th style="text-align:right;">Total</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @cart.line_items.each do |line_item| %>
+    <tr>
+      <td><%= line_item.line_itemable.sku unless !defined?(line_item.line_itemable.sku) %></td>
+      <td><%= line_item.line_itemable.line_item_title %></td>
+      <td style="text-align:right;"><%= number_to_currency(line_item.line_itemable.price) %></td>
+      <td style="text-align:center;"><%= line_item.qty %></td>
+      <td style="text-align:right;"><%= number_to_currency(line_item.line_itemable.price * line_item.qty) %></td>
+    </tr>  
+    <% end %>
+    
+  </tbody>      
+  
+  <tfoot>
+  <tr>  
+    <td colspan="4" style="text-align:right;"><b>Subtotal</b></td>
+    <td style="text-align:right;"><%= number_to_currency(@cart.subtotal) %></td>
+  </tr> 
+  
+  <tr>
+    <td colspan="4" style="text-align:right;"><b>Sales Tax</b></td>
+    <td style="text-align:right;"><%= number_to_currency(@cart.sales_tax) %></td>
+  </tr>
+  
+  <tr>
+    <td colspan="4" style="text-align:right;"><b>Shipping <%#= "(#{UpsShipping::SERVICES[@cart.selected_shipping_array.split(',')[0]]})" %></b></td>
+    <td style="text-align:right;"><%#= number_to_currency(@cart.selected_shipping_array.split(',')[1]) %></td>
+  </tr>  
+  
+  <tr>
+    <td colspan="4" style="text-align:right;"><b>Total</b></td>
+    <td style="text-align:right;"><%#= content_tag :strong, number_to_currency(@cart.grand_total) %></td>
+  </tr>
+    
+  </tfoot>
+  
+</table>  
+
+<%= form_for @cart, :url => update_checkout_cart_path(@cart), :html => { :method => :put, :class => 'form-horizontal'} do |f| %>
+
+  <%= f.button "Continue To Payment >>", :name => :continue_to_payment, :value => true, :class => "btn btn-large btn-primary pull-right" %>
+<% end %>

@@ -1,9 +1,9 @@
 class PagesController < ApplicationController
   
   def show
-    if @page = Page.find_by_permalink(params[:permalink])
+    if @page = Page.find(params[:id])
     else
-      @page = Page.find_by_permalink("page-not-found")
+      @page = Page.find("page-not-found")
     end
     
     @page.page_parts.each do |pp|

@@ -1,0 +1,72 @@
+<%= form_for [:admin, @promo_code], :html => { :class => "form-horizontal"} do |f| %>
+	
+<fieldset>
+	<legend>General Info</legend>
+	
+	<div class="control-group">
+	  <%= f.label :code, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.text_field :code %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :description, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.text_field :description %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :start_date, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.text_field :start_date, :class => "datepicker" %>
+	  		<p class="help-block">Leave blank if N/A</p>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :expiration_date, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.text_field :expiration_date, :class => "datepicker" %>
+	  		<p class="help-block">Leave blank if N/A</p>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :discount_type, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.select :discount_type, options_for_select([['Dollar Amount', 'dollar'], ['Percentage', 'percentage']]) %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+	  <%= f.label :amount, :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.text_field :amount %>
+	  		<p class="help-block">Enter digits and decimal only!  For percentage, enter as decimal amount (ie 10% = 0.10)</p>
+		</div>
+	</div>
+		
+</fieldset>
+
+<fieldset>
+	<legend>Conditions (not required)</legend>
+	
+	<div class="control-group">
+	  <%= f.label :must_have_qty, "Cart must have quantity of items", :class => "control-label" %>
+		<div class="controls">
+	  		<%= f.number_field :must_have_qty, :style => "width:30px;" %>
+	  		unique? <%= f.check_box :unique %>
+	  		from: <%= f.select :line_itemable_type, options_for_select([['Course'], ['Product']]), :include_blank => true %>
+		</div>
+	</div>
+	
+</fieldset>
+
+<div class="form-actions">
+	<%= f.submit "Save", :class => 'btn-primary' %>
+</div>	
+
+
+<% end %>

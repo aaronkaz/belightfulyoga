@@ -7,27 +7,46 @@ Belightfulyoga::Application.routes.draw do
   devise_for :admins, :controllers => { :sessions => "admins/sessions", :registrations => "admins/registrations", :passwords => "admins/passwords" }, :path_prefix => 'd'
 
   # ADMIN
-  constraints(:subdomain => /admin/) do
-    namespace :admin, :path => '/' do
+  namespace :admin do
       
-      resources :pages do
-        collection do
-          post :sort
-        end
+    resources :pages do
+      collection do
+        put :sort
       end
-      
-      resources :page_parts, :admins, :course_titles, :client_groups, :courses
-      root :to => "application#index"
-      
     end
+    
+    resources :courses do
+      collection do
+        post :bulk_actions
+      end
+      member do
+        get :generate_ics
+      end
+    end
+    
+    resources :page_parts, :admins, :client_groups, :teachers, :users, :promo_codes do
+      collection do
+        post :bulk_actions
+      end
+    end
+    root :to => "pages#index"
+      
   end
   
   # FRONT-END
-  resources :client_groups do
+  resources :client_groups, :path => 'groups' do
     resources :courses
   end
   
-  root :to => 'pages#show', :permalink => 'index'
-  match '/:permalink(.:format)', :controller => "pages", :action => "show"
+  
+  resources :carts, :path=> 'shopping-cart' do
+    member do
+      get :checkout
+      put :update_checkout
+    end
+  end
+  
+  root :to => 'pages#show', :id => 'home'
+  resources :pages, :path => '/'
   
 end

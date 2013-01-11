@@ -210,3 +210,6 @@ div.offering { background-color:white;margin:20px 10px;padding:10px;color:#26226
 div.offering img {margin-right:10px;width:150px;height:auto;}
 div.offering p {margin:0;}
 div.offering table tr td {valign:top;text-align:left;}
+
+
+.breadcrumb li {font-size: 10pt;}

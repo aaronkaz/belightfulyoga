@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -28,14 +28,17 @@ gem 'devise'
 gem "rmagick"
 gem "mini_magick"
 gem "carrierwave"
+gem 'fog'
 
 gem "acts_as_list"
 gem 'ckeditor'
 gem 'acts_as_tree'
 
+gem 'friendly_id'
+
 gem 'letter_opener', :group => :development
 
-gem 'seed_dumper'
+#gem 'seed_dumper'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

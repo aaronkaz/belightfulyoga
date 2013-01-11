@@ -1,0 +1,6 @@
+<div class="control-group">
+  <%= f.label column.to_sym, :class => 'control-label' %>
+  <div class="controls">
+    <%= f.text_field column.to_sym, :class => 'tag-select', "data-pre" => f.object.tags.map {|tag| {:id => tag.name, :name => tag.name } }.to_json %>
+  </div>
+</div>

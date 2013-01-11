@@ -6,8 +6,12 @@
 	<div class="offering">
 		<table>
 
-			<tr><td colspan="2"><%= content_tag :h2, course.course_title.title %></td></tr>
-			<tr><td valign="top">images</td><td valign="top"><%= content_tag :p, course.course_title.description %>
+
+			<tr>
+			  <td valign="top"><%= image_tag course.image_url(:thumb) unless course.image.blank? %></td>
+			  <td valign="top">
+			  <%= content_tag :h2, "#{course.title} Belightful Yoga" %>
+			  <%= content_tag :p, course.description %>
 
 
 		 <dl class="dl-horizontal">
@@ -23,6 +27,25 @@
 	
 		<%= content_tag :p, course.location %>
 		<%= content_tag :p, course.notes %>	
+		
+		<% if !current_cart.nil? && !current_cart.line_items.where(:line_itemable_type => "Course").where(:line_itemable_id => course.id).empty? %>
+		  <span class="label label-important">This class is already in your cart</span>
+		<% else %>  
+		<%= form_for @cart, :html => { :class => "form-inline"} do |f| %>
+
+      <% 
+      new_object = f.object.send(:line_items).klass.new
+      id = new_object.object_id
+      %>
+      <%= f.fields_for(:line_items, new_object, child_index: id) do |line_item| %>
+        <%= line_item.hidden_field :line_itemable_type, :value => "Course" %>
+        <%= line_item.hidden_field :line_itemable_id, :value => course.id %>
+        <%= line_item.hidden_field :qty, :value => 1 %>
+      <% end %>
+
+      <%= f.submit "Add To Cart", :class => "btn btn-mini btn-primary" %>
+    <% end %>
+    <% end %>
 
 
 		</td></tr>

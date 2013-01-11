@@ -1,8 +1,12 @@
+<%= form_tag eval("bulk_actions_admin_#{model_class.model_name.tableize}_path"), :method => :post, :id => "bulk_action_form" do %>
+<%= hidden_field_tag :bulk_action %>
+
 <table class="table table-condensed table-striped">
 <thead>
 	<tr>
+	  <th><%= check_box_tag "", "", false, :id => "select_all" %></th>
 		<% model_class::VIEW_COLUMNS.each do |column| %>
-		<th><%= model_class.human_attribute_name(column[0].to_sym) %></th>
+		<th><%= sortable column[0], model_class.human_attribute_name(column[0].to_sym) %></th>
 		<% end %>
 		<th></th>
 	</tr>	
@@ -11,6 +15,7 @@
 <tbody>
 	<% instance_variable_get("@#{model_class.model_name.tableize}").each do |record| %>
 	<tr>
+	  <td><%= check_box_tag "#{model_class.model_name.underscore}_ids[]", record.id %></td>
 		<% model_class::VIEW_COLUMNS.each do |column| %>
 		<td>
 			<% if column[1].blank? %>
@@ -20,8 +25,9 @@
 			<% end %>
 			</td>
 		<% end %>
-		<td><%= render 'admin/shared/record_actions', :model_class => model_class, :instance => record %></td>
+		<td nowrap><%= render 'admin/shared/record_actions', :model_class => model_class, :instance => record %></td>
 	</tr>	
 	<% end %>
 </tbody>	
 </table>
+<% end %>

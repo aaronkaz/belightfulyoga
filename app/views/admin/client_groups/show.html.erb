@@ -1,3 +1,0 @@
-<% instance = instance_variable_get("@#{@model_class.model_name.tableize.singularize}") %>
-<%= render 'admin/shared/head_show', model_class: @model_class, instance: instance %>
-<%= render 'admin/shared/show', model_class: @model_class, instance: instance %>

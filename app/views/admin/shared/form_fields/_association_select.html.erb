@@ -1,6 +1,8 @@
 <div class="control-group">
   <%= f.label column.to_sym, :class => 'control-label' %>
   <div class="controls">
-		<%= f.select "#{column}_id".to_sym, column.camelize.constantize.all.collect {|s| [column.camelize.constantize::ASS_SEL_VIEW.collect { |c| "#{s.send(c)}" }.join(' -- '), s.id]}, {} %>
+		<%= f.select "#{column}_id".to_sym, column.camelize.constantize.all.collect {|s| [column.camelize.constantize::ASS_SEL_VIEW.collect { |c| "#{s.send(c)}" }.join(' -- '), s.id]}, { :include_blank => true }, :id => "#{column}_select", :class => "association-select" %> <%= link_to "Create New #{column.titleize}", eval("new_admin_#{column}_path"), :class => "dialog-form btn btn-info", :title => "Create New #{column.titleize}" %>
+		<%= link_to "Edit Selected #{column.titleize}", f.object.send("#{column}_id").blank? ? "#" : eval("edit_admin_#{column}_path(f.object.send(column))"), :class => "edit-selected dialog-form btn btn-info", :title => "Edit #{column.titleize}", "data-path-prefix" => "/admin/#{column.pluralize}", :style => f.object.send("#{column}_id").blank? ? "display:none;" : nil %>
+	
   </div>
 </div>

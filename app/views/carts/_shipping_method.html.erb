@@ -1,0 +1,19 @@
+<h3>Shipping Method</h3>
+
+<%= error_messages_for(@cart) %>
+
+<%= form_for @cart, :url => update_checkout_cart_path(@cart), :html => { :method => :put, :class => 'form-horizontal'} do |f| %>
+<%= hidden_field_tag :stage, @stage %>
+
+  <%= f.hidden_field :shipping_confirm, :value => "1" %>
+
+  <% @ups_rates.each do |rate| %>
+    <label class="radio">
+      <%= f.radio_button :selected_shipping_array, "#{rate.at_xpath('Service/Code').text}, #{rate.at_xpath('TotalCharges/MonetaryValue').text}", :checked => !@cart.selected_shipping_array.blank? && @cart.selected_shipping_array.split(',')[0] == rate.at_xpath('Service/Code').text ? true : false %>
+      <%= "#{UpsShipping::SERVICES[rate.at_xpath('Service/Code').text]}: #{number_to_currency(rate.at_xpath('TotalCharges/MonetaryValue').text)}" %>
+    </label>
+  
+  <% end %>  
+  
+  <div class="form-actions"><%= f.submit "Continue", :class => "btn btn-primary" %></div>
+<% end %>  

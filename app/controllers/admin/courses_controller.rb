@@ -1,41 +1,54 @@
-class Admin::CoursesController < Admin::BaseController
+class Tempfile
+  def make_tmpname(prefix_suffix, n)
+        case prefix_suffix
+        when String
+          prefix = prefix_suffix
+          suffix = ""
+        when Array
+          prefix = prefix_suffix[0]
+          suffix = prefix_suffix[1]
+        else
+          raise ArgumentError, "unexpected prefix_suffix: #{prefix_suffix.inspect}"
+        end
+        t = Time.now.strftime("%Y%m%d")
+        path = "#{prefix}#{t}-#{$$}-#{rand(0x100000000).to_s(36)}"
+        path << "-#{n}" if n
+        path << suffix
+      end
+end
+
+class Admin::CoursesController < Admin::BaseCrudController
   
-  def index
-    instance_variable_set "@#{@model_class.model_name.tableize}", @model_class.scoped
-    instance_variable_set "@#{@model_class.model_name.tableize}", instance_variable_get("@#{@model_class.model_name.tableize}").filters(params[:filter]).search(params[:search])
-  end
-  
-  def new
-  end
-  
-  def create
-    if instance_variable_get("@#{model_name}").save
-      flash[:success] = "#{model_class.model_name.human} created!"
-      redirect_to eval("admin_#{model_name}_path(instance_variable_get('@#{model_name}'))")
-    else
-      render 'new'
-    end
-  end
-  
-  def update
-    if instance_variable_get("@#{model_name}").update_attributes(params[model_name.to_sym])
-      flash[:success] = "#{model_class.model_name.human} updated!"
-      redirect_to eval("admin_#{model_name}_path(instance_variable_get('@#{model_name}'))")
-    else
-      render 'edit'
-    end
-  end
-  
-  def show
-  end
-  
-  def edit
-  end
-  
-  def destroy
-    instance_variable_get("@#{model_name}").destroy
-    flash[:info] = "#{model_class.model_name.human} deleted!"
-    redirect_to eval("admin_#{@model_class.model_name.tableize}_path")
+  def generate_ics
+    
+    #require 'tempfile'
+    
+    @course = Course.find(params[:id])
+    
+    ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\n"
+    from = @course.start_date
+    to = @course.end_date
+    tmp = from
+    
+    begin
+      ics << "BEGIN:VEVENT\r\nDTSTART:#{tmp.strftime('%Y%m%d')}T#{@course.start_time.strftime('%H%M%S')}\r\nDTEND:#{tmp.strftime('%Y%m%d')}T#{@course.end_time.strftime('%H%M%S')}\r\n"
+      ics << "DTSTAMP:#{Time.now.strftime('%Y%m%dT%H%M%S')}\r\nDESCRIPTION:#{@course.title} Belightful Yoga #{@course.description}\r\nSUMMARY:#{@course.title} Belightful Yoga #{@course.description}\r\nEND:VEVENT\r\n"
+      tmp += 1.week
+      
+    end while tmp <= to
+    
+    ics << "END:VCALENDAR"
+    
+    #file = Tempfile.new('hola')
+    file = make_tmpname(["belightful_yoga_course_#{@course.id}_", ".ics"], "#{Rails.root}/tmp/")
+    
+    File.open(file, 'w') {|f| f.write(ics) }
+      
+    send_file file
+    
+    #render :text => ics
+    
   end
   
 end
+

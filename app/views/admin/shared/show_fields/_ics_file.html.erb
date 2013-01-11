@@ -1,0 +1,1 @@
+<%= link_to raw("<i class='icon-calendar'></i> Download"), eval("generate_ics_admin_#{@model_class.model_name.tableize.singularize}_path(#{instance.id})"), :class => 'btn btn-mini' %>

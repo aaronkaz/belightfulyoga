@@ -1,12 +1,12 @@
 <% 
-tabled = model_class.model_name.tableize 
+tabled = @model_class.model_name.tableize 
 %>
 
-<div class="page-header"><%= content_tag :h1, "New #{model_class.model_name.human.downcase.capitalize}" %></div>
+<div class="page-header"><%= content_tag :h1, "New #{@model_class.model_name.human.downcase.capitalize}" %></div>
 
 <ul class="breadcrumb">
 	<li><%= link_to "Dashboard", admin_root_path %> <span class="divider">/</span></li>
-	<li><%= link_to model_class.model_name.human.pluralize, eval("admin_#{tabled}_path") %> <span class="divider">/</span></li>
+	<li><%= link_to @model_class.model_name.human.pluralize, eval("admin_#{tabled}_path") %> <span class="divider">/</span></li>
 	<li class="active">New</li>
 </ul>	
 

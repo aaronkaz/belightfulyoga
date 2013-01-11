@@ -37,13 +37,11 @@
 		<!-- Content -->
 
 		<!-- SideBar -->
-		<% unless @sidebar.nil? %>
+		<% if (!@sidebar.nil? && !@sidebar.text.blank?) || content_for?(:sidebar) %>
 		<aside><div id="sidebar">
-			<% if @sidebar_override.present? %>
-				<%= @sidebar_override.html_safe %>
-			<% else %>	
-				<%= @sidebar.text.html_safe %>
-			<% end %></div></aside>
+		  <%= yield(:sidebar) %>	
+			<%= @sidebar.text.html_safe %>
+			</div></aside>
 		<% end %>
 		<!-- SideBar -->
 

@@ -1,6 +1,20 @@
 <ul class="nav nav-tabs nav-stacked">
-	<% nav_models = ['Page', 'PagePart', 'CourseTitle', 'ClientGroup', 'Course'] %>
-	<% nav_models.each do |m| %>
+  <li class="nav-header">CMS</li>
+	<% ['Page'].each do |m| %>
 		<%= sidebar_link(m) %>
 	<% end %>	
+	<li class="nav-header">Courses</li>
+	<% ['ClientGroup', 'Teacher', 'Course'].each do |m| %>
+		<%= sidebar_link(m) %>
+	<% end %>
+	
+	<li class="nav-header">Store</li>
+	<% ['PromoCode'].each do |m| %>
+		<%= sidebar_link(m) %>
+	<% end %>
+	
+	<li class="nav-header">System</li>
+	<% ['User', 'PagePart'].each do |m| %>
+		<%= sidebar_link(m) %>
+	<% end %>
 </ul>	

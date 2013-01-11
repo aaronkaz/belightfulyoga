@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cart: 
+  line_itemable_type: MyString
+  line_itemable_id: 1
+  qty: 1
+
+two:
+  cart: 
+  line_itemable_type: MyString
+  line_itemable_id: 1
+  qty: 1

@@ -9,6 +9,6 @@
 
 <ul class="nav nav-tabs">
 	<li class="active"><%= link_to raw("<i class='icon-info-sign'></i> Show"), eval("admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})") %></li>
-	<li><%= link_to raw("<i class='icon-pencil'></i> Edit"), eval("edit_admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})") %></li>
+	<%= content_tag :li, link_to(raw("<i class='icon-pencil'></i> Edit"), eval("edit_admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})")) unless @model_class::ALLOW_EDIT == false %></li>
 	<li><%= link_to raw("<i class='icon-remove'></i> Delete"), eval("admin_#{model_class.model_name.tableize.singularize}_path(#{instance.id})"), :method => :delete, :confirm => "Are you sure?" %></li>
 </ul>

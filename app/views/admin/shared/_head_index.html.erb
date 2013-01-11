@@ -9,22 +9,37 @@ tabled = model_class.model_name.tableize
 	<li><%= link_to model_class.model_name.human.pluralize, eval("admin_#{tabled}_path") %></li>
 </ul>	
 
+
 <ul class="nav nav-tabs">
 	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), eval("admin_#{tabled}_path") %></li>
-	<li><%= link_to raw("<i class='icon-plus'></i> New"), eval("new_admin_#{tabled.singularize}_path") %></li>
+	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> New"), eval("new_admin_#{tabled.singularize}_path")) unless @model_class::ALLOW_NEW == false %>
 	<% unless defined?(no_filter) && no_filter == true %>
+	
+	<% unless model_class::ALLOW_BULK == false %>
+	<li class="dropdown pull-right">
+	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> Bulk Actions <b class="caret"></b></a>
+	<ul class="dropdown-menu">
+		<li><%= link_to "Delete records", "#", :id => "delete_multiple", :class => "bulk_action" %></li>
+	</ul>
+	</li>
+	<% end %>
+	
+	<% unless model_class::ALLOW_FILTER == false %>
 	<li class="dropdown pull-right">
 	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> Add Filter <b class="caret"></b></a>
 	<ul class="dropdown-menu">
-		<% model_class.columns.each do |column| %>
+		<% model_class::FILTER_COLUMNS.each do |column| %>
 		<li><%= link_to_filter_attribute(column) %></li>
 		<% end %>
 	</ul>
 	</li>
 	<% end %>
+	
+	
+	<% end %>
 </ul>	
 
-<% unless defined?(no_filter) && no_filter == true %>
+<% unless model_class::ALLOW_FILTER == false %>
 <%= form_tag eval("admin_#{tabled}_path"), :method => 'get', :class => 'form-inline' do %>
 	<div class="well">
 		<div id="filter-area">

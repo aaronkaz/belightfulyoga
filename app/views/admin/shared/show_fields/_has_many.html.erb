@@ -1,0 +1,2 @@
+<% associated_model = column.camelize.singularize.constantize %>
+<%= instance.send(column).collect { |o| "#{associated_model::ASS_SEL_VIEW.collect { |c| "#{o.send(c)}" }.join(' -- ')}" }.join(' >> ') %>

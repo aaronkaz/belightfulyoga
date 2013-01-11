@@ -1,0 +1,19 @@
+<div class="alert alert-info">
+				Please sign in or register a new account to continue!
+</div>
+
+
+<div class="row">
+  <div class="span6">
+    <h3 style="text-align:center;">Sign In</h3>
+    
+    <%= render 'users/sessions/form' %>
+  </div>
+  
+  <div class="span6">
+    <h3 style="text-align:center;">Create New Account</h3>
+    
+    <%= render 'users/registrations/form', :resource => User.new, :resource_name => "user", :user_redirect_to => request.path %>
+  </div>  
+  
+</div>  

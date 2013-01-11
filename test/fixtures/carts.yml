@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  status: MyString
+  user: 
+  postal_code: MyString
+  selected_shipping_array: MyString
+  billing_address_id: 1
+  shipping_address_id: 1
+  shipping_confirm: false
+
+two:
+  status: MyString
+  user: 
+  postal_code: MyString
+  selected_shipping_array: MyString
+  billing_address_id: 1
+  shipping_address_id: 1
+  shipping_confirm: false

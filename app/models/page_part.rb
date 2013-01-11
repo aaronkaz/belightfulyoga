@@ -5,8 +5,11 @@ class PagePart < AbstractModel
   
   attr_accessible :title, :body, :wysiwyg, :required
   
-  VIEW_COLUMNS = [['id'], ['title'], ['wysiwyg'], ['required']]
+  VIEW_COLUMNS = [['id', ''], ['title', ''], ['wysiwyg', ''], ['required', '']]
   FORM_COLUMNS = [ ['title', 'string'], ['wysiwyg', 'checkbox'], ['required', 'checkbox'] ]
+  
+  FILTER_COLUMNS = ['required']
+  SEARCH_COLUMNS = ['id', 'title']
   
   ASS_SEL_VIEW = ['title']
   

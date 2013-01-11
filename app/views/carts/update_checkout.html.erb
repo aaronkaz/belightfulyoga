@@ -1,0 +1,12 @@
+<%= @response %><hr>
+
+<%= @shellwords %><hr>
+
+<%
+pairs = @shellwords.map{ |s| s.split('=', 2) }.flatten
+pairs = Hash[*pairs]
+%>
+
+<%= pairs %><hr>
+
+<%= pairs['Ticket'] %>

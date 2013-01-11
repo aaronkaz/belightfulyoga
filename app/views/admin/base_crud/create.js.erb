@@ -1,0 +1,11 @@
+<% instance = instance_variable_get("@#{@model_class.model_name.tableize.singularize}") %>
+
+$('#modal_window').html('Loading....');
+<% if instance.errors.any? %>
+	$('#modal_window').html('<%= escape_javascript(render('form')) %>');
+<% else %>
+	$('#modal_window').remove()
+	$('#<%= @model_class.model_name.underscore %>_select').append("<option value='<%= instance.id %>' selected='selected'><%= instance.class::ASS_SEL_VIEW.collect { |c| "#{instance.send(c)}" }.join(' -- ') %></option>")
+	$('#<%= @model_class.model_name.underscore %>_select').siblings('.edit-selected').show()
+	setCommons()
+<% end %>

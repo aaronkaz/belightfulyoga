@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003013517) do
+ActiveRecord::Schema.define(:version => 20121116035821) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "postal_code"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "addresses", ["user_id"], :name => "index_addresses_on_user_id"
 
   create_table "admins", :force => true do |t|
     t.string   "first_name"
@@ -32,6 +45,31 @@ ActiveRecord::Schema.define(:version => 20121003013517) do
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
+
+  create_table "cart_promo_codes", :force => true do |t|
+    t.integer  "cart_id"
+    t.integer  "promo_code_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "cart_promo_codes", ["cart_id", "promo_code_id"], :name => "index_cart_promo_codes_on_cart_id_and_promo_code_id"
+
+  create_table "carts", :force => true do |t|
+    t.string   "status"
+    t.integer  "user_id"
+    t.string   "postal_code"
+    t.string   "selected_shipping_array"
+    t.integer  "billing_address_id"
+    t.integer  "shipping_address_id"
+    t.boolean  "shipping_confirm",        :default => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  add_index "carts", ["billing_address_id"], :name => "index_carts_on_billing_address_id"
+  add_index "carts", ["shipping_address_id"], :name => "index_carts_on_shipping_address_id"
+  add_index "carts", ["user_id"], :name => "index_carts_on_user_id"
 
   create_table "ckeditor_assets", :force => true do |t|
     t.string   "data_file_name",                  :null => false
@@ -56,19 +94,13 @@ ActiveRecord::Schema.define(:version => 20121003013517) do
     t.string   "image"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
 
-  create_table "course_titles", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "image"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
+  add_index "client_groups", ["slug"], :name => "index_client_groups_on_slug", :unique => true
 
   create_table "courses", :force => true do |t|
     t.integer  "client_group_id"
-    t.integer  "course_title_id"
     t.boolean  "is_family",                                     :default => false
     t.date     "start_date"
     t.date     "end_date"
@@ -81,10 +113,26 @@ ActiveRecord::Schema.define(:version => 20121003013517) do
     t.text     "notes"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
+    t.text     "description"
+    t.string   "image"
+    t.string   "title"
+    t.integer  "teacher_id"
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"
-  add_index "courses", ["course_title_id"], :name => "index_courses_on_course_title_id"
+  add_index "courses", ["teacher_id"], :name => "index_courses_on_teacher_id"
+
+  create_table "line_items", :force => true do |t|
+    t.integer  "cart_id"
+    t.string   "line_itemable_type"
+    t.integer  "line_itemable_id"
+    t.integer  "qty"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "line_items", ["cart_id"], :name => "index_line_items_on_cart_id"
+  add_index "line_items", ["line_itemable_type", "line_itemable_id"], :name => "index_line_items_on_line_itemable_type_and_line_itemable_id"
 
   create_table "page_part_placements", :force => true do |t|
     t.integer  "page_id"
@@ -119,6 +167,30 @@ ActiveRecord::Schema.define(:version => 20121003013517) do
     t.text     "meta_description"
     t.text     "meta_keywords"
     t.boolean  "google_analytics",    :default => true
+    t.string   "slug"
+  end
+
+  add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
+
+  create_table "promo_codes", :force => true do |t|
+    t.string   "code"
+    t.string   "description"
+    t.date     "start_date"
+    t.date     "expiration_date"
+    t.string   "discount_type"
+    t.decimal  "amount",             :precision => 6, :scale => 2
+    t.integer  "must_have_qty"
+    t.boolean  "unique",                                           :default => false
+    t.string   "line_itemable_type"
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
+  end
+
+  create_table "teachers", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -157,5 +229,36 @@ ActiveRecord::Schema.define(:version => 20121003013517) do
   add_index "users", ["client_group_id"], :name => "index_users_on_client_group_id"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "waivers", :force => true do |t|
+    t.integer  "cart_id"
+    t.integer  "user_id"
+    t.string   "first_name"
+    t.string   "middle_initial"
+    t.string   "last_name"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "postal_code"
+    t.string   "home_phone"
+    t.string   "work_phone"
+    t.string   "work_phone_ext"
+    t.string   "cell_phone"
+    t.date     "birth_date"
+    t.string   "email_address"
+    t.string   "occupation"
+    t.string   "emergency_contact"
+    t.string   "referral"
+    t.string   "signature"
+    t.string   "guardian_of"
+    t.string   "guardian_signature"
+    t.string   "family_members"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "waivers", ["cart_id"], :name => "index_waivers_on_cart_id"
+  add_index "waivers", ["user_id"], :name => "index_waivers_on_user_id"
 
 end

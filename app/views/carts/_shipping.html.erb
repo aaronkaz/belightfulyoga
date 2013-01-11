@@ -1,0 +1,36 @@
+
+<h3>Shipping Address</h3>
+
+<%= error_messages_for(@cart) %>
+
+<%= form_for @cart, :url => update_checkout_cart_path(@cart), :html => { :method => :put, :class => 'form-horizontal'} do |f| %>
+<%= hidden_field_tag :stage, @stage %>
+
+<% if @cart.user.addresses.empty? || params[:new_shipping].present? %>
+
+  <%= f.fields_for(:shipping_address) do |shipping_address| %>
+    <%= render 'addresses/fields', f: shipping_address %>
+  <% end %>
+
+<% else %>
+
+  <div class="control-group">
+    <%= content_tag :p, "Select a shipping address from your address book or enter a new address.", :class => "help-block" %><br>
+    <%= f.label :shipping_address_id, :class => "control-label" %>
+  	<div class="controls">
+  		<%= f.select :shipping_address_id, @cart.user.addresses.order('created_at desc').collect { |address| ["#{address.address_1}, #{address.city} #{address.state}, #{address.postal_code}", address.id] } %> &nbsp; &nbsp; <%= link_to "Add a new address", checkout_cart_path(@cart, :stage => "shipping", :new_shipping => true) %>
+  	</div>
+  </div>
+  
+<% end %>
+
+<% if params[:new_shipping].present? %>
+<div class="control-group">
+	<div class="controls">
+		<%= link_to "Cancel", :back, :class => "btn btn-mini btn-danger" %>
+	</div>
+</div>
+<% end %>
+  
+  <div class="form-actions"><%= f.submit "Continue", :class => "btn btn-primary" %></div>
+<% end %>
