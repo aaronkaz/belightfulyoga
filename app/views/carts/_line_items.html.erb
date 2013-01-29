@@ -1,0 +1,37 @@
+<%= form_for @cart, :html => { :class => 'form-inline' } do |f| %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th style="text-align:right;">Price</th>
+      <th style="text-align:center;">Qty</th>
+      <th style="text-align:right;">Total</th>
+      <th>Remove</th>
+    </tr>  
+  </thead>  
+    
+  <tbody>
+    <%= f.fields_for :line_items, @cart.line_items.order(:created_at) do |line_item| %>
+      <tr>
+        <td><%= line_item.object.line_itemable.line_item_title %></td>
+        <td style="text-align:right;"><%= number_to_currency(line_item.object.line_itemable.price) %></td>
+        <td style="text-align:center;"><%= line_item.text_field :qty, :style => "width: 20px;" %></td>
+        <td style="text-align:right;"><%= number_to_currency(line_item.object.line_itemable.price * line_item.object.qty) %></td>
+        <td><%= line_item.check_box :_destroy %>
+      </tr>  
+    <% end %>
+    
+    <%= f.fields_for :promo_codes do |promo| %>
+      <tr class="success">
+        <td><%= promo.object.description %></td>
+        <td style="text-align:right;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:right;" nowrap>- <%= number_to_currency(promo.object.amount) %></td>
+        <td><%= promo.check_box :_destroy %>
+      </tr>  
+    <% end %>
+    
+  </tbody> 
+</table>
+<%= f.submit "Update Shopping Cart", :class => "btn pull-right" %>
+<% end %>

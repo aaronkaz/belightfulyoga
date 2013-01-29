@@ -11,96 +11,38 @@
 
 <%= error_messages_for(@cart) %>
 
-<%= form_for @cart, :html => { :class => 'form-inline' } do |f| %>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th style="text-align:right;">Price</th>
-      <th style="text-align:center;">Qty</th>
-      <th style="text-align:right;">Total</th>
-      <th>Remove</th>
-    </tr>  
-  </thead>  
-    
-  <tbody>
-    <%= f.fields_for :line_items, @cart.line_items.order(:created_at) do |line_item| %>
-      <tr>
-        <td><%= line_item.object.line_itemable.line_item_title %></td>
-        <td style="text-align:right;"><%= number_to_currency(line_item.object.line_itemable.price) %></td>
-        <td style="text-align:center;"><%= line_item.text_field :qty, :style => "width: 20px;" %></td>
-        <td style="text-align:right;"><%= number_to_currency(line_item.object.line_itemable.price * line_item.object.qty) %></td>
-        <td><%= line_item.check_box :_destroy %>
-      </tr>  
-    <% end %>
-  </tbody> 
-</table>
-<%= f.submit "Update Shopping Cart", :class => "btn pull-right" %>
-<% end %>
+<%= render 'line_items' %>
 
 <br style="clear:both;"><br><br>
 
-<%= form_for @cart, :html => { :class => 'form-inline' } do |f| %>
+<%= render 'subtotals' %>
+   
+
+<%= form_for @cart, :html => { :class => 'form-inline' } do |f| %>    
 <table class="table">  
   <tbody>
-  
-    <tr>
-      <td style="text-align:right;"><b>Subtotal</b></td>
-      <td style="text-align:right;" width="1%"><%= number_to_currency(@cart.subtotal) %></td>
-    </tr> 
-    
-    <% unless @cart.products.empty? %>
-    <tr>
-      <td style="text-align:right;"><b>Shipping</b></td>
-      <td style="text-align:right;">
-        <% unless @cart.postal_code.blank? %>
-        
-          <select id="cart_selected_shipping_array" name="cart[selected_shipping_array]" style="font-size:9pt;">
-            <% @ups_rates.each do |rate| %>
-              <%= content_tag :option, "#{UpsShipping::SERVICES[rate.at_xpath('Service/Code').text]}: #{number_to_currency(rate.at_xpath('TotalCharges/MonetaryValue').text)}", :value => "#{rate.at_xpath('Service/Code').text}, #{rate.at_xpath('TotalCharges/MonetaryValue').text}", :selected => !@cart.selected_shipping_array.blank? && @cart.selected_shipping_array.split(',')[0] == rate.at_xpath('Service/Code').text ? true : false %>
-            <% end %>
-          </select>  
-          
-        <% end %>
-      </td>
-    </tr>
-    <% end %>
-    
-    <tr>
-      <td style="text-align:right;"><b>Estimated Total</b></td>
-      <td style="text-align:right;"><%= number_to_currency(@total) %></td>
-    </tr>
-    
-    <% unless @cart.products.empty? %>
-    <tr>
-      <td colspan="2" style="text-align:right;">
-        <%= content_tag :p, "Enter a postal code to obtain an accurate shipping amount (US only).", :class => "help-block" %>
-        <%= f.label :postal_code %> <%= f.text_field :postal_code, :style => "width:60px;" %>
-        <%= f.submit "Update", :class => "btn" %></td>
-    </tr>
-    <% end %>
-    
-    
     <tr>
       <td colspan="2" style="text-align:right;">
         <%= content_tag :p, "Enter a promo or discount code here", :class => "help-block" %>
-        <%= f.label :promo_code %> <%= f.text_field :promo_code, :style => "width:60px;" %>
+        <%= f.fields_for :cart_promo_codes, @cart.cart_promo_codes.new do |new_promo| %>
+        <%= new_promo.label :add_promo %> <%= new_promo.text_field :add_promo, :style => "width:60px;" %>
+        <% end %>
         <%= f.submit "Update", :class => "btn" %></td>
     </tr>
-    
-  </tbody>  
-
-</table>  
+ </tbody>  
+</table>
+<% end %>   
+  
 
 <br>
+<%= form_for @cart, :html => { :class => 'form-inline' } do |f| %>
 <%= content_tag :p, raw("<strong>Note:</strong> Residents of some states may be subject to sales tax."), :class => "help-block pull-left" %>
 <%= f.button "Proceed to Checkout", :name => :checkout, :value => true, :class => "btn btn-large btn-success pull-right" %>
-
+<% end %>
 <br style="clear:both;"
 
 
 <% end %>
 
-<% end %>
 
 </div>

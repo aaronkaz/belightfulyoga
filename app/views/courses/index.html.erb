@@ -31,20 +31,20 @@
 		<% if !current_cart.nil? && !current_cart.line_items.where(:line_itemable_type => "Course").where(:line_itemable_id => course.id).empty? %>
 		  <span class="label label-important">This class is already in your cart</span>
 		<% else %>  
+		
 		<%= form_for @cart, :html => { :class => "form-inline"} do |f| %>
 
-      <% 
-      new_object = f.object.send(:line_items).klass.new
-      id = new_object.object_id
-      %>
-      <%= f.fields_for(:line_items, new_object, child_index: id) do |line_item| %>
-        <%= line_item.hidden_field :line_itemable_type, :value => "Course" %>
-        <%= line_item.hidden_field :line_itemable_id, :value => course.id %>
-        <%= line_item.hidden_field :qty, :value => 1 %>
-      <% end %>
-
-      <%= f.submit "Add To Cart", :class => "btn btn-mini btn-primary" %>
-    <% end %>
+            <% 
+            new_object = f.object.send(:line_items).klass.new
+            id = new_object.object_id
+            %>
+            <%= f.fields_for(:line_items, new_object, child_index: id) do |line_item| %>
+              <%= line_item.hidden_field :line_itemable_type, :value => "Course" %>
+              <%= line_item.hidden_field :line_itemable_id, :value => course.id %>
+              <%= line_item.hidden_field :qty, :value => 1 %>
+            <% end %>
+                <%= f.submit "Add To Cart", :class => "btn btn-primary" %>   
+        <% end %>
     <% end %>
 
 
