@@ -4,13 +4,11 @@
   <title><%= "#{@page.page_title} - " rescue nil %> Belightful Yoga</title>
 	<meta name="description" content="<%= @page.meta_description rescue nil %>" />
 	<meta name="keywords" content="<%= @page.meta_keywords rescue nil %>" />
-
-	<%= stylesheet_link_tag    "bootstrap_and_overrides", :media => "all" %>
-  <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
+    <%= stylesheet_link_tag "application", :media => "all" %>		
+    <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
 	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? rescue nil %>
 
-  <%= javascript_include_tag "jquery" %>
-	<%= javascript_include_tag "jquery_ujs" %>
+    <%= javascript_include_tag "application" %>
 	<%= javascript_include_tag "/javascripts/iepngfix_tilebg.js" %>
 	<%= javascript_include_tag "/javascripts/jquery.innerfade.js" %>
 	<%= javascript_include_tag "/javascripts/home_rotator.js" %>
