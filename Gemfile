@@ -9,7 +9,6 @@ gem 'rails', '3.2.11'
 
 gem 'mysql2'
 gem 'pg'
-
 gem 'thin'
 
 # Gems used only for assets and not required
@@ -20,11 +19,11 @@ group :assets do
   gem 'uglifier'
   gem "therubyracer"
   gem "less-rails"
-  gem 'twitter-bootstrap-rails'
-  gem 'jquery-ui-rails'
+  gem 'twitter-bootstrap-rails'  
 end
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 gem 'json'
 gem 'bootstrap-will_paginate'
