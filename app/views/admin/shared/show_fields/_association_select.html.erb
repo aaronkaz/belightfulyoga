@@ -1,2 +1,0 @@
-<% associated_model = column.camelize.constantize %>
-<%= link_to(associated_model::ASS_SEL_VIEW.collect { |c| "#{instance.send(column).send(c)}" }.join(' -- '), eval("admin_#{associated_model.model_name.tableize.singularize}_path(#{instance.send(column).send('id')})")) unless instance.send(column).nil? %>

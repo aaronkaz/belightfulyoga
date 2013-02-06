@@ -1,9 +1,0 @@
-<div class="control-group">
-  <%= f.label column.to_sym, :class => 'control-label' %>
-  <div class="controls">
-    <% if !f.object.document.blank? %>
-      Current File: <%= link_to f.object.send("#{column}_identifier"), f.object.send("#{column}_url") %><br><br>
-    <% end %>
-    <%= f.file_field column.to_sym %>
-  </div>
-</div>

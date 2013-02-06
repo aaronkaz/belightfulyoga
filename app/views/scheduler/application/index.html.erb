@@ -1,0 +1,23 @@
+
+<div id='calendar'></div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    <% Teacher.all.each do |teacher| %>
+    $('#calendar').fullCalendar( 'addEventSource', {
+	        url: '<%= scheduler_events_path %>',
+	        type: 'POST',
+	        data: {
+	            teacher_id: '<%= teacher.id %>'
+	        },
+	        error: function() {
+	            alert('there was an error while fetching events!');
+	        },
+	        color: '<%= teacher.color %>',   // a non-ajax option
+	        textColor: 'black' // a non-ajax option
+	} )
+    <% end %>
+})
+
+</script>

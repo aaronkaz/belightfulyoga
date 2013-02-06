@@ -17,9 +17,7 @@ group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
-  gem "therubyracer"
-  gem "less-rails"
-  gem 'twitter-bootstrap-rails'  
+  gem 'bootstrap-sass', '~> 2.2.2.0'
 end
 
 gem 'jquery-rails'
@@ -39,6 +37,8 @@ gem 'ckeditor'
 gem 'acts_as_tree'
 
 gem 'friendly_id'
+
+gem 'rails_admin'
 
 gem 'letter_opener', :group => :development
 

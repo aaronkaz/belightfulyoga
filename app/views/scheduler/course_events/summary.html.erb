@@ -1,0 +1,17 @@
+<%= content_tag :h4, "Course info" %>
+<dl class="dl-horizontal">
+    <dt>Client</dt>
+    <dd><%= @course.client_group.title %></dd>
+    <dt>Scheduled Teacher</dt>
+    <dd><%= @course.teacher.first_name %></dd>
+    <dt>Registered Students</dt>
+    <dd><%= @course.users.length %></dd>
+</dl>
+<hr>
+
+<%= content_tag :h4, raw("Attendance Info ~ <span class='text-info'>#{@course_event.event_date.strftime('%b %d, %Y')}</span>") %>
+
+<dl>
+    <dt>Date</dt>
+    <dd><%=  %></dd>
+</dl>    

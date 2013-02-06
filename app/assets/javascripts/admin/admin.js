@@ -195,6 +195,10 @@ function doMultiple() {
 $('.dropdown-toggle').dropdown()
 $('.show-tooltip').tooltip()
 $('.datepicker').datepicker({ dateFormat: "yy-mm-dd" })
+$('.color_picker').spectrum({
+    preferredFormat: "hex6",
+    showInput: true
+})
 
 associationSelect()
 toggleForms()

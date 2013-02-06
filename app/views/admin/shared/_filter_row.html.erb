@@ -1,8 +1,0 @@
-<%= content_tag :div, :class => "filter-row", :id => id do %>
-	<%= hidden_field_tag "filter[#{id}][c]", attribute %>
-	<%= link_to(raw("<i class='icon-trash'></i> #{attribute}"), "#{}", :class => "btn btn-info pull-left remove-filter" ) %>
-	<%= select_tag "filter[#{id}][o]", options_for_select([["contains", "iLIKE"], ["equal to", "="], ["not equal to", "!="], ["greater than", ">"], ["greater/equal to", ">="], ["less than", "<"], ["lesser/equal to", "<="]], o), :class => "pull-left", :style => "width:100px;" %>	
-	<%= text_field_tag "filter[#{id}][q]", q, :class => "pull-left", :style => "width:120px;" %>
-
-	<br style="clear:both;">
-<% end %>	

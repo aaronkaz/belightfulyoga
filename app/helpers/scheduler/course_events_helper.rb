@@ -1,0 +1,2 @@
+module Scheduler::CourseEventsHelper
+end

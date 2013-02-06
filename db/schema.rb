@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121116035821) do
+ActiveRecord::Schema.define(:version => 20130206053221) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -98,6 +98,26 @@ ActiveRecord::Schema.define(:version => 20121116035821) do
   end
 
   add_index "client_groups", ["slug"], :name => "index_client_groups_on_slug", :unique => true
+
+  create_table "course_events", :force => true do |t|
+    t.integer  "course_id"
+    t.datetime "event_date"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "event_index"
+  end
+
+  add_index "course_events", ["course_id"], :name => "index_course_events_on_course_id"
+
+  create_table "course_registrations", :force => true do |t|
+    t.integer  "course_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "course_registrations", ["course_id"], :name => "index_course_registrations_on_course_id"
+  add_index "course_registrations", ["user_id"], :name => "index_course_registrations_on_user_id"
 
   create_table "courses", :force => true do |t|
     t.integer  "client_group_id"
@@ -186,11 +206,25 @@ ActiveRecord::Schema.define(:version => 20121116035821) do
     t.datetime "updated_at",                                                          :null => false
   end
 
+  create_table "rails_admin_histories", :force => true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
   create_table "teachers", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "color"
   end
 
   create_table "users", :force => true do |t|

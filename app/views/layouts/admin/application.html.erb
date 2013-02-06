@@ -14,11 +14,9 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
-    <%= stylesheet_link_tag "application", :media => "all" %>
-		<%= stylesheet_link_tag 'custom-theme-bs/jquery-ui-1.8.16.custom', :media => 'screen' %>
-		
-		<script type="text/javascript" src="https://appcenter.intuit.com/Content/IA/intuit.ipp.anywhere.js"></script>
-		<%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag "admin", :media => "all" %>
+	<%= stylesheet_link_tag 'custom-theme-bs/jquery-ui-1.8.16.custom', :media => 'screen' %>
+	<%= javascript_include_tag "admin" %>
     <link href="/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
   </head>
   <body>
@@ -36,7 +34,7 @@
 		
       <div class="row-fluid">
 			<div class="span3">	   	   		
-				<%= render 'layouts/admin/sidenav' %>
+				<%= content_for(:sidebar) %>
 	        </div><!--/span-->
 	        <div class="span9">
 	          <%= yield %>
