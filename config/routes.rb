@@ -2,7 +2,7 @@ Belightfulyoga::Application.routes.draw do
   
   # DEVISE ROUTES
   devise_for :admins, :controllers => { :sessions => "admins/sessions", :registrations => "admins/registrations", :passwords => "admins/passwords" }, :path_prefix => 'd'
-  #devise_for :users, :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :passwords => "users/passwords" }
+  devise_for :users, :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :passwords => "users/passwords" }
   
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   mount Ckeditor::Engine => '/ckeditor'
@@ -18,6 +18,23 @@ Belightfulyoga::Application.routes.draw do
     resources :course_events do
       member do 
         get :summary
+        get :walkin
+        put :create_walkin
+        get :walkin_user
+        post :create_walkin_user
+      end
+      collection do
+        post :bulk_actions
+      end
+    end
+    resources :users do
+      collection do
+        post :bulk_actions
+      end
+    end
+    resources :course_registrations do
+      collection do
+        post :bulk_actions
       end
     end
     
@@ -30,11 +47,19 @@ Belightfulyoga::Application.routes.draw do
     resources :courses
   end
   
+  resources :courses do
+    member do
+      get :ics
+    end
+  end
+  match :registered_courses, :to => 'courses#registered_courses'
+  
   
   resources :carts, :path=> 'shopping-cart' do
     member do
       get :checkout
       put :update_checkout
+      get :receipt
     end
   end
   

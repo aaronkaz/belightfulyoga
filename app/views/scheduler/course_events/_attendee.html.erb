@@ -1,0 +1,11 @@
+<td>
+<% if f.object.walk_in? %>
+<%= f.text_field :paid, :value => f.object.paid, :class => "span2" %>
+<% end %>
+</td>
+<td>
+<%= f.hidden_field :course_event_id, :value => f.object.course_event_id %>
+<%= f.hidden_field :attendable_type, :value => f.object.attendable_type %>
+<%= f.hidden_field :attendable_id, :value => f.object.attendable_id %>
+<%= f.check_box :attended %>
+</td>

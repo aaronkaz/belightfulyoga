@@ -21,7 +21,7 @@ class CourseImageUploader < CarrierWave::Uploader::Base
     "#{model.class.to_s.underscore}"
   end
 
-  process :resize_to_limit => [800, 800]
+  process :resize_to_limit => [400, 400]
 
   version :thumb do
     process resize_to_fill: [150, 150]

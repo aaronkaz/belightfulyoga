@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206053221) do
+ActiveRecord::Schema.define(:version => 20130212030226) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
   create_table "admins", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",    :null => false
+    t.string   "encrypted_password",     :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -39,8 +39,10 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "is_teacher",             :default => false
+    t.string   "color"
   end
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
@@ -92,12 +94,32 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
     t.string   "code"
     t.string   "title"
     t.string   "image"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "slug"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "postal_code"
+    t.string   "phone"
   end
 
   add_index "client_groups", ["slug"], :name => "index_client_groups_on_slug", :unique => true
+
+  create_table "course_attendees", :force => true do |t|
+    t.integer  "course_event_id"
+    t.string   "attendable_type"
+    t.integer  "attendable_id"
+    t.boolean  "attended",                                      :default => false
+    t.datetime "created_at",                                                       :null => false
+    t.datetime "updated_at",                                                       :null => false
+    t.boolean  "walk_in",                                       :default => false
+    t.decimal  "paid",            :precision => 8, :scale => 2
+  end
+
+  add_index "course_attendees", ["attendable_type", "attendable_id"], :name => "index_course_attendees_on_attendable_type_and_attendable_id"
+  add_index "course_attendees", ["course_event_id"], :name => "index_course_attendees_on_course_event_id"
 
   create_table "course_events", :force => true do |t|
     t.integer  "course_id"
@@ -105,17 +127,23 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "event_index"
+    t.integer  "teacher_id"
   end
 
   add_index "course_events", ["course_id"], :name => "index_course_events_on_course_id"
+  add_index "course_events", ["teacher_id"], :name => "index_course_events_on_teacher_id"
 
   create_table "course_registrations", :force => true do |t|
+    t.integer  "cart_id"
     t.integer  "course_id"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.string   "registration_type"
+    t.decimal  "paid",              :precision => 8, :scale => 2
   end
 
+  add_index "course_registrations", ["cart_id"], :name => "index_course_registrations_on_cart_id"
   add_index "course_registrations", ["course_id"], :name => "index_course_registrations_on_course_id"
   add_index "course_registrations", ["user_id"], :name => "index_course_registrations_on_user_id"
 
@@ -129,7 +157,7 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
     t.time     "end_time"
     t.string   "day"
     t.text     "location"
-    t.decimal  "price",           :precision => 8, :scale => 2
+    t.decimal  "price",           :precision => 8, :scale => 2, :default => 0.0
     t.text     "notes"
     t.datetime "created_at",                                                       :null => false
     t.datetime "updated_at",                                                       :null => false
@@ -137,18 +165,31 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
     t.string   "image"
     t.string   "title"
     t.integer  "teacher_id"
+    t.decimal  "paid_by_company", :precision => 8, :scale => 2, :default => 0.0
+    t.integer  "length_minutes"
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"
   add_index "courses", ["teacher_id"], :name => "index_courses_on_teacher_id"
+
+  create_table "guests", :force => true do |t|
+    t.integer  "waiver_id"
+    t.string   "name"
+    t.string   "age"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "guests", ["waiver_id"], :name => "index_guests_on_waiver_id"
 
   create_table "line_items", :force => true do |t|
     t.integer  "cart_id"
     t.string   "line_itemable_type"
     t.integer  "line_itemable_id"
     t.integer  "qty"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.decimal  "unit_price",         :precision => 8, :scale => 2
   end
 
   add_index "line_items", ["cart_id"], :name => "index_line_items_on_cart_id"
@@ -219,27 +260,19 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
-  create_table "teachers", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "color"
-  end
-
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "",    :null => false
-    t.string   "encrypted_password",     :default => "",    :null => false
+    t.string   "email",                                :default => "",    :null => false
+    t.string   "encrypted_password",                   :default => ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                        :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.integer  "client_group_id"
-    t.boolean  "synced_to_mailchimp",    :default => false
+    t.boolean  "synced_to_mailchimp",                  :default => false
     t.string   "first_name"
     t.string   "middle_initial"
     t.string   "last_name"
@@ -256,8 +289,14 @@ ActiveRecord::Schema.define(:version => 20130206053221) do
     t.string   "emergency_contact"
     t.date     "birthdate"
     t.string   "guardian"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
+    t.string   "invitation_token",       :limit => 60
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
   end
 
   add_index "users", ["client_group_id"], :name => "index_users_on_client_group_id"

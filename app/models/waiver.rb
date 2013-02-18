@@ -1,13 +1,19 @@
 class Waiver < ActiveRecord::Base
   belongs_to :cart
   belongs_to :user
-  attr_accessible :address_1, :address_2, :birth_date, :cell_phone, :city, :email_address, :emergency_contact, :family_members, :first_name, :guardian_of, :guardian_signature, :home_phone, :last_name, :middle_initial, :occupation, :postal_code, :referral, :signature, :state, :work_phone, :work_phone_ext
+  has_many :guests, :dependent => :destroy
+    accepts_nested_attributes_for :guests
+  
+  attr_accessible :address_1, :address_2, :birth_date, :cell_phone, :city, :email_address, :emergency_contact, :family_members, :first_name, :guardian_of, 
+  :guardian_signature, :home_phone, :last_name, :middle_initial, :occupation, :postal_code, :referral, :signature, :state, :work_phone, :work_phone_ext,
+  :guests_attributes
   
   before_validation { self.user = self.cart.user }
   validates_presence_of :first_name, :last_name, :address_1, :city, :state, :postal_code
   validate :phone_exists
   validates_presence_of :birth_date, :email_address, :occupation, :emergency_contact, :referral
   validate :signature_sanity
+  validates_associated :guests
   
   after_create :update_user_profile
   

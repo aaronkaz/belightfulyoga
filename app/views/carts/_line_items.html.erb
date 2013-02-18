@@ -15,7 +15,7 @@
       <tr>
         <td><%= line_item.object.line_itemable.line_item_title %></td>
         <td style="text-align:right;"><%= number_to_currency(line_item.object.line_itemable.price) %></td>
-        <td style="text-align:center;"><%= line_item.text_field :qty, :style => "width: 20px;" %></td>
+        <td style="text-align:center;"><%= line_item.object.line_itemable_type == "Course" ? "1" : line_item.text_field(:qty, :style => "width: 20px;") %></td>
         <td style="text-align:right;"><%= number_to_currency(line_item.object.line_itemable.price * line_item.object.qty) %></td>
         <td><%= line_item.check_box :_destroy %>
       </tr>  

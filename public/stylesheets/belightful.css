@@ -206,10 +206,8 @@ div#cartWin table.tighten tr td {padding:1px;}
 
 .white{color:#FFFFFF;}
 
-div.offering { background-color:white;margin:20px 10px;padding:10px;color:#262262;font-size:90%; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
-div.offering img {margin-right:10px;width:150px;height:auto;}
-div.offering p {margin:0;}
-div.offering table tr td {valign:top;text-align:left;}
+.offering { background-color:white;color:#262262;font-size:90%; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
+
 
 
 .breadcrumb li {font-size: 10pt;}

@@ -1,0 +1,26 @@
+<h1 class="lefttab">Your Registered Courses</h1>
+
+<div id="cartWin">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Class</th>
+            <th>Time</th>
+            <th>Room/Location</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <% @courses.each do |course| %>
+        <tr>
+            <td><%= course.line_item_title %></td>
+            <td><%= "#{course.day.pluralize}" %><br><%= "#{course.start_time.strftime('%I:%M%p')} - #{course.end_time.strftime('%I:%M%p')}" %></td>
+            <td><%= course.location %></td>
+            <td><%= link_to raw("<i class='icon-calendar'></i> Add To Calendar"), ics_course_path(course), :class => "btn" %></td>
+        </tr>    
+        <% end %>
+    </tbody>
+</table>                 
+    
+</div>

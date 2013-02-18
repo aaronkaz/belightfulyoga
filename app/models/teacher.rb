@@ -1,20 +1,24 @@
-class Teacher < AbstractModel
-  has_many :courses
-  has_many :course_events, :through => :courses
+class Teacher < Admin
+  default_scope where(:is_teacher => true)
   
-  attr_accessible :first_name, :last_name, :color
-  validates_presence_of :first_name, :last_name
+  has_many :courses
+  has_many :course_events
+  
+  validates_presence_of :first_name, :last_name, :color
   
   def full_name
     return "#{self.first_name} #{self.last_name}"
   end
   
+  RailsAdmin.config do |config|
+    config.model Teacher do 
+      parent Admin
+      weight -3
+      
+      object_label_method do
+          :full_name
+      end
+    end
+  end
   
-  VIEW_COLUMNS = [['id', ''], ['first_name', ''], ['last_name', '']]
-  FORM_COLUMNS = [ ['first_name', 'string'], ['last_name', 'string'], ['color', 'color_picker'] ]
-  
-  FILTER_COLUMNS = ['first_name', 'last_name']
-  SEARCH_COLUMNS = ['id', 'first_name', 'last_name']
-  
-  ASS_SEL_VIEW = ['first_name', 'last_name']
 end

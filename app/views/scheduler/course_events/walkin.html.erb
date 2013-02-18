@@ -1,0 +1,33 @@
+<div class="page-header"><%= content_tag :h1, "Add Walk-in to '#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}'" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li><%= link_to "Class Lists", scheduler_course_events_path %> <span class="divider">/</span></li>
+	<li><%= link_to "#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}", [:scheduler, @course_event] %> <span class="divider">/</span></li>
+	<li>Walk-in</li>
+</ul>
+
+<%= form_for @course_event, :url => create_walkin_scheduler_course_event_path(@course_event), :html => { :class => "form-horizontal", :method => :put } do |f| %>
+    <%= f.fields_for :walkins, Walkin.new(:course_event_id => @course_event.id, :attendable_type => "User") do |attendance| %>
+        <%= attendance.hidden_field :course_event_id, :value => attendance.object.course_event_id %>
+        <%= attendance.hidden_field :attendable_type, :value => attendance.object.attendable_type %>
+        <div class="control-group">
+            <%= attendance.label :attendable_id, "Select user", :class => "control-label" %>
+            <div class="controls">
+                <%= attendance.select :attendable_id, options_for_select(@course_event.client_group.users.collect { |u| [u.full_name, u.id]}) %>
+                <%= link_to raw("<i class='icon-user'></i> Add a New User"), walkin_user_scheduler_course_event_path(@course_event), :class => "btn" %>
+            </div>
+        </div> 
+        
+        <div class="control-group">
+            <%= attendance.label :paid, "Amount Paid", :class => "control-label" %>
+            <div class="controls">
+                <%= attendance.text_field :paid, :class => "span2" %>
+            </div>
+        </div>       
+        
+    <% end %>
+    <div class="form-actions">
+        <%= f.submit "Add Walk-in", :class => "btn btn-primary" %>
+    </div>
+<% end %>    

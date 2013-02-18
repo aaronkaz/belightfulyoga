@@ -1,0 +1,24 @@
+<tr>
+    <td><%= registrant[:name] %></td>
+    <td>
+    <% if !registrant[:parent_id].blank? %>
+        <%= content_tag :span, "family member - of: #{@course_event.registrants.select {|r| r[:type] == "User" && r[:id] == registrant[:parent_id] }.first[:name]}", :class => "label" %>
+    <% elsif registrant[:walk_in] == true %>
+        <%= content_tag :span, "Walk-in", :class => "label" %>
+    <% else %>
+        <%= content_tag :span, registrant[:reg_type], :class => "label label-info" %>
+    <% end %>
+    </td>
+
+    <% attend = @course_event.attendees.find_by_attendable_type_and_attendable_id(registrant[:type], registrant[:id]) %>
+    <% if attend.nil? %>
+        <%= f.fields_for :attendees, CourseAttendee.new(:course_event_id => @course_event.id, :attendable_type => registrant[:type], :attendable_id => registrant[:id]) do |attendance| %>
+            <%= render 'attendee', :f => attendance %>
+        <% end %>
+    <% else %>
+        <%= f.fields_for :attendees, attend do |attendance| %>
+            <%= render 'attendee', :f => attendance %>
+        <% end %>
+    <% end %>
+
+</tr>

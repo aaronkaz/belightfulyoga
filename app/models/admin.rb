@@ -7,5 +7,14 @@ class Admin < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :first_name, :last_name
+  attr_accessible :first_name, :last_name, :is_teacher, :first_name, :last_name, :is_teacher, :color
+  
+  RailsAdmin.config do |config|
+    config.model Admin do   
+      label 'Administrator' 
+      navigation_label 'Users'
+      weight -3
+    end
+  end
+  
 end

@@ -150,6 +150,20 @@ consent to the above terms and conditions. </span></div>
 
 <div class=MsoNormal style='position:relative;'><span style='font-size:9.0pt;font-family:Arial;position:absolute;left:0;'>Signature of Parent</span><span style='font-size:9.0pt;font-family:Arial;position:absolute;right:193px;'>Date</span></div>
 
+<% if @cart.has_family_course? %>
+<br style="clear:both;" />
+<h2><span style='font-size:14.0pt;text-decoration:none'>Other Family Members Attending</span></h2>
+<p style="font-style:italic;">Applies to Course(s): <%= @cart.family_courses.collect { |course| course.line_itemable.line_item_title }.join(', ') %></p>
+
+    <div id="waiver_guests">
+    <%= waiver.fields_for :guests do |guest| %>
+        <%= render 'waiver_guest', :f => guest %>
+    <% end %>  
+    </div>
+    <%= link_to_add_guest("Add Family Member", waiver, :guests) %>  
+    
+<% end %>
+
 <!-- 
 [showif [isFamily]=yes]
 <br style="clear:both;" />

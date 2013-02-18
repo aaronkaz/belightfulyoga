@@ -1,0 +1,53 @@
+<div class="page-header"><%= content_tag :h1, "Registrants" %></div>
+
+<%= form_tag scheduler_course_registrations_path, :method => 'get', :class => 'form-inline' do %>
+	<div class="well">
+	    <strong>Filter by:</strong> 
+	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(Teacher.all.collect { |teacher| [teacher.full_name, teacher.id] }, :selected => params[:teacher]), :include_blank => true, :class => "span2" %>
+	    &nbsp; Client: <%= select_tag :client, options_for_select(ClientGroup.all.collect { |client| [client.title, client.id] }, :selected => params[:client]), :include_blank => true, :class => "span2" %>
+	    &nbsp; Start Date: <%#= text_field_tag :start_date, start_date, :class => "datepicker", :style => 'width:75px;' %>
+	    &nbsp; End Date: <%= text_field_tag :end_date, params[:end_date], :class => "datepicker", :style => 'width:75px;' %>
+	    <hr>
+		<%= hidden_field_tag :direction, params[:direction] %>
+		<%= hidden_field_tag :sort, params[:sort] %>
+
+		<%#= text_field_tag :search, params[:search], :class => "input-medium search-query", :placeholder => "search" %>
+		<%= button_tag raw("<i class='icon-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
+		<%= link_to "Reset", scheduler_course_events_path, :class => "btn" %>
+		</div>	
+<% end %>
+
+
+<%= form_tag bulk_actions_scheduler_course_registrations_path, :method => :post, :id => "bulk_action_form" do %>
+<%= hidden_field_tag :bulk_action %>
+
+<table class="table table-condensed table-striped">
+<thead>
+	<tr>
+	  <th><%= check_box_tag "", "", false, :id => "select_all" %></th>
+	  <th><%= sortable "courses.id", "Course" %></th>
+	  <th><%= sortable "client_groups.title", "Client Group" %></th>
+	  <th><%= sortable "users.first_name", "First Name" %></th>
+	  <th><%= sortable "users.last_name", "Last Name" %></th>
+	  <th><%= sortable "users.email", "Email" %></th>
+	  <th></th>
+	</tr>	
+</thead>
+
+<tbody>
+	<% @registrations.each do |registration| %>
+	<tr>
+	    <td><%= check_box_tag "course_registration_ids[]", registration.id %></td>
+		<td><%= course_title_helper(registration.course) %></td>
+		<td><%= registration.user.client_group.title %></td>
+		<td><%= registration.user.first_name %></td>
+		<td><%= registration.user.last_name %></td>
+		<td><%= registration.user.email %></td>
+		<td nowrap><%#= render 'admin/shared/record_actions', :model_class => model_class, :instance => record %></td>
+	</tr>	
+	<% end %>
+</tbody>	
+
+	
+</table>
+<% end %>

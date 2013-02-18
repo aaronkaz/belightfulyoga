@@ -8,8 +8,7 @@
     <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
 	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? rescue nil %>
 
-    <%= javascript_include_tag "application" %>
-	<%= javascript_include_tag "/javascripts/iepngfix_tilebg.js" %>
+    <%= javascript_include_tag "site" %>
 	<%= javascript_include_tag "/javascripts/jquery.innerfade.js" %>
 	<%= javascript_include_tag "/javascripts/home_rotator.js" %>
 	
@@ -30,15 +29,26 @@
 
 	  <div id="home_rotate"><%= @top_right_image.text.html_safe rescue nil %></div> 
 
+        
+    	
 		<!-- Content -->
-		<section><div id="body_content"><%= yield %></div></section>
+		<section><div id="body_content">
+		
+		    <% flash.each do |key, msg| %>
+		        <br>
+        		<%= content_tag :div, :class => "alert alert-#{key}", :style => 'color:#000;' do %>
+        			<%= msg %>
+        		<% end %>
+        	<% end %>
+		
+		<%= yield %></div></section>
 		<!-- Content -->
 
 		<!-- SideBar -->
 		<% if (!@sidebar.nil? && !@sidebar.text.blank?) || content_for?(:sidebar) %>
 		<aside><div id="sidebar">
-		  <%= yield(:sidebar) %>	
-			<%= @sidebar.text.html_safe %>
+		    <%= yield(:sidebar) %>	
+			<%= @sidebar.text.html_safe rescue nil %>
 			</div></aside>
 		<% end %>
 		<!-- SideBar -->

@@ -8,6 +8,12 @@ class CartPromoCode < ActiveRecord::Base
   before_validation :find_promo, :if => lambda { self.add_promo.present? && self.add_promo != "" }
   before_validation :check_promo
   
+  RailsAdmin.config do |config|
+    config.model CartPromoCode do    
+      visible false 
+    end
+  end
+  
 protected
 
   def find_promo

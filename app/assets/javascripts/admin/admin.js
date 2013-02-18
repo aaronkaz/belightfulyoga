@@ -200,6 +200,12 @@ $('.color_picker').spectrum({
     showInput: true
 })
 
+$('.div-toggle').click(function() {
+	var target = $(this).data('target')
+	$('#' + target).toggle()
+	return false
+})
+
 associationSelect()
 toggleForms()
 setFormCosms()

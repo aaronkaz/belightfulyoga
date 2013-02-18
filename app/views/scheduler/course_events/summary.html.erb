@@ -1,17 +1,25 @@
 <%= content_tag :h4, "Course info" %>
 <dl class="dl-horizontal">
+    <dt>Course ID#</dt>
+    <dd><%= @course.id %></dd>
     <dt>Client</dt>
     <dd><%= @course.client_group.title %></dd>
     <dt>Scheduled Teacher</dt>
-    <dd><%= @course.teacher.first_name %></dd>
-    <dt>Registered Students</dt>
-    <dd><%= @course.users.length %></dd>
+    <dd><%= @course.teacher.full_name %></dd>
+    <dt>Location</dt>
+    <dd><%= @course.address.html_safe %></dd>
+    <dt>Start Date</dt>
+    <dd><%= @course.start_date %></dd>
+    <dt>End Date</dt>
+    <dd><%= @course.end_date %></dd>
 </dl>
 <hr>
 
 <%= content_tag :h4, raw("Attendance Info ~ <span class='text-info'>#{@course_event.event_date.strftime('%b %d, %Y')}</span>") %>
 
-<dl>
-    <dt>Date</dt>
-    <dd><%=  %></dd>
+<dl class="dl-horizontal">
+    <dt>Attendance</dt>
+    <dd><% badge_class = @course_event.attendees.empty? ? "badge badge-important" : "badge badge-success" %>
+    <%= content_tag :span, "#{@course_event.attendees.length} / #{@course_event.registrants.length}", :class => badge_class %> 
+    <%= link_to raw("<i class='icon-th-list'></i> View Roster"), [:scheduler, @course_event], :class => "btn btn-small"%></dd>
 </dl>    

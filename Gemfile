@@ -22,27 +22,26 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-
 gem 'json'
 gem 'bootstrap-will_paginate'
+
 gem 'devise'
+gem 'devise_invitable', '~> 1.1.0'
 
 gem "rmagick"
 gem "mini_magick"
 gem "carrierwave"
 gem 'fog'
+gem 'ckeditor'
 
 gem "acts_as_list"
-gem 'ckeditor'
 gem 'acts_as_tree'
-
 gem 'friendly_id'
 
 gem 'rails_admin'
 
 gem 'letter_opener', :group => :development
 
-#gem 'seed_dumper'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

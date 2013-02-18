@@ -1,12 +1,7 @@
-class Page < AbstractModel
-  
+class Page < AbstractModel 
   acts_as_list
   acts_as_tree
-  
-  ALLOW_FILTER = false
-  ALLOW_BULK = false
-  ALLOW_SHOW = false
-  
+ 
   has_many :page_part_placements, :dependent => :destroy
   has_many :page_parts, :through => :page_part_placements
     accepts_nested_attributes_for :page_part_placements
@@ -18,4 +13,11 @@ class Page < AbstractModel
   extend FriendlyId
     friendly_id :link_title, use: :slugged
 
+  RailsAdmin.config do |config|
+    config.model Page do    
+      navigation_label 'CMS'
+      weight -5
+    end
+  end
+    
 end

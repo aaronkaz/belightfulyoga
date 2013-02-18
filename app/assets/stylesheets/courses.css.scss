@@ -1,3 +1,18 @@
-// Place all the styles related to the courses controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.offering {
+	margin:20px 0px;
+	padding:10px;
+	
+	h2 {
+		margin-top: 0;
+	}
+	
+	img {
+		float: left;
+		margin-right: 10px;
+	}
+	.class-info {
+		margin: 0;
+		padding: 0;
+		float: left;
+	}
+}
