@@ -4,5 +4,8 @@
     <li><%= link_to "Calendar", scheduler_root_path %></li>
     <li><%= link_to "Class Lists", scheduler_course_events_path %></li>
     <li><%= link_to "Registrant Lists", scheduler_course_registrations_path %></li>
+    
+    <li class="nav-header">Accounting & Payroll</li>
+    <%= content_tag :li, link_to("Pay Outs", pay_outs_scheduler_course_events_path) %>
 </ul>   
 </div> 

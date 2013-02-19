@@ -22,8 +22,10 @@ Belightfulyoga::Application.routes.draw do
         put :create_walkin
         get :walkin_user
         post :create_walkin_user
+        get :accounting
       end
       collection do
+        get :pay_outs
         post :bulk_actions
       end
     end
@@ -60,6 +62,10 @@ Belightfulyoga::Application.routes.draw do
       get :checkout
       put :update_checkout
       get :receipt
+      post :receipt
+    end
+    collection do
+      post :pp_callback
     end
   end
   

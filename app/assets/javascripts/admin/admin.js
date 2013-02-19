@@ -159,15 +159,21 @@ if ($elm.length) {
 
 //CHECK ALL
 function checkAll() {
+	
 	var $elm = $('#select_all')
 	if ($elm.length) {
+		
 		$elm.change(function() {
-			var checked = $(this).attr('checked')
-			$(this).parents('table').find('tbody tr').each(function() {
-				if ( checked == "checked" ) {
-					$(this).find('input[type=checkbox]').attr('checked', 'checked')								
+			var $this = $(this)
+			$(this).parents('table').find('tbody tr').each(function() {		
+				if ( $this.is(':checked') ) {
+					$(this).find('input[type=checkbox]').each(function () {
+						$(this).attr('checked', true)
+					})								
 				} else {
-					$(this).find('input[type=checkbox]').removeAttr('checked')
+					$(this).find('input[type=checkbox]').each(function () {
+						$(this).attr('checked', false)
+					})
 				}
 			})
 		})

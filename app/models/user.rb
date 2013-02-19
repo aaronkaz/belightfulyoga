@@ -1,5 +1,10 @@
 class User < ActiveRecord::Base
   
+  def self.attributes_protected_by_default
+      # default is ["id","type"]
+      []
+  end
+  
   belongs_to :client_group
   has_many :addresses
   has_many :carts

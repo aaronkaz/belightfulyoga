@@ -3,7 +3,7 @@ class CartPromoCode < ActiveRecord::Base
   belongs_to :promo_code
   
   attr_accessor :add_promo
-  attr_accessible :add_promo
+  attr_accessible :add_promo#, :cart_id, :promo_code_id
   
   before_validation :find_promo, :if => lambda { self.add_promo.present? && self.add_promo != "" }
   before_validation :check_promo

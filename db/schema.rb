@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212030226) do
+ActiveRecord::Schema.define(:version => 20130219015216) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130212030226) do
     t.boolean  "shipping_confirm",        :default => false
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
+    t.string   "session_id"
   end
 
   add_index "carts", ["billing_address_id"], :name => "index_carts_on_billing_address_id"
@@ -124,10 +125,12 @@ ActiveRecord::Schema.define(:version => 20130212030226) do
   create_table "course_events", :force => true do |t|
     t.integer  "course_id"
     t.datetime "event_date"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.integer  "event_index"
     t.integer  "teacher_id"
+    t.decimal  "teacher_pay_out", :precision => 8, :scale => 2
+    t.datetime "paid"
   end
 
   add_index "course_events", ["course_id"], :name => "index_course_events_on_course_id"
@@ -167,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20130212030226) do
     t.integer  "teacher_id"
     t.decimal  "paid_by_company", :precision => 8, :scale => 2, :default => 0.0
     t.integer  "length_minutes"
+    t.decimal  "teacher_rate",    :precision => 8, :scale => 2
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"

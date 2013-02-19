@@ -150,7 +150,25 @@ class CartsController < ApplicationController
   end
   
   def receipt
-    @cart = current_user.carts.find(params[:id])
+    
+    #CAPTURE RETURN FROM PAYPAL
+    if request.method == "POST"
+      @cart = Cart.find(params[:id])
+      @cart.update_attributes(:status => params[:payment_status])
+      #SEND EMAIL
+      redirect_to receipt_cart_path(@cart)
+      #render :text => params[:payment_status]
+    else  
+      @cart = current_user.carts.find(params[:id])
+    end  
+  end
+  
+  
+  def pp_callback
+    #CALLBACK TO PAYPAL??
+    @cart = Cart.find(params[:id])
+    @cart.update_attributes(:status => params[:payment_status])
+    render :head => :ok, :nothing => true
   end
   
   

@@ -8,7 +8,7 @@ class CourseEvent < ActiveRecord::Base
   has_many :walkins
     accepts_nested_attributes_for :walkins
     
-  attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id
+  attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id, :teacher_pay_out
   
   def event_end_date
     self.event_date + self.course.length_minutes.minutes
@@ -28,6 +28,26 @@ class CourseEvent < ActiveRecord::Base
       registrants << { :id => walkin.attendable_id, :type => "User", :name => "#{walkin.attendable.full_name}", :parent_id => nil, :walk_in => true, :reg_type => nil }
     end
     registrants
+  end
+  
+  def amount_collected
+    if course.paid_by_company.to_i != 0
+      course.paid_by_company / course.course_events.length
+    else
+      course.course_registrations.sum(:paid) / course.course_events.length
+    end
+  end
+  
+  def walkin_amount_collected
+    walkins.sum(:paid)
+  end
+  
+  def total_collected
+    amount_collected + walkin_amount_collected
+  end
+  
+  def total_pay_out
+    teacher_pay_out + (walkin_amount_collected * 0.5)
   end
   
   RailsAdmin.config do |config|

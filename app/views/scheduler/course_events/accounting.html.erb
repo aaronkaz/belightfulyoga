@@ -1,0 +1,52 @@
+<div class="page-header"><%= content_tag :h1, "Class Acounting '#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}'" %></div>
+
+<%= render 'member_header', section: "accounting" %>
+
+<%= form_for [:scheduler, @course_event], :html => {:class => "form-inline"} do |f| %>
+<%= hidden_field_tag :section, "accounting" %>
+
+<dl class="dl-horizontal">
+    <dt>Teacher Rate:</dt>
+    <dd><%= number_to_currency @course_event.teacher_pay_out %> <%= link_to "Change", "#", :class => 'btn btn-mini div-toggle', :data => { :target => "teacher_rate" } %>
+        <div id="teacher_rate" style="margin-top:10px;display:none;">
+        Rate for this Class: <%= f.text_field :teacher_pay_out, :class => "span2" %>
+        <%= f.submit "Update", :class => 'btn btn-small' %>
+        <%= link_to "cancel", "#", :class => 'btn btn-mini btn-danger div-toggle', :data => { :target => "teacher_rate" } %>
+        </div>
+    </dd>
+    <dt>Payable to:</dt>
+    <dd><%= @course_event.teacher.full_name %></dd>
+</dl>    
+<hr>
+<dl class="dl-horizontal"> 
+    <dt>Registrations:</dt>
+    <dd><%= number_to_currency @course_event.amount_collected %></dd>
+    
+    <dt>Walkins:</dt>
+    <dd><%= "#{number_to_currency @course_event.walkin_amount_collected} (#{@course_event.walkins.length})" %></dd>
+    
+    <dt>Total:</dt>
+    <dd><%= number_to_currency @course_event.total_collected %></dd>
+
+</dl>
+
+<hr>
+<dl class="dl-horizontal"> 
+    <dt>Total Pay Out:</dt>
+    <dd><%= number_to_currency @course_event.total_pay_out %>
+    
+    <% if @course_event.paid.blank? %>
+        <%= content_tag :span, "Not Paid", :class => "badge badge-important" %>
+    <% else %>
+        <%= content_tag :span, "Paid - #{l(@course_event.paid, format: :long)}", :class => "badge badge-success" %>
+    <% end %>    
+        
+    </dd>
+
+    <dt>Net:</dt>
+    <dd><%= content_tag :strong, number_to_currency(@course_event.total_collected - @course_event.total_pay_out) %></dd>
+    
+</dl>
+
+
+<% end %>

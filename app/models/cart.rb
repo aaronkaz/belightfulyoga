@@ -1,4 +1,10 @@
 class Cart < ActiveRecord::Base
+  
+  def self.attributes_protected_by_default
+      # default is ["id","type"]
+      []
+  end
+  
   belongs_to :user
   belongs_to :billing_address, :class_name => 'Address', :foreign_key => :billing_address_id
     accepts_nested_attributes_for :billing_address
@@ -23,14 +29,15 @@ class Cart < ActiveRecord::Base
      
   attr_accessor :ship_to_billing, :promo_code
   attr_accessible :line_items_attributes, :billing_address_id, :postal_code, :selected_shipping_array, :shipping_address_id, :shipping_confirm, :status, 
-    :billing_address_attributes, :shipping_address_attributes, :ship_to_billing, :waiver_attributes, :promo_code, :promo_codes_attributes, :cart_promo_codes_attributes
+    :billing_address_attributes, :shipping_address_attributes, :ship_to_billing, :waiver_attributes, :promo_code, :promo_codes_attributes, :cart_promo_codes_attributes,
+    :id, :user_id, :session_id, :created_at, :updated_at
   
   before_create { self.status = "New" }
   before_update :link_shipping, :if => lambda { self.ship_to_billing == "1" }
   before_update :shipping_uncomfirm, :if => lambda { self.shipping_address_id_changed? || self.line_items_changed? }
   
   after_update :check_promos
-  after_commit :find_or_create_registrations, :if => lambda { self.status == "Fulfilled" }
+  after_commit :find_or_create_registrations, :if => lambda { self.status == "Completed" }
   
   def total_weight
     total_weight = 0
@@ -103,9 +110,13 @@ protected
   end
   
   def find_or_create_registrations
+    logger.info "CHECK REGISTRATIONS!!"
     self.courses.each do |course|
+      class_price = course.unit_price
+      course_promos = self.promo_codes.where(:line_itemable_type => "Course").where(:discount_type => "dollar").sum(:amount)
+      class_paid = ( class_price - (course_promos / self.courses.length) )
       registration = self.course_registrations.find_or_create_by_course_id_and_user_id(course.line_itemable_id, self.user_id)
-      registration.update_attributes(:registration_type => "online")
+      registration.update_attributes(:registration_type => "online", :paid => class_paid)
     end  
   end
   

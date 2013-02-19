@@ -1,17 +1,6 @@
 <div class="page-header"><%= content_tag :h1, "Class Details '#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}'" %></div>
 
-<ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li><%= link_to "Class Lists", scheduler_course_events_path %> <span class="divider">/</span></li>
-	<li><%= "#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}" %></li>
-</ul>
-
-<ul class="nav nav-tabs">
-	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
-	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Walk-in"), walkin_scheduler_course_event_path(@course_event)) %>
-
-</ul>
-
+<%= render 'member_header', section: "show" %>
 
 <%= form_for [:scheduler, @course_event], :html => {:class => "form-inline"} do |f| %>
 

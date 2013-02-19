@@ -1,4 +1,10 @@
 class ClientGroup < AbstractModel
+  
+  def self.attributes_protected_by_default
+      # default is ["id","type"]
+      []
+  end
+  
   has_many :users
   has_many :courses
   

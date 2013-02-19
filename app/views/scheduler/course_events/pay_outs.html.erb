@@ -1,0 +1,72 @@
+<div class="page-header"><%= content_tag :h1, "Pay Outs" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li>Unpaid Classes <span class="divider">/</span></li>
+</ul>
+
+<ul class="nav nav-tabs">
+	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
+	<%#= content_tag :li, link_to(raw("<i class='icon-plus'></i> Walk-in"), walkin_scheduler_course_event_path(@course_event)) %>
+
+</ul>
+
+<%= form_tag pay_outs_scheduler_course_events_path, :method => 'get', :class => 'form-inline' do %>
+	<div class="well">
+	    <strong>Filter by:</strong> 
+	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(Teacher.all.collect { |teacher| [teacher.full_name, teacher.id] }, :selected => params[:teacher]), :include_blank => true, :class => "span2" %>
+        <!-- 
+	    &nbsp; End Date: <%= text_field_tag :end_date, params[:end_date], :class => "datepicker", :style => 'width:75px;' %>
+	    -->
+	    <hr>
+		<%= hidden_field_tag :direction, params[:direction] %>
+		<%= hidden_field_tag :sort, params[:sort] %>
+
+		<%#= text_field_tag :search, params[:search], :class => "input-medium search-query", :placeholder => "search" %>
+		<%= button_tag raw("<i class='icon-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
+		<%= link_to "Reset", pay_outs_scheduler_course_events_path, :class => "btn" %>
+		</div>	
+<% end %>
+
+
+<%= form_tag bulk_actions_scheduler_course_events_path, :method => :post, :id => "bulk_action_form" do %>
+<%= hidden_field_tag :bulk_action, "pay_out" %>
+
+<table class="table table-condensed table-striped">
+<thead>
+	<tr>
+	  <th><%= check_box_tag "", "", false, :id => "select_all" %></th>
+	  <th><%= sortable "event_date", "Date" %></th>
+	  <th><%= sortable "event_date", "Time" %></th>
+	  <th><%= sortable "client_groups.title", "Client Group" %></th>
+	  <th><%= sortable "admins.id", "Teacher" %></th>
+	  <th><%= sortable "courses.id", "Course" %></th>
+	  <th>Pay Out</th>
+  	  <th></th>
+	</tr>	
+</thead>
+
+<tbody>
+	<% @course_events.each do |course_event| %>
+	<tr>
+	    <td><%= check_box_tag "course_event_ids[]", course_event.id %></td>
+		<td><%= course_event.event_date.strftime('%m/%d/%Y') %></td>
+		<td><%= course_event.event_date.strftime('%I:%M%p') %></td>
+		<td><%= course_event.course.client_group.title %></td>
+		<td><%= content_tag :span, course_event.course.teacher.full_name, :class => "label", :style => "background-color:#{course_event.course.teacher.color};color:black;" %></td>
+		<td><span class="label">ID: <%= course_event.course.id %></span> <%= "#{course_event.course.default_title}" %>
+		    <td><%= number_to_currency course_event.total_pay_out %></td>
+    		<td><%= link_to raw("<i class='icon-briefcase'></i> Accounting"), accounting_scheduler_course_event_path(course_event), :class => "btn btn-mini"%> <%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-mini"%></td>
+	</tr>	
+	<% end %>
+</tbody>	
+
+<tfoot>
+    <tr>
+        <td colspan="8"><%= submit_tag "Mark Selected 'Paid'", :class => "btn btn-primary" %>
+        </td>
+    </tr>        
+</tfoot>    
+	
+</table>
+<% end %>
