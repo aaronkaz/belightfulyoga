@@ -1,9 +1,9 @@
 class Address < ActiveRecord::Base
   
-  def self.attributes_protected_by_default
-      # default is ["id","type"]
-      []
-  end
+  #def self.attributes_protected_by_default
+  #    # default is ["id","type"]
+  #    []
+  #end
   
   
   belongs_to :user

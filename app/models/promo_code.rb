@@ -1,9 +1,9 @@
 class PromoCode < AbstractModel
   
-  def self.attributes_protected_by_default
-      # default is ["id","type"]
-      []
-  end
+  #def self.attributes_protected_by_default
+  #    # default is ["id","type"]
+  #    []
+  #end
   
   has_many :cart_promo_codes, :dependent => :destroy
   has_many :carts, :through => :cart_promo_codes

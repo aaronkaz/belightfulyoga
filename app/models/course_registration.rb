@@ -6,7 +6,7 @@ class CourseRegistration < ActiveRecord::Base
   belongs_to :user
   attr_accessible :cart_id, :course_id, :user_id, :registration_type, :paid, :created_at, :updated_at
   
-  #after_create :send_confirmation_email
+  after_create :send_confirmation_email
   
   RailsAdmin.config do |config|
     config.model CourseRegistration do    

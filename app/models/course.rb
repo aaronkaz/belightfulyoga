@@ -1,9 +1,9 @@
 class Course < AbstractModel
   
-  def self.attributes_protected_by_default
-      # default is ["id","type"]
-      []
-  end
+  #def self.attributes_protected_by_default
+  #    # default is ["id","type"]
+  #    []
+  #end
   
   
   #ASSOCIATIONS
