@@ -12,7 +12,7 @@ class Course < AbstractModel
   #ACCESSORS
   attr_accessor :ics_file
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
-  :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id #show for seed
+  :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, :active #show for seed
   #attr_accessible :end_time, :day
   
   
@@ -22,7 +22,7 @@ class Course < AbstractModel
   
   #CALLBACKS
   validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes#, :teacher_id, :teacher_rate #hide for seed
-  after_commit :create_or_update_events
+  after_commit :create_or_update_events, :if => lambda { self.active? }
   
   
   #VIRTUAL METHODS
@@ -75,12 +75,14 @@ class Course < AbstractModel
             bindings[:view].link_to("#{bindings[:object].course_registrations.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "CourseRegistration", "f[course][51422][o]" => "is", "f[course][51422][v]" => "#{bindings[:object].id}", :query => ""})
           end
         end
+        field :active
         field :is_family
       end
       
       edit do
         group :course_data do
           label "Course Data"
+          field :active
           field :client_group
           field :teacher
           field :teacher_rate
