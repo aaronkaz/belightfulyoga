@@ -1,10 +1,5 @@
 class Cart < ActiveRecord::Base
-  
-  #def self.attributes_protected_by_default
-  #    # default is ["id","type"]
-  #    []
-  #end
-  
+
   belongs_to :user
   belongs_to :billing_address, :class_name => 'Address', :foreign_key => :billing_address_id
     accepts_nested_attributes_for :billing_address
@@ -90,6 +85,18 @@ class Cart < ActiveRecord::Base
     config.model Cart do    
       navigation_label 'Orders'
       weight -7
+      
+      list do
+        field :id
+        field :status
+        field :user
+        field :line_items do
+          pretty_value do
+            bindings[:view].link_to("#{bindings[:object].line_items.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "LineItem", "f[course][51422][o]" => "is", "f[cart][51422][v]" => "#{bindings[:object].id}", :query => ""})
+          end
+        end
+      end
+      
     end
   end
   

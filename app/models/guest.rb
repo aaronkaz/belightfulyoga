@@ -10,4 +10,10 @@ class Guest < ActiveRecord::Base
     CourseEvent.find(course_event_id).attendees.find_by_attendable_type_and_attendable_id("Guest", self.id).present?
   end
   
+  RailsAdmin.config do |config|
+    config.model Guest do    
+      visible false 
+    end
+  end
+  
 end

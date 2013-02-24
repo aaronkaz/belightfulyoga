@@ -7,8 +7,15 @@ class PagePart < AbstractModel
   
   RailsAdmin.config do |config|
     config.model PagePart do    
-      navigation_label 'CMS'
+      parent Page
       weight -4
+      
+      list do 
+        field :id
+        field :title
+        field :wysiwyg
+        field :required
+      end
     end
   end
   

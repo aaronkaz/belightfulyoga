@@ -1,0 +1,11 @@
+<%= javascript_include_tag 'spectrum' %>
+<%= form.text_field field.method_name, :class => 'color_picker' %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.color_picker').spectrum({
+        preferredFormat: "hex6",
+        showInput: true
+    })
+})
+</script>

@@ -14,6 +14,24 @@ class Admin < ActiveRecord::Base
       label 'Administrator' 
       navigation_label 'Users'
       weight -3
+      
+      list do
+        field :id
+        field :first_name
+        field :last_name
+        field :email
+        field :is_teacher
+      end
+      
+      edit do
+        field :first_name
+        field :last_name
+        field :email
+        field :password
+        field :password_confirmation
+        field :is_teacher
+      end
+      
     end
   end
   

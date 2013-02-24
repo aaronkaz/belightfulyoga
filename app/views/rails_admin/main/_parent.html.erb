@@ -1,0 +1,1 @@
+<%= form.select field.method_name, options_for_select(@abstract_model.model_name.constantize.order(:position).collect { |r| [r.page_title, r.id] }, :selected => form.object.parent_id), :include_blank => true %>

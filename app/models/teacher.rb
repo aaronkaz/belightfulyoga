@@ -15,9 +15,26 @@ class Teacher < Admin
       parent Admin
       weight -3
       
-      object_label_method do
-          :full_name
+      object_label_method :full_name
+      configure :color, :color
+      
+      list do
+        field :id
+        field :first_name
+        field :last_name
+        field :email
+        field :color
       end
+      
+      edit do
+        field :first_name
+        field :last_name
+        field :email
+        field :password
+        field :password_confirmation
+        field :color
+      end
+      
     end
   end
   

@@ -7,6 +7,7 @@ class Users::SessionsController < Devise::SessionsController
     @page.page_parts.each do |pp|
       instance_variable_set "@#{pp.title.gsub(' ', '_').downcase}", @page.page_part_placements.find_by_page_part_id(pp.id)
     end
+  rescue
   end
     
 end

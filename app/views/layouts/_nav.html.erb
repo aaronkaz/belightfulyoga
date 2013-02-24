@@ -1,13 +1,15 @@
 <ul>
-	<% Page.where(:show_in_menu => true).roots.each do |parent| %>
+	<% Page.where(:show_in_menu => true).roots.each do |page| %>
 	<%= content_tag :li, :class => 'point' do %>
-		<% link = !parent.skip_to_first_child? ? page_path(parent) : "/#{parent.children.first.permalink}" %>
-		<%= link_to "#{parent.page_title}", link, :class => !@page.nil? && (@page.permalink == parent.permalink || (!@page.parent.nil? && @page.parent.permalink == parent.permalink)) ? 'point on' : 'point' %>
-		<% unless parent.children.empty? %>
+	    <% children = page.children.order(:position) %>
+		<% link = !page.skip_to_first_child? ? page_path(page) : page_path(children.first) %>
+		
+		<%= link_to page.page_title, link, :class => !@page.nil? && (@page.id == page.id || (!@page.parent.nil? && @page.parent_id == page.id)) ? 'point on' : 'point' %>
+		<% unless children.empty? %>
 		<ul>
-			<% parent.children.each do |child| %>
+			<% page.children.order(:position).each do |child| %>
 			<%= content_tag_for :li, child do %>
-				<%= link_to "#{child.page_title}", page_path(child) %>
+				<%= link_to child.page_title, page_path(child) %>
 			<% end %>
 			<% end %>
 		</ul>		

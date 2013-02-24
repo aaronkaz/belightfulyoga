@@ -1,0 +1,1 @@
+<%= form.select field.method_name, Dir["public/stylesheets/*.css"].collect { |file| [ file[/\/*\/.*/], file[/\/.*/] ]}, {:include_blank => true } %>

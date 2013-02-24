@@ -3,7 +3,31 @@
 
 RailsAdmin.config do |config|
 
+  config.actions do
+      # root actions
+      dashboard                     # mandatory
+      # collection actions
+      index                         # mandatory
+      new
+      export
+      history_index
+      bulk_delete
+      # member actions
+      show
+      edit
+      delete
+      history_show
+      show_in_app
 
+      # Add the nestable action for each model
+      nestable do
+        visible do
+          %w(Page).include? bindings[:abstract_model].model_name
+        end
+      end
+    end
+    
+    
   ################  Global configuration  ################
 
   # Set the admin name here (optional second array element will appear in red). For example:

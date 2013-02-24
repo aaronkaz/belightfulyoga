@@ -12,6 +12,15 @@ class CourseRegistration < ActiveRecord::Base
     config.model CourseRegistration do    
       navigation_label 'Course Management'
       weight -9
+      
+      list do
+        field :id
+        field :course
+        field :user
+        field :cart
+        field :waiver
+      end
+      
     end
   end 
 

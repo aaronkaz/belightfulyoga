@@ -36,10 +36,11 @@ gem 'fog'
 gem 'ckeditor'
 
 gem "acts_as_list"
-gem 'acts_as_tree'
+gem 'ancestry'
 gem 'friendly_id'
 
 gem 'rails_admin'
+gem 'rails_admin_nestable'
 
 gem 'letter_opener', :group => :development
 

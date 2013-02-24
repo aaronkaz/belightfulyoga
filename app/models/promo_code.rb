@@ -1,20 +1,24 @@
 class PromoCode < AbstractModel
   
-  #def self.attributes_protected_by_default
-  #    # default is ["id","type"]
-  #    []
-  #end
-  
   has_many :cart_promo_codes, :dependent => :destroy
   has_many :carts, :through => :cart_promo_codes
   
   attr_accessible :amount, :code, :description, :discount_type, :expiration_date, :line_itemable_type, :must_have_qty, :start_date, :unique, :id
-  validates_presence_of :amount, :code, :discount_type
+  #validates_presence_of :amount, :code, :discount_type
   
   RailsAdmin.config do |config|
     config.model PromoCode do    
       navigation_label 'Course Management'
       weight -8
+      
+      list do
+        field :id
+        field :code
+        field :description
+        field :amount
+        field :created_at
+        field :expiration_date
+      end
       
       edit do
         group :general do

@@ -1,10 +1,5 @@
 class ClientGroup < AbstractModel
   
-  #def self.attributes_protected_by_default
-  #    # default is ["id","type"]
-  #    []
-  #end
-  
   has_many :users
   has_many :courses
   
@@ -27,6 +22,12 @@ class ClientGroup < AbstractModel
     config.model ClientGroup do    
       navigation_label 'Course Management'
       weight -12
+      
+      list do
+        field :id
+        field :code
+        field :title
+      end
       
       edit do
         field :code

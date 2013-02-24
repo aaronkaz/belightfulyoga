@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130219015216) do
+ActiveRecord::Schema.define(:version => 20130224052314) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -171,6 +171,8 @@ ActiveRecord::Schema.define(:version => 20130219015216) do
     t.decimal  "paid_by_company", :precision => 8, :scale => 2, :default => 0.0
     t.integer  "length_minutes"
     t.decimal  "teacher_rate",    :precision => 8, :scale => 2
+    t.integer  "old_id"
+    t.boolean  "active",                                        :default => false
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"
@@ -219,7 +221,6 @@ ActiveRecord::Schema.define(:version => 20130219015216) do
   end
 
   create_table "pages", :force => true do |t|
-    t.integer  "parent_id"
     t.string   "link_title"
     t.string   "page_title"
     t.string   "permalink"
@@ -233,8 +234,10 @@ ActiveRecord::Schema.define(:version => 20130219015216) do
     t.text     "meta_keywords"
     t.boolean  "google_analytics",    :default => true
     t.string   "slug"
+    t.string   "ancestry"
   end
 
+  add_index "pages", ["ancestry"], :name => "index_pages_on_ancestry"
   add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
 
   create_table "promo_codes", :force => true do |t|
