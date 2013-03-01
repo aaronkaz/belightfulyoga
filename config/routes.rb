@@ -48,7 +48,7 @@ Belightfulyoga::Application.routes.draw do
   end
   
   # FRONT-END
-  resources :client_groups, :path => 'groups' do
+  resources :client_groups, :path => 'clients' do
     resources :courses
   end
   

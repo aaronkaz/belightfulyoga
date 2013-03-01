@@ -1,5 +1,5 @@
 <ul>
-	<% Page.where(:show_in_menu => true).roots.each do |page| %>
+	<% Page.where(:show_in_menu => true).roots.order(:position).each do |page| %>
 	<%= content_tag :li, :class => 'point' do %>
 	    <% children = page.children.order(:position) %>
 		<% link = !page.skip_to_first_child? ? page_path(page) : page_path(children.first) %>

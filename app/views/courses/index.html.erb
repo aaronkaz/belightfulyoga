@@ -1,4 +1,8 @@
 <h1 class="lefttab" id="offeringsList">Available Offerings</h1>
 <p>The following classes are available to you for online registration.</p>
 
-<%= render @courses %>
+<% if @courses.empty? %>
+    <div class="alert alert-warning">No courses are currently scheduled.</div>
+<% else %>
+    <%= render @courses %>
+<% end %>    

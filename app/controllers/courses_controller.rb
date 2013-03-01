@@ -24,7 +24,7 @@ class CoursesController < ApplicationController
   before_filter :client_group_sanity, :only => [:index]
   
   def index
-    initialize_page('courses')
+    #initialize_page('courses')
     @cart = current_cart || Cart.new
     @courses = @client_group.courses.where('hide_date >= ?', Date.today)
   end
