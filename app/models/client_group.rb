@@ -24,6 +24,7 @@ class ClientGroup < AbstractModel
       weight -12
       
       list do
+        sort_by :title
         field :id
         field :code
         field :title

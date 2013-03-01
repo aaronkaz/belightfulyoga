@@ -1,0 +1,52 @@
+<div class="page-header"><%= content_tag :h1, "Edit Courses" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li><%= link_to "Unscheduled Courses", unscheduled_scheduler_courses_path %> <span class="divider">/</span></li>
+	<li><%= @course.id %> <span class="divider">/</span></li>
+	<li>Edit</li>
+</ul>
+
+<ul class="nav nav-tabs">
+    <li class="active"><%= link_to raw("<i class='icon-edit'></i> Edit"), edit_scheduler_course_path(@course) %></li>
+	<li><%= link_to raw("<i class='icon-th-list'></i> List"), unscheduled_scheduler_courses_path %></li>
+</ul>
+
+<%= form_for [:scheduler, @course], :html => {:class => "form-inline"} do |f| %>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date Time</th>
+                <th>Teacher</th>
+                <th>Pay Out</th>
+                <th><span class="text-error">Remove</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if @course.course_events.empty? %>
+            <% 
+            from = @course.start_date
+            to = @course.end_date
+            $tmp_date = from
+            tmp_index = 0
+            %>  
+            <% begin %>
+                <%= f.fields_for :course_events, @course.course_events.new(:event_date => "#{$tmp_date} #{@course.start_time}", :teacher_id => @course.teacher_id, :teacher_pay_out => @course.teacher_rate) do |builder| %>
+                    <%= render 'course_event', :f => builder %>
+                <% end %>
+                <%
+                $tmp_date += 1.week
+                tmp_index += 1 
+                %>
+            <% end while $tmp_date <= to %>
+            <% else %>
+                <%= f.fields_for :course_events do |builder| %>
+                    <%= render 'course_event', :f => builder %>
+                <% end %>
+            <% end %> 
+        </tbody>            
+    </table>
+<div class="form-actions">
+    <%= f.submit "Update Schedule", :class => "btn btn-primary" %>
+</div>   
+<% end %>    

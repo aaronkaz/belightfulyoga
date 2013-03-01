@@ -1,0 +1,6 @@
+<tr>
+    <td><%= f.datetime_select :event_date, {:ampm => true}, :class => "span2" %></td>
+    <td><%= f.select :teacher_id, options_for_select(Teacher.all.collect { |teacher| [teacher.full_name, teacher.id] }, :selected => f.object.teacher_id), :include_blank => true, :class => "span2" %></td>
+    <td><%= f.text_field :teacher_pay_out, :class => "span2" %></td>
+    <td><%= f.check_box :_destroy %></td>
+</tr>    

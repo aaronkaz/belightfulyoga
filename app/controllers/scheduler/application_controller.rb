@@ -13,7 +13,7 @@ class Scheduler::ApplicationController < ApplicationController
       format.json {
         @teacher = Teacher.find(params[:teacher_id])
         @events = Array.new        
-        @teacher.course_events.each do |event|
+        @teacher.course_events.where('course_events.event_date >= ?', Date.today.beginning_of_day).each do |event|
           @events << { :id => event.id, :title => "#{@teacher.full_name} @ #{event.course.client_group.title}", :start => "#{event.event_date.strftime('%Y-%m-%d')} #{event.event_date.strftime('%H:%M:%S')}", :end => "#{event.event_end_date.strftime('%Y-%m-%d')} #{event.event_end_date.strftime('%H:%M:%S')}", :allDay => false, :url => summary_scheduler_course_event_path(event.id) }
         end  
         render :json => @events

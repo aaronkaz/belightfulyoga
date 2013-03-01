@@ -4,7 +4,7 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-    <% Teacher.all.each do |teacher| %>
+    <% Teacher.joins(:course_events).group('admins.id').each do |teacher| %>
     $('#calendar').fullCalendar( 'addEventSource', {
 	        url: '<%= scheduler_events_path %>',
 	        type: 'POST',
@@ -14,7 +14,7 @@ $(document).ready(function() {
 	        error: function() {
 	            alert('there was an error while fetching events!');
 	        },
-	        color: '<%= teacher.color %>',   // a non-ajax option
+	        color: '#<%= teacher.color %>',   // a non-ajax option
 	        textColor: 'black' // a non-ajax option
 	} )
     <% end %>

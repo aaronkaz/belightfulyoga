@@ -19,6 +19,7 @@ class Teacher < Admin
       configure :color, :color
       
       list do
+        sort_by :first_name
         field :id
         field :first_name
         field :last_name

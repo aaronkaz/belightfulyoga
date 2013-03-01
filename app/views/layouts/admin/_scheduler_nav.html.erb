@@ -1,7 +1,10 @@
 <div class="well">
 <ul class="nav nav-list">
-    <li class="nav-header">Schedule & Attendance</li>
+    <li class="nav-header">Scheduling</li>
     <li><%= link_to "Calendar", scheduler_root_path %></li>
+    <li><%= link_to "Unscheduled Courses", unscheduled_scheduler_courses_path %></li>
+    
+    <li class="nav-header">Attendance</li>
     <li><%= link_to "Class Lists", scheduler_course_events_path %></li>
     <li><%= link_to "Registrant Lists", scheduler_course_registrations_path %></li>
     

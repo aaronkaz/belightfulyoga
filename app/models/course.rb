@@ -5,14 +5,16 @@ class Course < AbstractModel
   belongs_to :teacher  
   has_many :course_registrations, :dependent => :destroy
   has_many :users, :through => :course_registrations
-  has_many :course_events, :dependent => :destroy  
+  has_many :course_events, :order => :event_date, :dependent => :destroy 
+    accepts_nested_attributes_for :course_events, :allow_destroy => true
   has_many :line_items, as: :line_itemable
   
   
   #ACCESSORS
   attr_accessor :ics_file
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
-  :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, :active #show for seed
+  :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
+  :active, :course_events_attributes
   #attr_accessible :end_time, :day
   
   
@@ -22,7 +24,7 @@ class Course < AbstractModel
   
   #CALLBACKS
   validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes#, :teacher_id, :teacher_rate #hide for seed
-  after_commit :create_or_update_events, :if => lambda { self.active? }
+  #after_commit :create_or_update_events, :if => lambda { self.active? }
   
   
   #VIRTUAL METHODS
@@ -65,17 +67,19 @@ class Course < AbstractModel
       end
       
       list do
+        sort_by :start_date
+        sort_reverse true
         field :id
         field :client_group
         field :start_date
         field :end_date
         field :teacher
+        field :active
         field :course_registrations do
           pretty_value do
             bindings[:view].link_to("#{bindings[:object].course_registrations.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "CourseRegistration", "f[course][51422][o]" => "is", "f[course][51422][v]" => "#{bindings[:object].id}", :query => ""})
           end
         end
-        field :active
         field :is_family
       end
       
@@ -112,7 +116,9 @@ class Course < AbstractModel
           #    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
           #  end
           #end
-          field :start_time
+          field :start_time do
+            strftime_format "%I:%M %p"
+          end
           field :length_minutes, :enum do
             enum do
               ['30', '45', '60', '75', '90', '105', '120']

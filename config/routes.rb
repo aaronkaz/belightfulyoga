@@ -11,6 +11,9 @@ Belightfulyoga::Application.routes.draw do
   #SCHEDULER
   namespace :scheduler do
     resources :courses do
+      collection do
+        get :unscheduled
+      end
       member do 
         get :summary
       end
