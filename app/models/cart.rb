@@ -25,7 +25,7 @@ class Cart < ActiveRecord::Base
   attr_accessor :ship_to_billing, :promo_code
   attr_accessible :line_items_attributes, :billing_address_id, :postal_code, :selected_shipping_array, :shipping_address_id, :shipping_confirm, :status, 
     :billing_address_attributes, :shipping_address_attributes, :ship_to_billing, :waiver_attributes, :promo_code, :promo_codes_attributes, :cart_promo_codes_attributes,
-    :id, :user_id, :session_id, :created_at, :updated_at
+    :id, :user_id, :session_id#, :created_at, :updated_at
   
   before_create { self.status = "New" }
   before_update :link_shipping, :if => lambda { self.ship_to_billing == "1" }

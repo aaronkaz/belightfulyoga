@@ -3,7 +3,7 @@ class CartsController < ApplicationController
   layout :resolve_layout
   
   before_filter { @cart = current_cart }
-  before_filter { initialize_page('shopping-cart') }
+  #before_filter { initialize_page('shopping-cart') }
   before_filter :cart_sanity, :except => [:create, :update, :receipt]
   
   helper_method :order_array

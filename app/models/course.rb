@@ -24,7 +24,6 @@ class Course < AbstractModel
   
   #CALLBACKS
   validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes#, :teacher_id, :teacher_rate #hide for seed
-  #after_commit :create_or_update_events, :if => lambda { self.active? }
   
   
   #VIRTUAL METHODS
