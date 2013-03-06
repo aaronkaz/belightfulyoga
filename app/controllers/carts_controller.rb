@@ -187,7 +187,11 @@ private
   def cart_sanity
     if @cart.nil?
       flash[:info] = "There is nothing in your shopping cart!  Add items to continue."
-      redirect_to request.referrer
+      if request.referrer.nil?
+        redirect_to root_path
+      else  
+        redirect_to request.referrer
+      end
     end
   end
   
