@@ -166,7 +166,7 @@ class CartsController < ApplicationController
   
   def pp_callback
     #CALLBACK TO PAYPAL??
-    @cart = Cart.find(params[:id])
+    @cart = Cart.find(params[:custom])
     @cart.update_attributes(:status => params[:payment_status])
     render :head => :ok, :nothing => true
   end
