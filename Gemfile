@@ -42,6 +42,7 @@ gem 'friendly_id'
 gem 'rails_admin'
 gem 'rails_admin_nestable'
 
+gem 'exception_notification'
 gem 'letter_opener', :group => :development
 
 

@@ -4,7 +4,7 @@ class CartsController < ApplicationController
   
   before_filter { @cart = current_cart }
   #before_filter { initialize_page('shopping-cart') }
-  before_filter :cart_sanity, :except => [:create, :update, :receipt]
+  before_filter :cart_sanity, :except => [:create, :update, :receipt, :pp_callback]
   
   helper_method :order_array
   

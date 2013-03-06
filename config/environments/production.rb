@@ -78,4 +78,10 @@ Belightfulyoga::Application.configure do
   }
   config.action_mailer.raise_delivery_errors = true
   
+  config.middleware.use ExceptionNotifier,
+    sender_address: 'noreply@belightfulyoga.com',
+    exception_recipients: 'aaronmichaelmusic@gmail.com',
+    ignore_exceptions: ExceptionNotifier.default_ignore_exceptions,
+    ignore_crawlers: %w{Googlebot bingbot}
+  
 end
