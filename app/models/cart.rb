@@ -46,7 +46,7 @@ class Cart < ActiveRecord::Base
   def subtotal
     subtotal = self.line_items.sum('unit_price * qty')
     discounts = self.promo_codes.where(:discount_type => "dollar").sum(:amount)
-    return (subtotal - discounts)
+    return (subtotal.to_d - discounts.to_d)
   end
   
   def sales_tax
