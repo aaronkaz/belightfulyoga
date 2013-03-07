@@ -50,7 +50,8 @@ class Cart < ActiveRecord::Base
   end
   
   def sales_tax
-    self.billing_address.present? && self.billing_address.state == "MI" ? (self.subtotal * 0.06) : "0"
+    #self.billing_address.present? && self.billing_address.state == "MI" ? (self.subtotal * 0.06) : "0"
+    return "0"
   end
   
   def grand_total

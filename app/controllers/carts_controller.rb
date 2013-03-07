@@ -159,7 +159,7 @@ class CartsController < ApplicationController
       redirect_to receipt_cart_path(@cart)
       #render :text => params[:payment_status]
     else  
-      @cart = current_user.carts.find(params[:id])
+      @cart = Cart.find(params[:id])
     end  
   end
   
