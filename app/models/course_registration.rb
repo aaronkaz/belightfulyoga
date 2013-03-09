@@ -30,7 +30,7 @@ class CourseRegistration < ActiveRecord::Base
         field :waiver do
           pretty_value do
             if bindings[:object].waiver.present?
-              bindings[:view].link_to("Waiver #{bindings[:object].waiver.present?}", bindings[:object].waiver)
+              nil#bindings[:view].link_to("Waiver #{bindings[:object].waiver.present?}", bindings[:object].waiver)
             else
               bindings[:object].has_waiver_file? ? bindings[:view].link_to("Waiver", "#{bindings[:object].waiver_file}") : nil
             end  
