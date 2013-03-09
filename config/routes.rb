@@ -72,6 +72,8 @@ Belightfulyoga::Application.routes.draw do
     end
   end
   
+  resources :waivers
+  
   root :to => 'pages#show', :id => 'home'
   resources :pages, :path => '/'
   
