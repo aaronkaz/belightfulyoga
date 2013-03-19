@@ -25,9 +25,12 @@
 			<!-- Navigation -->
 			<nav><div id="nav"><%= render 'layouts/nav' %></div></nav>
 		    	<!-- Navigation -->    
-	  </div>		    	
+	  </div>
 
-	  <div id="home_rotate"><%= @top_right_image.text.html_safe rescue image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %></div> 
+	  <div id="home_rotate">
+	    <%= @top_right_image.text.html_safe rescue image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %>
+	    <%= image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") if @top_right_image.text.blank? %>
+	  </div> 
 
         
     	
@@ -47,6 +50,7 @@
 		<!-- SideBar -->
 		<% if (!@sidebar.nil? && !@sidebar.text.blank?) || content_for?(:sidebar) %>
 		<aside><div id="sidebar">
+		    <%= render '/layouts/social' %>
 		    <%= yield(:sidebar) %>	
 			<%= @sidebar.text.html_safe rescue nil %>
 			</div></aside>

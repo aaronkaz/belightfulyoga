@@ -83,7 +83,7 @@ ul#portfolio { list-style: none; z-index: 0}
 
 /* Sidebar Styles */
 
-#sidebar {float: right; width: 280px; margin: 0 0 0 0; padding: 106px 0 0 0; background: url("/images/be_light.gif") top no-repeat; color: #262262;}
+#sidebar {float: right; width: 280px; margin: 0 0 0 0; padding: 65px 0 0 0; background: url("/images/be_light.gif") top no-repeat; color: #262262;}
 
 #sidebar img {margin: 0 0 0 0; vertical-align: bottom;}
 

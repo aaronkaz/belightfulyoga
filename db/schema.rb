@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130224052314) do
+ActiveRecord::Schema.define(:version => 20130319152731) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -178,6 +178,17 @@ ActiveRecord::Schema.define(:version => 20130224052314) do
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"
   add_index "courses", ["teacher_id"], :name => "index_courses_on_teacher_id"
 
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "guests", :force => true do |t|
     t.integer  "waiver_id"
     t.string   "name"
@@ -259,13 +270,21 @@ ActiveRecord::Schema.define(:version => 20130224052314) do
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month",      :limit => 2
+    t.integer  "month"
     t.integer  "year",       :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "teachers", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "color"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "",    :null => false

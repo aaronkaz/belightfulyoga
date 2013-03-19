@@ -1,0 +1,9 @@
+<h1 class="lefttab">Current Events</h1>
+
+<div id="cartWin">
+<% @events.each do |event| %>
+    <%= content_tag :strong, event.title %><br>
+    <%= event.description.html_safe %>
+    <hr>
+<% end %>  
+</div>  
