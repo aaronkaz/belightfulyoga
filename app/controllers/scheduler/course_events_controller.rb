@@ -27,9 +27,11 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
     @course_event = CourseEvent.find(params[:id])    
     section = params[:section] ||= 'show'
     
+    red_to = section == "show" ? scheduler_course_event_path(@course_event) : eval("#{section}_scheduler_course_event_path(@course_event)")
+    
     if @course_event.update_attributes(params[:course_event])
       flash[:success] = "Course Event Updated!"
-      redirect_to eval("#{section}_scheduler_course_event_path(@course_event)")
+      redirect_to red_to
     else
       render section
     end
