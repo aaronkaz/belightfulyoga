@@ -47,7 +47,7 @@ Belightfulyoga::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
-  config.assets.precompile += ['custom-theme-bs/*', 'admin.*', 'site.*', 'ckeditor/*']
+  config.assets.precompile += ['custom-theme-bs/*', 'admin.*', 'site.*', 'ckeditor/*', 'rails_admin/rails_admin_nestable.*']
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

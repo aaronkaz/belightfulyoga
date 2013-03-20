@@ -13,7 +13,7 @@
 </ul>
 
 <%= form_for [:scheduler, @course], :html => {:class => "form-inline"} do |f| %>
-    <table class="table">
+    <table class="table" id="course_events_table">
         <thead>
             <tr>
                 <th>Date Time</th>
@@ -44,7 +44,14 @@
                     <%= render 'course_event', :f => builder %>
                 <% end %>
             <% end %> 
-        </tbody>            
+        </tbody>  
+        
+        <tfoot>
+            <tr>
+                <td colspan="4"><%= link_to_add_course_event("Add Date", f, :course_events) %></td>
+            </tr>    
+        </tfoot>
+                  
     </table>
 <div class="form-actions">
     <%= f.submit "Update Schedule", :class => "btn btn-primary" %>
