@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= "#{@page.page_title} - " rescue nil %> Belightful Yoga</title>
-	<meta name="description" content="<%= @page.meta_description rescue nil %>" />
-	<meta name="keywords" content="<%= @page.meta_keywords rescue nil %>" />
+  <title><%= "#{@page.page_title} - " rescue nil %> Belightful Yoga Serving Southeast Michigan</title>
+	<meta name="description" content="Belightful Yoga is a mobile yoga studio that specializes in yoga for youth, adults, the special needs community, and businesses.  Serving Royal Oak, Birmingham, Troy, Farmington, Farmington Hills, Bloomfield, Bloomfield Hills, Rochester, Novi, Sterling Heights, Ferndale, Warren, Grosse Pointe, St. Clair Shores, Clinton Township, Southfield, Southeastern Michigan and much more." />
+    <meta name="keywords" content="yoga, kids, youth, children, teens, special needs, autism, autistic, ADHD, businesses, teachers, schools, Girl Scouts, Boy Scouts, corporations, Royal Oak, Birmingham, Troy, Farmington, Farmington Hills, Bloomfield, Bloomfield Hills, Rochester, Novi, Sterling Heights, Ferndale, Warren, Grosse Pointe, St. Clair Shores, Clinton Township, Southfield, Southeastern Michigan" />
     <%= stylesheet_link_tag "application", :media => "all" %>		
     <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
 	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? rescue nil %>
@@ -28,8 +28,11 @@
 	  </div>
 
 	  <div id="home_rotate">
-	    <%= @top_right_image.text.html_safe rescue image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %>
-	    <%= image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") if @top_right_image.text.blank? %>
+	      <% if !@top_right_image.nil? && ! @top_right_image.text.blank? %>
+	        <%= @top_right_image.text.html_safe %>
+	      <% else %>
+	        <%= image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %>
+	      <% end %>
 	  </div> 
 
         
@@ -64,6 +67,7 @@
 	</div>
 	
 
+<!-- Analytics --><script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try {var pageTracker = _gat._getTracker("UA-13224741-3");pageTracker._trackPageview();} catch(err) {}</script>
 
 </body>
 </html>
