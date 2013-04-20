@@ -24,7 +24,7 @@
     <tr>
       <td colspan="2" style="text-align:right;">
         <%= content_tag :p, "Enter a promo or discount code here", :class => "help-block" %>
-        <%= f.fields_for :cart_promo_codes, @cart.cart_promo_codes.new do |new_promo| %>
+        <%= f.fields_for :cart_promo_codes, @cart.cart_promo_codes.build do |new_promo| %>
         <%= new_promo.label :add_promo %> <%= new_promo.text_field :add_promo, :style => "width:60px;" %>
         <% end %>
         <%= f.submit "Update", :class => "btn" %></td>
