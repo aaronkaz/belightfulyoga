@@ -11,7 +11,7 @@ class Course < AbstractModel
   
   
   #ACCESSORS
-  attr_accessor :ics_file
+  attr_accessor :ics_file, :schedule
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
   :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
   :active, :course_events_attributes
@@ -73,6 +73,11 @@ class Course < AbstractModel
         field :start_date
         field :end_date
         field :teacher
+        field :schedule do
+          pretty_value do
+            bindings[:view].link_to("Schedule", bindings[:view].main_app.edit_scheduler_course_path(bindings[:object]))
+          end
+        end
         field :active
         field :course_registrations do
           pretty_value do

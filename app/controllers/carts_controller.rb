@@ -1,10 +1,11 @@
 class CartsController < ApplicationController
   
-  layout :resolve_layout
+  layout :resolve_layout  
   
+  before_filter :authenticate_user!
   before_filter { @cart = current_cart }
-  #before_filter { initialize_page('shopping-cart') }
   before_filter :cart_sanity, :except => [:create, :update, :receipt, :pp_callback]
+  skip_before_filter :verify_authenticity_token, :only => [:receipt, :pp_callback]
   
   helper_method :order_array
   

@@ -21,6 +21,7 @@ end
 class CoursesController < ApplicationController
   layout 'user'
   
+  before_filter :authenticate_user!
   before_filter :client_group_sanity, :only => [:index]
   
   def index
