@@ -85,6 +85,67 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
     end
   end
   
+  def to_excel
+    @course_event = CourseEvent.find(params[:id])
+    
+    # Create a new Excel Workbook
+    @filename = "#{Rails.root}/tmp/course_event_#{@course_event.event_date.strftime("%d_%b_%Y")}.xls"
+    workbook = WriteExcel.new(@filename)
+
+    # Add worksheet(s)
+    worksheet  = workbook.add_worksheet
+    worksheet.set_portrait
+    worksheet.set_paper(1)
+
+    # Add and define formats
+    format_big = workbook.add_format(:font => 'Arial', :size => 20)
+    format_med = workbook.add_format(:font => 'Arial', :size => 16)
+    format_th = workbook.add_format(:font => 'Cambria', :size => 14)
+    format_th.set_bold
+    format_center = workbook.add_format()
+    format_center.set_align('center')
+    format_right = workbook.add_format()
+    format_right.set_align('right')
+    
+    # SET COLUMN WIDTHS
+    worksheet.set_column('A:A', 32) # name
+    worksheet.set_column('B:B', 14) # reg type
+    worksheet.set_column('C:C', 22.3) # paid
+    worksheet.set_column('D:D', 14) # attended
+
+  
+    # TABLE HEADERS
+    worksheet.write('A1', 'Name', format_th)
+    worksheet.write('B1', 'Registration', format_th)
+    worksheet.write('C1', 'Paid', format_th)
+    worksheet.write('D1', 'Attended', format_th)
+    
+    # WRITE VALUES
+    $row_offset = 1
+    @course_event.registrants.each do |registrant|
+      attend = @course_event.attendees.find_by_attendable_type_and_attendable_id(registrant[:type], registrant[:id])
+      
+      $row_offset = $row_offset + 1
+      worksheet.write('A' + $row_offset.to_s, registrant[:name])
+      worksheet.write('B' + $row_offset.to_s, !registrant[:reg_type].nil? ? registrant[:reg_type] : "walkin")
+      if registrant[:type] == "User"
+        if registrant[:walk_in] == true
+          worksheet.write('C' + $row_offset.to_s, attend.paid)
+        else
+          registration = @course_event.course_registrations.find_by_user_id(registrant[:id])
+          worksheet.write('C' + $row_offset.to_s, (registration.paid / @course_event.course.course_events.length)) if !registration.nil?
+        end
+      end
+      worksheet.write('D' + $row_offset.to_s, attend.present?)
+    end   
+
+    # write to file
+    workbook.close 
+    send_file @filename
+    
+    
+  end
+  
 private
 
   def sort_column

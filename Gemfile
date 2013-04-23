@@ -45,6 +45,8 @@ gem 'rails_admin_nestable'
 gem 'exception_notification'
 gem 'letter_opener', :group => :development
 
+gem 'writeexcel'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

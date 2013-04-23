@@ -43,5 +43,6 @@
 
 <div class="form-actions">
     <%= f.submit "Update Class", :class => "btn btn-primary" %>
+    <%= link_to "Export to Excel", to_excel_scheduler_course_event_path(@course_event), :class => "btn" %>
 </div>                 
 <% end %>

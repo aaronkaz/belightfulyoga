@@ -216,6 +216,7 @@ GEM
     warden (1.2.1)
       rack (>= 1.0)
     will_paginate (3.0.4)
+    writeexcel (0.6.16)
 
 PLATFORMS
   ruby
@@ -248,3 +249,4 @@ DEPENDENCIES
   taps
   thin
   uglifier
+  writeexcel

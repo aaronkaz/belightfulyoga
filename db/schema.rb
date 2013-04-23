@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319152731) do
+ActiveRecord::Schema.define(:version => 20130423151017) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -95,8 +95,8 @@ ActiveRecord::Schema.define(:version => 20130319152731) do
     t.string   "code"
     t.string   "title"
     t.string   "image"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.string   "slug"
     t.string   "address_1"
     t.string   "address_2"
@@ -104,8 +104,11 @@ ActiveRecord::Schema.define(:version => 20130319152731) do
     t.string   "state"
     t.string   "postal_code"
     t.string   "phone"
+    t.integer  "contact_person_id"
+    t.text     "contact_notes"
   end
 
+  add_index "client_groups", ["contact_person_id"], :name => "index_client_groups_on_contact_person_id"
   add_index "client_groups", ["slug"], :name => "index_client_groups_on_slug", :unique => true
 
   create_table "course_attendees", :force => true do |t|
@@ -117,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20130319152731) do
     t.datetime "updated_at",                                                       :null => false
     t.boolean  "walk_in",                                       :default => false
     t.decimal  "paid",            :precision => 8, :scale => 2
+    t.string   "payment_type"
   end
 
   add_index "course_attendees", ["attendable_type", "attendable_id"], :name => "index_course_attendees_on_attendable_type_and_attendable_id"
@@ -173,6 +177,7 @@ ActiveRecord::Schema.define(:version => 20130319152731) do
     t.decimal  "teacher_rate",    :precision => 8, :scale => 2
     t.integer  "old_id"
     t.boolean  "active",                                        :default => false
+    t.string   "frequency"
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"

@@ -14,7 +14,7 @@ class Course < AbstractModel
   attr_accessor :ics_file, :schedule
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
   :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
-  :active, :course_events_attributes
+  :active, :course_events_attributes, :frequency
   #attr_accessible :end_time, :day
   
   
@@ -75,7 +75,9 @@ class Course < AbstractModel
         field :teacher
         field :schedule do
           pretty_value do
-            bindings[:view].link_to("Schedule", bindings[:view].main_app.edit_scheduler_course_path(bindings[:object]))
+            if bindings[:object].active?
+              bindings[:view].link_to(bindings[:view].raw("<i class='icon-calendar'></i>"), bindings[:view].main_app.edit_scheduler_course_path(bindings[:object]), :class => "btn btn-small")
+            end
           end
         end
         field :active
@@ -126,6 +128,11 @@ class Course < AbstractModel
           field :length_minutes, :enum do
             enum do
               ['30', '45', '60', '75', '90', '105', '120']
+            end
+          end
+          field :frequency, :enum do
+            enum do
+              ['weekly', 'daily']
             end
           end
           field :price

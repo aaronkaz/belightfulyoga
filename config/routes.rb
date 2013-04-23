@@ -16,6 +16,7 @@ Belightfulyoga::Application.routes.draw do
       end
       member do 
         get :summary
+        post :set_dates
       end
     end
     resources :course_events do
@@ -26,6 +27,7 @@ Belightfulyoga::Application.routes.draw do
         get :walkin_user
         post :create_walkin_user
         get :accounting
+        get :to_excel
       end
       collection do
         get :pay_outs

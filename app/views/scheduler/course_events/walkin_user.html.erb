@@ -39,6 +39,12 @@
             <div class="controls">
                 <%= attendance.text_field :paid, :class => "span2" %>
             </div>
+        </div>
+        <div class="control-group">
+            <%= attendance.label :payment_type, :class => "control-label" %>
+            <div class="controls">
+                <%= attendance.select :payment_type, options_for_select(['cash', 'check']), {}, :class => "span2" %>
+            </div>
         </div>            
     <% end %>
     

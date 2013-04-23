@@ -34,6 +34,7 @@ class Scheduler::CoursesController < Scheduler::ApplicationController
       render 'edit'
     end
   end
+
   
   private
 

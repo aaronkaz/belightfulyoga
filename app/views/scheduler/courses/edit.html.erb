@@ -35,10 +35,59 @@
                     <%= render 'course_event', :f => builder %>
                 <% end %>
                 <%
-                $tmp_date += 1.week
+                if @course.frequency == 'daily'
+                    $tmp_date += 1.day
+                else    
+                    $tmp_date += 1.week
+                end
                 tmp_index += 1 
                 %>
             <% end while $tmp_date <= to %>
+            
+            <% elsif params[:reset] == "true" %>
+            
+                <% 
+                from = @course.start_date
+                to = @course.end_date
+                $tmp_date = from
+                tmp_index = 0
+                %>
+                
+                <% @course.course_events.order(:event_date).each do |course_event| %>
+                    <%= f.fields_for :course_events, course_event do |builder| %>
+                        <% 
+                        builder.object.event_date = "#{$tmp_date} #{@course.start_time}" 
+                        builder.object.teacher_id = @course.teacher_id 
+                        builder.object.teacher_pay_out = @course.teacher_rate
+                        %>
+                        <%= render 'course_event', :f => builder %>
+                    <% end %>
+                <%
+                if @course.frequency == 'daily'
+                    $tmp_date += 1.day
+                else    
+                    $tmp_date += 1.week
+                end
+                tmp_index += 1 
+                %>
+                <% end %>
+                
+                <% if $tmp_date < to %>
+                    <% begin %>
+                        <%= f.fields_for :course_events, @course.course_events.new(:event_date => "#{$tmp_date} #{@course.start_time}", :teacher_id => @course.teacher_id, :teacher_pay_out => @course.teacher_rate) do |builder| %>
+                            <%= render 'course_event', :f => builder %>
+                        <% end %>
+                        <%
+                        if @course.frequency == 'daily'
+                            $tmp_date += 1.day
+                        else    
+                            $tmp_date += 1.week
+                        end
+                        tmp_index += 1 
+                        %>
+                    <% end while $tmp_date <= to %>
+            
+                <% end %>
             <% else %>
                 <%= f.fields_for :course_events do |builder| %>
                     <%= render 'course_event', :f => builder %>
@@ -55,5 +104,6 @@
     </table>
 <div class="form-actions">
     <%= f.submit "Update Schedule", :class => "btn btn-primary" %>
+    <%= link_to "Reset Schedule", edit_scheduler_course_path(@course, :reset => true), :class => "btn btn-danger" unless @course.course_events.empty? %>
 </div>   
 <% end %>    
