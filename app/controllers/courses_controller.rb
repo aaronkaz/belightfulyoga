@@ -27,7 +27,7 @@ class CoursesController < ApplicationController
   def index
     #initialize_page('courses')
     @cart = current_cart || Cart.new
-    @courses = @client_group.courses.where('hide_date >= ?', Date.today)
+    @courses = @client_group.courses.where('end_date >= ?', Date.today)
   end
   
   def registered_courses

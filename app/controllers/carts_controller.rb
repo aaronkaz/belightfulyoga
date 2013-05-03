@@ -6,6 +6,7 @@ class CartsController < ApplicationController
   before_filter { @cart = current_cart }
   before_filter :cart_sanity, :except => [:create, :update, :receipt, :pp_callback]
   skip_before_filter :verify_authenticity_token, :only => [:receipt, :pp_callback]
+  skip_before_filter :authenticate_user!, :only => [:receipt, :pp_callback]
   
   helper_method :order_array
   
