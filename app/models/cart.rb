@@ -91,11 +91,21 @@ class Cart < ActiveRecord::Base
         field :id
         field :status
         field :user
-        field :line_items do
-          pretty_value do
-            bindings[:view].link_to("#{bindings[:object].line_items.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "LineItem", "f[course][51422][o]" => "is", "f[cart][51422][v]" => "#{bindings[:object].id}", :query => ""})
+        #field :line_items do
+        #  pretty_value do
+        #    bindings[:view].link_to("#{bindings[:object].line_items.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "LineItem", "f[course][51422][o]" => "is", "f[cart][51422][v]" => "#{bindings[:object].id}", :query => ""})
+        #  end
+        #end
+        field :waiver
+      end
+      
+      edit do
+        field :status, :enum do
+          enum do
+            ['New', 'Completed', 'Fulfilled', 'Refunded']
           end
         end
+        field :user        
       end
       
     end
