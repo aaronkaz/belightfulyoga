@@ -4,7 +4,7 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-    <% Teacher.joins(:course_events).group('admins.id').each do |teacher| %>
+    <% @teachers.each do |teacher| %>
     $('#calendar').fullCalendar( 'addEventSource', {
 	        url: '<%= scheduler_events_path %>',
 	        type: 'POST',

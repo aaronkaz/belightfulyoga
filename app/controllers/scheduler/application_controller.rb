@@ -1,11 +1,14 @@
 class Scheduler::ApplicationController < ApplicationController
   layout 'admin/scheduler'
   before_filter :authenticate_admin!
+  before_filter :initialize_teachers
   
-  helper_method :sort_column, :sort_direction
+  helper_method :sort_column, :sort_direction, :teacher
   
   def index
-    
+    @teachers = Teacher.joins(:course_events).group('admins.id')
+    @teachers = @teachers.where('admins.id = ?', current_admin.id) if !current_admin.admin?
+
   end
   
   def events
@@ -23,6 +26,16 @@ class Scheduler::ApplicationController < ApplicationController
   end
   
 private
+
+  def initialize_teachers
+    @teachers = Teacher.scoped
+    @teachers = @teachers.where('admins.id = ?', current_admin.id) if !current_admin.admin?
+    @teachers.order(:first_name)
+  end
+  
+  def teacher
+    params[:teacher] ||= current_admin.admin? ? "" : current_admin.id
+  end
 
   def sort_column
     params[:sort] ||= 'id'

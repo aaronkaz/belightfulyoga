@@ -56,7 +56,7 @@ var $elm = $('.dialog-form');
 				height: 680,
 				maxHeight: 580,
 				minWidth: 450,
-				position: ['center', 40],
+				position: ['center', 80],
 				modal: true,
 				open: function() {
 					$(this).load(url, function() {
@@ -137,7 +137,7 @@ if ($elm.length) {
 		maxHeight: 580,
 		width: 'auto',
 		maxWidth: 800,
-		position: ['center', 40],
+		position: ['center', 80],
 		modal: true,
 		open: function() {
 			$(this).load(url, function() {
@@ -148,7 +148,13 @@ if ($elm.length) {
 		},
 		close: function() {
 			$('#modal_window').remove();
-		}		
+		},
+  	
+		buttons: {
+			Cancel: function() { 
+				$(this).dialog("close")
+			}
+		}	
 
 	});
 	dialog_win.dialog('open');

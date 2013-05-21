@@ -5,7 +5,7 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
   
   def index
     @course_events = CourseEvent.joins('INNER JOIN courses ON courses.id = course_events.course_id INNER JOIN client_groups ON client_groups.id = courses.client_group_id INNER JOIN admins ON admins.id = courses.teacher_id')
-    @course_events = @course_events.where('admins.id = ?', params[:teacher]) unless params[:teacher].blank?
+    @course_events = @course_events.where('course_events.teacher_id = ?', teacher) unless teacher.blank?
     @course_events = @course_events.where('client_groups.id = ?', params[:client]) unless params[:client].blank?
     @course_events = @course_events.where('event_date >= ?', start_date)
     @course_events = @course_events.where('event_date <= ?', params[:end_date]) unless params[:end_date].blank?
@@ -15,8 +15,13 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
   def pay_outs
     @course_events = CourseEvent.joins('INNER JOIN courses ON courses.id = course_events.course_id INNER JOIN client_groups ON client_groups.id = courses.client_group_id INNER JOIN admins ON admins.id = courses.teacher_id')
     @course_events = @course_events.where('event_date <= ?', Date.today).where(:paid => nil)    
-    @course_events = @course_events.where('admins.id = ?', params[:teacher]) unless params[:teacher].blank?
+    @course_events = @course_events.where('course_events.teacher_id = ?', teacher) unless teacher.blank?
     @course_events = @course_events.order(sort_column + " " + sort_direction)
+    
+    @total_pay_out = "0".to_d
+      @course_events.each do |c|
+        @total_pay_out += c.total_pay_out
+      end
   end
   
   def show
