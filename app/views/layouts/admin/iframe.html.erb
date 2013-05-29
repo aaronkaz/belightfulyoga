@@ -2,35 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Medequipsol</title>
+    <title>Belightful Yoga</title>
     <%= csrf_meta_tags %>
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
 
-    <%= stylesheet_link_tag "application", :media => "all" %>
-		<%= stylesheet_link_tag 'custom-theme-bs/jquery-ui-1.8.16.custom', :media => 'screen' %>
+    <%= stylesheet_link_tag "admin", :media => "all" %>
+	<%= javascript_include_tag "admin" %>
+    <link href="/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
 	
-		<%= javascript_include_tag "application" %>
-	
-	<%#= javascript_include_tag "jquery" %>
-	<%#= javascript_include_tag "jquery_ujs" %>	
-	<%#= javascript_include_tag "jquery.ui.all" %>
-	<%#= javascript_include_tag "twitter/bootstrap" %>
 
   </head>
   <body>
-    <%= yield %>	
-
-    <%#= javascript_include_tag "application" %>	
-		<%#= javascript_include_tag "jquery" %>
-		<%#= javascript_include_tag "jquery_ujs" %>	
-		<%#= javascript_include_tag "jquery.ui.all" %>
-		<%#= javascript_include_tag "twitter/bootstrap" %>	
-		
-		<%#= javascript_include_tag "admin/product_images" %>	
-
+      <%= yield %>	
 
   </body>
 </html>

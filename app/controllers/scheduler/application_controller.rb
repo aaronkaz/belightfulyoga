@@ -1,5 +1,5 @@
 class Scheduler::ApplicationController < ApplicationController
-  layout 'admin/scheduler'
+  layout proc { |controller| params[:print] == 'true' ? 'admin/iframe' : 'admin/scheduler'}
   before_filter :authenticate_admin!
   before_filter :initialize_teachers
   

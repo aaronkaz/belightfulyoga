@@ -126,8 +126,10 @@ class Course < AbstractModel
             strftime_format "%I:%M %p"
           end
           field :length_minutes, :enum do
+            label 'Class Length'
+            help 'in hours'
             enum do
-              ['30', '45', '60', '75', '90', '105', '120']
+              (30..360).step(15).collect { |i| ["#{i.to_d/60}", i]}
             end
           end
           field :frequency, :enum do
