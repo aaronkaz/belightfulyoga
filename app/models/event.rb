@@ -1,6 +1,17 @@
 class Event < ActiveRecord::Base
   attr_accessible :description, :end_date, :end_time, :start_date, :start_time, :title
   
+  def datetimestring
+    if !self.start_date.blank?
+      string = "#{self.start_date.strftime("%a")}., #{self.start_date.strftime('%b %d, %Y')}"
+      string << " - #{self.end_date.strftime('%b %d, %Y')}" unless self.end_date.blank?
+      string << ", #{self.start_time.strftime('%I:%M %p')}" unless self.start_time.blank?
+      string << " - #{self.end_time.strftime('%I:%M %p')}" unless self.end_time.blank?
+    else
+      nil
+    end
+  end
+  
   RailsAdmin.config do |config|
     config.model Event do    
       navigation_label 'CMS'
