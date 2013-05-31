@@ -10,14 +10,14 @@ RailsAdmin.config do |config|
       index                         # mandatory
       new
       export
-      history_index
+      # history_index
       bulk_delete
       # member actions
       show
       edit
       delete
-      history_show
-      show_in_app
+      # history_show
+      # show_in_app
 
       # Add the nestable action for each model
       nestable do

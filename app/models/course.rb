@@ -69,7 +69,9 @@ class Course < AbstractModel
         sort_by :start_date
         sort_reverse true
         field :id
-        field :client_group
+        field :client_group do
+          searchable [:title, :id]
+        end
         field :start_date
         field :end_date
         field :teacher
