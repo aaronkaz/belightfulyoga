@@ -108,7 +108,7 @@ class CartsController < ApplicationController
               @stage = "review" unless @stage == "billing" || @stage == "shipping" || @stage == "shipping_method" || @stage == "waiver"
               # IF CART IS NON-BILLABLE
               if !@cart.billable?
-                @cart.update_attribute(:status, "Fulfilled")
+                @cart.update_attribute(:status, "Completed")
                 UserMailer.order_confirmation(@cart.id).deliver
                 flash[:success] == "Your order is complete!"
                 redirect_to receipt_cart_path(@cart)
