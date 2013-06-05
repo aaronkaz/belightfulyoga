@@ -23,8 +23,11 @@ class Course < AbstractModel
   
   
   #CALLBACKS
-  validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes#, :teacher_id, :teacher_rate #hide for seed
+  validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes, :frequency#, :teacher_id, :teacher_rate #hide for seed
   validates_presence_of :teacher_id, :teacher_rate, :if => lambda { self.active? }
+  
+  after_create :create_or_update_events, :if => lambda { self.active? && !self.start_date.blank? && !self.end_date.blank? && self.teacher.present? }
+  after_save :create_or_update_events, :if => lambda { self.active? && (self.start_date_changed? || self.end_date_changed? || self.start_time_changed? || self.length_minutes_changed? || self.teacher_id_changed? || self.teacher_rate_changed?) }
   
   #VIRTUAL METHODS
   
@@ -76,6 +79,7 @@ class Course < AbstractModel
         field :end_date
         field :teacher
         field :schedule do
+          searchable [:first_name, :last_name, :id]
           pretty_value do
             if bindings[:object].active?
               bindings[:view].link_to(bindings[:view].raw("<i class='icon-calendar'></i>"), bindings[:view].main_app.edit_scheduler_course_path(bindings[:object]), :class => "btn btn-small")
@@ -151,18 +155,37 @@ class Course < AbstractModel
 protected
 
   def create_or_update_events
-    unless self.start_date.blank? || self.end_date.blank?
+    logger.info "find or create"
       from = self.start_date
       to = self.end_date
-      tmp_date = from
-      tmp_index = 0        
-      begin
-        event = self.course_events.find_or_create_by_event_index(tmp_index)
-        event.update_attributes(:event_date => "#{tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
-        tmp_date += 1.week
-        tmp_index += 1
-      end while tmp_date <= to
-    end  
+      $tmp_date = from
+      tmp_index = 0    
+      
+      if self.course_events.empty?
+    
+        begin
+          event = self.course_events.new
+          event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
+          if self.frequency == 'daily'
+            $tmp_date += 1.day
+          else    
+            $tmp_date += 1.week
+          end
+          tmp_index += 1
+        end while $tmp_date <= to 
+        
+      else
+        
+        self.course_events.order(:event_date).each do |course_event|
+          course_event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
+          if self.frequency == 'daily'
+            $tmp_date += 1.day
+          else    
+            $tmp_date += 1.week
+          end
+        end
+        
+      end  
   end  
   
 end
