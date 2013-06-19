@@ -1,0 +1,56 @@
+<div class="page-header"><%= content_tag :h1, "Add Registration to '#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}'" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li><%= link_to "Class Lists", scheduler_course_events_path %> <span class="divider">/</span></li>
+	<li><%= link_to "#{@course_event.event_date.strftime('%m/%d/%Y %I:%M%p')}", [:scheduler, @course_event] %> <span class="divider">/</span></li>
+	<li>Registration (invite new user)</li>
+</ul>
+
+<%= error_messages_for(@user) %>
+
+<%= form_for @user, :url => create_registration_user_scheduler_course_event_path(@course_event), :html => { :class => "form-horizontal" } do |f| %>
+    <%= f.hidden_field :client_group_id %>
+    
+    <div class="control-group">
+        <%= f.label :first_name, :class => "control-label" %>
+        <div class="controls">
+            <%= f.text_field :first_name %>
+        </div>
+    </div>
+    <div class="control-group">
+        <%= f.label :last_name, :class => "control-label" %>
+        <div class="controls">
+            <%= f.text_field :last_name %>
+        </div>
+    </div>
+    <div class="control-group">
+        <%= f.label :email, :class => "control-label" %>
+        <div class="controls">
+            <%= f.text_field :email %>
+        </div>
+    </div>
+    
+    <%= f.fields_for :course_registrations, @user.course_registrations.build(:course_id => @course_event.course_id) do |registration| %>
+        <%= registration.hidden_field :course_id, :value => registration.object.course_id %>
+        
+        <div class="control-group">
+            <%= registration.label :paid, "Amount Paid", :class => "control-label" %>
+            <div class="controls">
+                <%= registration.text_field :paid, :class => "span2", :value => @course_event.course.price %>
+            </div>
+        </div>  
+        
+        <div class="control-group">
+            <%= registration.label :registration_type, :class => "control-label" %>
+            <div class="controls">
+                <%= registration.select :registration_type, options_for_select(['cash', 'check']), {}, :class => "span2" %>
+            </div>
+        </div>
+        
+    <% end %>
+    
+    <div class="form-actions">
+        <%= f.submit "Add Walk-in", :class => "btn btn-primary" %>
+    </div>
+<% end %>

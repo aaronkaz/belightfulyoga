@@ -38,26 +38,5 @@ function openEventModal(title, url) {
 
 $(document).ready(function() {
 	
-	$eventBox = $("<div id='event-hover-box' style='position:absolute;width:300px;height:100px;border:1px solid #000;z-index:1000;'></div>")
-	$('body').append($eventBox)
-	$eventBox.hide()
-	
-	$('#calendar').fullCalendar({
-		header: {
-						left: 'prev,next today',
-						center: 'title',
-						right: 'month,agendaWeek,agendaDay'
-		},
-		/*eventMouseover: function(calEvent, jsEvent, view) {
-			$eventBox.css('left', jsEvent.pageX)
-			$eventBox.css('top', jsEvent.pageY)
-			$eventBox.show()
-		},*/
-		eventClick: function(calEvent, jsEvent, view) {
-						//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-		        //alert('Event: ' + calEvent.id);
-						openEventModal(calEvent.title, calEvent.url)
-						jsEvent.preventDefault()
-		    }		
-	})
+
 })

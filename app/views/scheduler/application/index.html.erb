@@ -1,9 +1,88 @@
+<%= content_for :head do %>
+<script>
+
+	$(document).ready(function() {
+	    
+	    $eventBox = $("<div id='event-hover-box' style='position:absolute;width:300px;height:100px;border:1px solid #000;z-index:1000;'></div>")
+    	$('body').append($eventBox)
+    	$eventBox.hide()
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			editable: true,
+			eventClick: function(calEvent, jsEvent, view) {
+    						//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+    		        //alert('Event: ' + calEvent.id);
+    						openEventModal(calEvent.title, calEvent.url)
+    						jsEvent.preventDefault()
+    		    }
+		});
+		
+		<% @teachers.each do |teacher| %>
+        $('#calendar').fullCalendar( 'addEventSource', {
+    	        url: '<%= scheduler_events_path %>',
+    	        type: 'POST',
+    	        data: {
+    	            teacher_id: '<%= teacher.id %>',
+    	            print: '<%= params[:print] %>'
+    	        },
+    	        error: function() {
+    	            alert('there was an error while fetching events!');
+    	        },
+    	        color: '#<%= teacher.color %>',   // a non-ajax option
+    	        textColor: 'black' // a non-ajax option
+    	} );
+        <% end %>
+        
+        $('.fc-button-content').each(function() {
+            $(this).parent().parent().html($(this).html());
+          });
+		
+	});
+	
+	
+    
+	
+	
+
+</script>
+
+<% if params[:print] == "true" %>
+<style>
+
+	body {
+		margin-top: 40px;
+		text-align: center;
+		font-size: 14px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		}
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
+
+</style>
+<% end %>
+
+<% end %>
 
 <div id='calendar'></div>
 
+<!-- 
 <script type="text/javascript">
 
 $(document).ready(function() {
+    
     <% @teachers.each do |teacher| %>
     $('#calendar').fullCalendar( 'addEventSource', {
 	        url: '<%= scheduler_events_path %>',
@@ -16,8 +95,13 @@ $(document).ready(function() {
 	        },
 	        color: '#<%= teacher.color %>',   // a non-ajax option
 	        textColor: 'black' // a non-ajax option
-	} )
+	} );
     <% end %>
+    
+    $('.fc-button-content').each(function() {
+        $(this).parent().parent().html($(this).html());
+      });
 })
 
 </script>
+-->

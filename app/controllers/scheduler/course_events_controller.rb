@@ -47,6 +47,35 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
     @course = @course_event.course
   end
   
+  def registration
+    @course_event = CourseEvent.find(params[:id])
+  end
+  
+  def create_registration
+    @course_event = CourseEvent.find(params[:id])
+    if @course_event.update_attributes(params[:course_event])
+      flash[:success] = "Registration added!"
+      redirect_to [:scheduler, @course_event]
+    else
+      render 'registration'
+    end
+  end
+  
+  def registration_user
+    @course_event = CourseEvent.find(params[:id])
+    @user = User.new(:client_group_id => @course_event.client_group.id)
+  end
+  
+  def create_registration_user
+    @course_event = CourseEvent.find(params[:id])
+    if @user = User.invite!(params[:user])
+      flash[:success] = "Registration added!"
+      redirect_to [:scheduler, @course_event]
+    else
+      render 'registration_user'
+    end  
+  end
+  
   def walkin
     @course_event = CourseEvent.find(params[:id])
   end

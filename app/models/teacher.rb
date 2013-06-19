@@ -34,6 +34,7 @@ class Teacher < Admin
         field :password
         field :password_confirmation
         field :color
+        field :admin
       end
       
     end

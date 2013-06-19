@@ -10,7 +10,11 @@
     <![endif]-->
 
     <%= stylesheet_link_tag "admin", :media => "all" %>
+    <%= stylesheet_link_tag "fullcalendar.print", :media => "print" %>
 	<%= javascript_include_tag "admin" %>
+	
+	<%= content_for(:head) %>
+	
     <link href="/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
 	
 

@@ -22,6 +22,10 @@ Belightfulyoga::Application.routes.draw do
     resources :course_events do
       member do 
         get :summary
+        get :registration
+        post :create_registration
+        get :registration_user
+        post :create_registration_user
         get :walkin
         put :create_walkin
         get :walkin_user

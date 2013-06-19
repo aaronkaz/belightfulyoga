@@ -4,7 +4,7 @@ class CourseRegistration < ActiveRecord::Base
     has_many :guests, :through => :waiver
   belongs_to :course
   belongs_to :user
-  attr_accessible :cart_id, :course_id, :user_id, :registration_type, :paid#, :created_at, :updated_at
+  attr_accessible :cart_id, :course_id, :user_id, :registration_type, :paid #, :created_at, :updated_at
   
   after_create :send_confirmation_email
   

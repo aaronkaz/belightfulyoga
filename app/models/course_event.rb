@@ -3,6 +3,7 @@ class CourseEvent < ActiveRecord::Base
   belongs_to :teacher
   has_one :client_group, :through => :course
   has_many :course_registrations, :through => :course
+    accepts_nested_attributes_for :course_registrations
   has_many :attendees, :class_name => "CourseAttendee", :dependent => :destroy
     accepts_nested_attributes_for :attendees
   has_many :walkins, :dependent => :destroy

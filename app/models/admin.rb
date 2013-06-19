@@ -7,7 +7,7 @@ class Admin < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :first_name, :last_name, :is_teacher, :first_name, :last_name, :is_teacher, :color
+  attr_accessible :first_name, :last_name, :is_teacher, :first_name, :last_name, :color, :admin
   
   RailsAdmin.config do |config|
     config.model Admin do   
@@ -30,6 +30,7 @@ class Admin < ActiveRecord::Base
         field :password
         field :password_confirmation
         field :is_teacher
+        field :admin
       end
       
     end
