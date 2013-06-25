@@ -16,6 +16,10 @@ class Page < AbstractModel
   def label_name
     self.link_title
   end  
+  
+  def home?
+    self.slug == "home" ? true : false
+  end
 
   RailsAdmin.config do |config|
     config.model Page do    

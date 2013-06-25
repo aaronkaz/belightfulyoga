@@ -7,6 +7,7 @@
     <%= stylesheet_link_tag "application", :media => "all" %>		
     <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
 	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? rescue nil %>
+	<%= yield(:stylesheets) %>
 
     <%= javascript_include_tag "site" %>
 	<%= javascript_include_tag "/javascripts/jquery.innerfade.js" %>
@@ -47,7 +48,10 @@
         		<% end %>
         	<% end %>
 		
-		<%= yield %></div></section>
+		<%= yield %>
+		<%= render '/layouts/hero' if @page.present? && @page.home? %>
+		
+		</div></section>
 		<!-- Content -->
 
 		<!-- SideBar -->

@@ -14,4 +14,5 @@ class PagesController < ApplicationController
     #@body = @page.page_parts.find_by_section_title("body")
   end
   
+  
 end

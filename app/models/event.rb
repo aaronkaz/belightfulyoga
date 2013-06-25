@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
-  attr_accessible :description, :end_date, :end_time, :start_date, :start_time, :title
+  attr_accessible :description, :end_date, :end_time, :start_date, :start_time, :title, :image, :image_cache, :remove_image
+  
+  mount_uploader :image, EventImageUploader
   
   def datetimestring
     if !self.start_date.blank?
@@ -30,6 +32,7 @@ class Event < ActiveRecord::Base
         field :description do
           ckeditor true
         end
+        field :image, :carrierwave
       end
       
     end

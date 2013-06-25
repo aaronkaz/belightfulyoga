@@ -1,11 +1,20 @@
+<%= content_for :stylesheets do %>
+<style type="text/css">
+p {
+	margin: 0;
+}
+</style>
+<% end %>
+
 <h1 class="lefttab">Current Events</h1>
 
-<div id="cartWin">
+<div id="cartWin" class="events_list">
 <% @events.each do |event| %>
     <%= content_tag :h3, event.title %>
+    <%= image_tag event.image.url(:thumb), :class => "img-rounded" %>
     <%= content_tag :strong, event.datetimestring unless event.datetimestring.nil? %>
     <br>
     <%= event.description.html_safe %>
-    <hr>
+    <hr style="clear:both;">
 <% end %>  
 </div>  
