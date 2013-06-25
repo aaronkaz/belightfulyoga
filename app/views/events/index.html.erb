@@ -11,7 +11,7 @@ p {
 <div id="cartWin" class="events_list">
 <% @events.each do |event| %>
     <%= content_tag :h3, event.title %>
-    <%= image_tag event.image.url(:thumb), :class => "img-rounded" %>
+    <%= image_tag event.image.url(:thumb), :class => "img-rounded" if event.image.present? %>
     <%= content_tag :strong, event.datetimestring unless event.datetimestring.nil? %>
     <br>
     <%= event.description.html_safe %>
