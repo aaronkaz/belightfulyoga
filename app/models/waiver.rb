@@ -41,7 +41,8 @@ protected
   end
   
   def update_user_profile
-    user.update_attributes(:first_name => first_name, :middle_initial => middle_initial, :last_name => last_name, :home_phone => home_phone, :cell_phone => cell_phone, :work_phone => work_phone, :work_phone_ext => work_phone_ext, :occupation => occupation)
+    user.update_attributes(:first_name => first_name, :middle_initial => middle_initial, :last_name => last_name, :home_phone => home_phone, :cell_phone => cell_phone, :work_phone => work_phone, :work_phone_ext => work_phone_ext, :occupation => occupation, :birthdate => birth_date)
+    user.sync_mailchimp
   end
   
 end

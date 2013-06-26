@@ -39,6 +39,28 @@ class User < ActiveRecord::Base
     CourseEvent.find(course_event_id).attendees.find_by_attendable_type_and_attendable_id("User", self.id).present?
   end
   
+  def sync_mailchimp
+    gb = Gibbon::API.new(ENV['MAILCHIMP_API'])
+
+            list_id = ENV['MAILCHIMP_LIST_ID']
+
+            merge_vars = {
+              'FNAME' => self.first_name,
+              'LNAME' => self.last_name,
+              'BDATE' => self.birthdate
+            }
+
+            double_optin = false
+            #double_optin = false if !self.facebook_id.empty?
+            send_welcome = !double_optin
+
+            response = gb.listSubscribe({:id => list_id,
+              :email_address => self.email,
+              :merge_vars => merge_vars,
+              :double_optin => double_optin,
+              :send_welcome => send_welcome})
+  end
+  
   RailsAdmin.config do |config|
     config.model User do    
       label 'Site User'
