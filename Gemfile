@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -48,7 +48,7 @@ gem 'letter_opener', :group => :development
 
 gem 'writeexcel'
 gem 'typhoeus'
-gem 'gibbon', git: 'git://github.com/amro/gibbon.git'
+gem 'gibbon', git: 'git://github.com/amro/gibbon.git', :branch => 'master'
 
 
 # To use ActiveModel has_secure_password
