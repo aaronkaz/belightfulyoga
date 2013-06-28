@@ -1,0 +1,48 @@
+<div class="page-header"><%= content_tag :h1, "Create Pay Outs" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li><%= link_to "Pay Outs", unpaid_scheduler_pay_outs_path %> <span class="divider">/</span></li>
+	<li>Create Pay Outs</li>
+</ul>
+
+<ul class="nav nav-tabs">
+	<li><%= link_to raw("<i class='icon-th-list'></i> List"), unpaid_scheduler_pay_outs_path %></li>
+	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Create Pay Outs"), new_scheduler_pay_out_path), :class => "active" %>
+
+</ul>
+
+
+
+
+<%= form_for [:scheduler, @pay_out], :html => { :class => "form-horizontal" } do |f| %>
+
+        <div class="control-group">
+            <%= f.label :teacher_id, "Select Teacher", :class => "control-label" %>
+            <div class="controls">
+                <%= f.select :teacher_id, options_for_select(@teachers.order(:first_name).collect { |teacher| [teacher.full_name, teacher.id] }, :selected => teacher), :include_blank => current_admin.admin? %>
+                <% if current_admin.admin? %>
+                    <p class='help-block'>Leave blank to create for all teachers</p>
+                <% end %>
+            </div>
+        </div> 
+        
+        <div class="control-group">
+            <%= f.label :start_date, :class => "control-label" %>
+            <div class="controls">
+                <%= f.text_field :start_date, :class => "datepicker", :style => 'width:75px;' %>
+            </div>
+        </div> 
+        
+        <div class="control-group">
+            <%= f.label :end_date, :class => "control-label" %>
+            <div class="controls">
+                <%= f.text_field :end_date, :class => "datepicker", :style => 'width:75px;' %>
+            </div>
+        </div> 
+    
+
+    <div class="form-actions">
+        <%= f.submit :class => "btn btn-primary" %>
+    </div>
+<% end %>

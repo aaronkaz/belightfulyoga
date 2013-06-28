@@ -48,7 +48,13 @@ Belightfulyoga::Application.routes.draw do
         post :bulk_actions
       end
     end
+    resources :pay_outs do
+      collection do
+        get :unpaid
+      end
+    end
     
+    match :course_analysis, :to => 'reports#course_analysis'
     match :events, :to => 'application#events'
     root :to => 'application#index'
   end

@@ -7,6 +7,7 @@ class Course < AbstractModel
   has_many :users, :through => :course_registrations
   has_many :course_events, :order => :event_date, :dependent => :destroy 
     accepts_nested_attributes_for :course_events, :allow_destroy => true
+    has_many :walkins, :through => :course_events
   has_many :line_items, as: :line_itemable
   
   
@@ -56,6 +57,31 @@ class Course < AbstractModel
     address << "#{self.location}<br>" unless self.location.blank?
     address << self.client_group.full_address
     address
+  end
+  
+  
+  def amount_collected
+    if paid_by_company.to_i != 0
+      paid_by_company
+    else
+      course_registrations.sum(:paid)
+    end
+  end
+  
+  def walkin_amount_collected
+    walkins.sum(:paid)
+  end
+  
+  def total_collected
+    amount_collected + walkin_amount_collected
+  end
+  
+  def total_pay_out
+    course_events.sum(:teacher_pay_out) + (walkin_amount_collected * 0.5)
+  end
+  
+  def net
+    total_collected - total_pay_out
   end
   
   

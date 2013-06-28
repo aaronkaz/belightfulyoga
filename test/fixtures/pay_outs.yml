@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  teacher: 
+  start_date: 2013-06-26 14:05:53
+  end_date: 2013-06-26 14:05:53
+  teacher_approved: false
+  admin_approved: false
+  calculated_pay_out: 9.99
+  adjustments: 9.99
+  total_pay_out: 9.99
+  paid_date: 2013-06-26 14:05:53
+
+two:
+  teacher: 
+  start_date: 2013-06-26 14:05:53
+  end_date: 2013-06-26 14:05:53
+  teacher_approved: false
+  admin_approved: false
+  calculated_pay_out: 9.99
+  adjustments: 9.99
+  total_pay_out: 9.99
+  paid_date: 2013-06-26 14:05:53

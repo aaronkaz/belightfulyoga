@@ -1,0 +1,62 @@
+<div class="page-header"><%= content_tag :h1, "Pay Outs" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li>Pay Outs <span class="divider">/</span></li>
+</ul>
+
+<ul class="nav nav-tabs">
+	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
+	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Create Pay Outs"), new_scheduler_pay_out_path) %>
+
+</ul>
+
+
+
+<%= form_tag unpaid_scheduler_pay_outs_path, :method => 'get', :class => 'form-inline' do %>
+	<div class="well">
+	    <strong>Filter by:</strong> 
+	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(@teachers.collect { |teacher| [teacher.full_name, teacher.id] }, :selected => teacher), :include_blank => current_admin.admin?, :class => "span2" %>
+	    <hr>
+		<%= hidden_field_tag :direction, params[:direction] %>
+		<%= hidden_field_tag :sort, params[:sort] %>
+
+		<%= button_tag raw("<i class='icon-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
+		<%= link_to "Reset", unpaid_scheduler_pay_outs_path, :class => "btn" %>
+		</div>	
+<% end %>
+
+
+<%= form_tag unpaid_scheduler_pay_outs_path, :method => :post, :id => "bulk_action_form" do %>
+<%= hidden_field_tag :bulk_action %>
+
+<table class="table table-condensed table-striped">
+<thead>
+	<tr>
+	  <th><%= check_box_tag "", "", false, :id => "select_all" %></th>
+	  <th><%= sortable "start_date", "Start Date" %></th>
+	  <th><%= sortable "end_date", "End Date" %></th>
+	  <th><%= sortable "admins.first_name", "Teacher" %></th>
+	  <th>Amount</th>
+	  <th>Teacher Verified</th>
+	  <th></th>
+	</tr>	
+</thead>
+
+<tbody>
+	<% @pay_outs.each do |pay_out| %>
+	<tr>
+	    <td><%= check_box_tag "pay_out_ids[]", pay_out.id %></td>
+		<td><%= pay_out.start_date.strftime('%m/%d/%Y') %></td>
+		<td><%= pay_out.end_date.strftime('%m/%d/%Y') %></td>
+		<td><%= content_tag :span, pay_out.teacher.full_name, :class => "label", :style => "background-color:##{pay_out.teacher.color};color:black;" %></td>
+		<td><%= number_to_currency(pay_out.calculated_pay_out) %></td>
+		<td><%= boolean_show(pay_out.teacher_approved?) %></td>
+		<td nowrap><%= link_to raw("<i class='icon-eye-open'></i> Details"), [:scheduler, pay_out], :class => "btn btn-block btn-small" %></td>
+	</tr>	
+	<% end %>
+</tbody>	
+
+	
+</table>
+<% end %>

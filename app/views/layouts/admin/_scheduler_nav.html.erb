@@ -13,6 +13,12 @@
     -->
     
     <li class="nav-header">Accounting & Payroll</li>
-    <%= content_tag :li, link_to(raw("<i class='icon-money'></i> Pay Outs"), pay_outs_scheduler_course_events_path) %>
+    <%= content_tag :li, link_to(raw("<i class='icon-money'></i> Pay Outs"), unpaid_scheduler_pay_outs_path) %>
+    <%= content_tag :li, link_to(raw("<i class='icon-archive'></i> Archive"), scheduler_pay_outs_path) %>
+    
+    <li class="nav-header">Reporting</li>
+    <%= content_tag :li, link_to(raw("<i class='icon-bar-chart'></i> Course Analysis"), scheduler_course_analysis_path) if current_admin.admin? %>
+    
+    
 </ul>   
 </div> 

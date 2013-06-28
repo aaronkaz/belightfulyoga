@@ -3,6 +3,7 @@ class Teacher < Admin
   
   has_many :courses
   has_many :course_events
+  has_many :pay_outs
   
   validates_presence_of :first_name, :last_name, :color
   

@@ -17,4 +17,12 @@ module Scheduler::ApplicationHelper
   
   end
   
+  def boolean_show(bool)
+    if bool == true
+      content_tag :span, raw("<i class='icon-check'></i>"), :class => "badge badge-success"
+    else
+      content_tag :span, raw("<i class='icon-remove'></i>"), :class => "badge badge-important"
+    end
+  end
+  
 end
