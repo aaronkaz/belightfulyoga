@@ -12,6 +12,7 @@
 /config/database.yml
 /public/assets
 /config/heroku_env.rb
+/public/uploads
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
