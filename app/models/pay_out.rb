@@ -15,7 +15,7 @@ class PayOut < ActiveRecord::Base
 protected
 
   def update_total
-    self.total_pay_out = calculated_pay_out + adjustments
+    self.total_pay_out = self.adjustments.nil? ? self.calculated_pay_out : (self.calculated_pay_out + self.adjustments)
   end
   
   def pay_it

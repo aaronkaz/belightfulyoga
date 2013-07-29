@@ -43,7 +43,7 @@
         <% if current_admin.admin? && @pay_out.teacher_approved? && @pay_out.paid_date.blank? %>
             <dt>Mark Paid</dt>
             <dd><%= f.check_box :mark_paid %> <%= @pay_out.paid_date %></dd>
-        <% else %> 
+        <% elsif !@pay_out.paid_date.blank? %> 
            <dt>Paid</dt>
            <dd><%= @pay_out.paid_date.strftime('%m/%d/%Y') %></dd>
         <% end %>

@@ -59,6 +59,10 @@ class Course < AbstractModel
     address
   end
   
+  def is_paid_by_company?
+    paid_by_company.to_i != 0 ? true : false
+  end
+  
   
   def amount_collected
     if paid_by_company.to_i != 0
