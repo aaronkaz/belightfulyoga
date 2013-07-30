@@ -60,6 +60,7 @@ Belightfulyoga::Application.routes.draw do
   end
   
   # FRONT-END
+  resources :teachers
   resources :events, :path => 'current-events'
   resources :client_groups, :path => 'clients' do
     resources :courses

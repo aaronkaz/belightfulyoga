@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626180553) do
+ActiveRecord::Schema.define(:version => 20130730153553) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(:version => 20130626180553) do
     t.boolean  "is_teacher",             :default => false
     t.string   "color"
     t.boolean  "admin",                  :default => false
+    t.boolean  "show_on_web",            :default => false
+    t.text     "bio"
+    t.string   "photo"
   end
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true

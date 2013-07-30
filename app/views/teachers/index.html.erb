@@ -1,0 +1,18 @@
+<h1 class="lefttab">Teachers</h1>
+
+<%= @body.text.html_safe %>
+
+<div id="cartWin" class="events_list">
+<% @teachers.each do |teacher| %>
+<div class="row-fluid">
+    <div class="span4">
+        <%= image_tag teacher.photo_url if teacher.photo.present? %>
+    </div>
+    <div class="span8">
+        <%= content_tag :h3, teacher.full_name %>
+        <%= teacher.bio.html_safe %>
+    </div>    
+</div>    
+    <hr style="clear:both;">
+<% end %>  
+</div>
