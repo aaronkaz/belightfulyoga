@@ -1,3 +1,10 @@
+<style type="text/css">
+#cartWin p {
+    font-size: 83%;
+    line-height: 130%;
+}
+</style>
+
 <h1 class="lefttab">Teachers</h1>
 
 <%= @body.text.html_safe %>
@@ -9,7 +16,7 @@
         <%= image_tag teacher.photo_url if teacher.photo.present? %>
     </div>
     <div class="span8">
-        <%= content_tag :h3, teacher.full_name %>
+        <%= content_tag :strong, teacher.full_name %><br>
         <%= teacher.bio.html_safe %>
     </div>    
 </div>    
