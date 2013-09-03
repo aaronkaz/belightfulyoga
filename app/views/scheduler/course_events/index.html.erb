@@ -14,10 +14,10 @@
 <%= form_tag scheduler_course_events_path, :method => 'get', :class => 'form-inline' do %>
 	<div class="well">
 	    <strong>Filter by:</strong> 
-	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(@teachers.collect { |teacher| [teacher.full_name, teacher.id] }, :selected => teacher), :include_blank => current_admin.admin?, :class => "span2" %>
-	    &nbsp; Client: <%= select_tag :client, options_for_select(ClientGroup.all.collect { |client| [client.title, client.id] }, :selected => params[:client]), :include_blank => true, :class => "span2" %>
+	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(@teachers.order(:first_name).collect { |teacher| [teacher.full_name, teacher.id] }, :selected => teacher), :include_blank => current_admin.admin?, :class => "span2" %>
+	    &nbsp; Client: <%= select_tag :client, options_for_select(ClientGroup.order(:title).collect { |client| [client.title, client.id] }, :selected => params[:client]), :include_blank => true, :class => "span2" %>
 	    &nbsp; Start Date: <%= text_field_tag :start_date, start_date, :class => "datepicker", :style => 'width:75px;' %>
-	    &nbsp; End Date: <%= text_field_tag :end_date, params[:end_date], :class => "datepicker", :style => 'width:75px;' %>
+	    &nbsp; End Date: <%= text_field_tag :end_date, end_date, :class => "datepicker", :style => 'width:75px;' %>
 	    <hr>
 		<%= hidden_field_tag :direction, params[:direction] %>
 		<%= hidden_field_tag :sort, params[:sort] %>
@@ -41,8 +41,7 @@
 	  <th><%= sortable "client_groups.title", "Client Group" %></th>
 	  <th><%= sortable "course_events.teacher_id", "Teacher" %></th>
 	  <th><%= sortable "courses.id", "Course" %></th>
-	  <th>Attendance</th>
-	  <th>Roster</th>
+	  <th colspan="2">Attendees</th>
 	  <th></th>
 	</tr>	
 </thead>
@@ -54,11 +53,10 @@
 		<td><%= course_event.event_date.strftime('%m/%d/%Y') %></td>
 		<td><%= course_event.event_date.strftime('%I:%M%p') %></td>
 		<td><%= course_event.course.client_group.title %></td>
-		<td><%= content_tag :span, course_event.teacher.full_name, :class => "label", :style => "background-color:##{course_event.teacher.color};color:black;" %></td>
-		<td><span class="label">ID: <%= course_event.course.id %></span> <%= "#{course_event.course.default_title}" %>
+		<td><%= content_tag :span, course_event.teacher.full_name, :class => "label btn-block", :style => "background-color:##{course_event.teacher.color};color:black;" %></td>
+		<td><%= link_to raw("ID: #{course_event.course.id}"), "/admin/course/#{course_event.course.id}/edit", :target => "_blank", :class => "btn btn-mini"%> <%= "#{course_event.course.default_title}" %>
 		<td>
-		    <% badge_class = course_event.attendees.empty? ? "badge badge-important" : "badge badge-success" %>
-		    <%= content_tag :span, "#{course_event.attendees.where(:attended => true).length} / #{course_event.registrants.length}", :class => badge_class %>
+		    <%= content_tag :b, "#{course_event.registrants.length}", :class => course_event.registrants.length == 0 ? "text-error" : "text-success" %>
 		</td>
 		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-small"%></td>
 		<td nowrap><%#= render 'admin/shared/record_actions', :model_class => model_class, :instance => record %></td>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730153553) do
+ActiveRecord::Schema.define(:version => 20130903204642) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20130730153553) do
     t.integer  "old_id"
     t.boolean  "active",                                        :default => false
     t.string   "frequency"
+    t.boolean  "reminder",                                      :default => false
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"

@@ -4,8 +4,8 @@
 <%= form_tag scheduler_course_analysis_path, :method => 'get', :class => 'form-inline' do %>
 	<div class="well">
 	    <strong>Filter by:</strong> 
-	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(@teachers.collect { |teacher| [teacher.full_name, teacher.id] }, :selected => teacher), :include_blank => current_admin.admin?, :class => "span2" %>
-	    &nbsp; Client: <%= select_tag :client, options_for_select(ClientGroup.all.collect { |client| [client.title, client.id] }, :selected => params[:client]), :include_blank => true, :class => "span2" %>
+	    &nbsp; Teacher: <%= select_tag :teacher, options_for_select(@teachers.order(:first_name).collect { |teacher| [teacher.full_name, teacher.id] }, :selected => teacher), :include_blank => current_admin.admin?, :class => "span2" %>
+	    &nbsp; Client: <%= select_tag :client, options_for_select(ClientGroup.order(:title).collect { |client| [client.title, client.id] }, :selected => params[:client]), :include_blank => true, :class => "span2" %>
 	    &nbsp; Start Date: <%= text_field_tag :start_date, start_date, :class => "datepicker", :style => 'width:75px;' %>
 	    &nbsp; End Date: <%= text_field_tag :end_date, params[:end_date], :class => "datepicker", :style => 'width:75px;' %>
 	    <hr>

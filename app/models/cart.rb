@@ -128,11 +128,12 @@ protected
   end
   
   def find_or_create_registrations
-    logger.info "CHECK REGISTRATIONS!!"
+    #course_promos = self.promo_codes.where(:line_itemable_type => "Course").where(:discount_type => "dollar").sum(:amount)
+    course_promos = self.promo_codes.where(:discount_type => "dollar").sum(:amount)
+    distributed_discount = (course_promos / self.courses.where('unit_price > 0').length)
+    
     self.courses.each do |course|
-      class_price = course.unit_price
-      course_promos = self.promo_codes.where(:line_itemable_type => "Course").where(:discount_type => "dollar").sum(:amount)
-      class_paid = ( class_price - (course_promos / self.courses.length) )
+      class_paid = course.unit_price.to_i == 0 ? "0" : ( course.unit_price - distributed_discount )
       registration = self.course_registrations.find_or_create_by_course_id_and_user_id(course.line_itemable_id, self.user_id)
       registration.update_attributes(:registration_type => "online", :paid => class_paid)
     end  

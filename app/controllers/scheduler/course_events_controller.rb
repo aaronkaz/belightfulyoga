@@ -1,14 +1,14 @@
 class Scheduler::CourseEventsController < Scheduler::ApplicationController
   layout proc {|controller| controller.request.xhr? ? false : 'admin/scheduler' }
   
-  helper_method :start_date
+  helper_method :start_date, :end_date
   
   def index
     @course_events = CourseEvent.joins('INNER JOIN courses ON courses.id = course_events.course_id INNER JOIN client_groups ON client_groups.id = courses.client_group_id INNER JOIN admins ON admins.id = courses.teacher_id')
     @course_events = @course_events.where('course_events.teacher_id = ?', teacher) unless teacher.blank?
     @course_events = @course_events.where('client_groups.id = ?', params[:client]) unless params[:client].blank?
     @course_events = @course_events.where('event_date >= ?', start_date)
-    @course_events = @course_events.where('event_date <= ?', params[:end_date]) unless params[:end_date].blank?
+    @course_events = @course_events.where('event_date <= ?', end_date)
     @course_events = @course_events.order(sort_column + " " + sort_direction)
   end
   
@@ -188,6 +188,10 @@ private
   
   def start_date
     params[:start_date] ||= Date.today
+  end
+  
+  def end_date
+    params[:end_date] ||= 30.days.from_now.to_date
   end
   
 end

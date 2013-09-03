@@ -13,6 +13,7 @@ Belightfulyoga::Application.routes.draw do
     resources :courses do
       collection do
         get :unscheduled
+        get :remind
       end
       member do 
         get :summary

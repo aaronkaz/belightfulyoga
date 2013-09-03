@@ -3,7 +3,12 @@
     <li class="nav-header">Scheduling</li>
     <li><%= link_to raw("<i class='icon-calendar'></i> Calendar"), scheduler_root_path %></li>
     <li><%= link_to raw("<i class='icon-print'></i> Calendar (Print Version)"), scheduler_root_path(:print => true) %></li>
-    <li><%= link_to raw("<i class='icon-calendar-empty'></i> Unscheduled Courses"), unscheduled_scheduler_courses_path if current_admin.admin? %></li>
+    <li><%= link_to unscheduled_scheduler_courses_path do %>
+			<i class='icon-calendar-empty'></i> Unscheduled Courses <%= content_tag :span, Course.unscheduled.length, :class => "badge" %>
+			<% end if current_admin.admin? %></li>
+	  <li><%= link_to remind_scheduler_courses_path do %>
+				<i class='icon-calendar-empty'></i> Schedule Ongoing Series <%= content_tag :span, Course.remind.length, :class => "badge" %>
+				<% end if current_admin.admin? %></li>	
     <li><%= link_to raw("<i class='icon-list'></i> Class List"), scheduler_course_events_path %></li>
     <li><%= link_to raw("<i class='icon-list'></i> Course List"), scheduler_courses_path %></li>
     

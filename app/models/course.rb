@@ -15,7 +15,7 @@ class Course < AbstractModel
   attr_accessor :ics_file, :schedule
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
   :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
-  :active, :course_events_attributes, :frequency
+  :active, :course_events_attributes, :frequency, :reminder
   #attr_accessible :end_time, :day
   
   
@@ -29,6 +29,14 @@ class Course < AbstractModel
   
   after_create :create_or_update_events, :if => lambda { self.active? && !self.start_date.blank? && !self.end_date.blank? && self.teacher.present? }
   after_save :create_or_update_events, :if => lambda { self.active? && (self.start_date_changed? || self.end_date_changed? || self.start_time_changed? || self.length_minutes_changed? || self.teacher_id_changed? || self.teacher_rate_changed?) }
+  
+  
+  
+  #SCOPES
+  scope :unscheduled, where(:active => true).where('courses.id NOT IN (SELECT DISTINCT(course_id) FROM course_events)').order(:start_date)
+  scope :current, where(:active => true).where('start_date <= ? AND end_date >= ?', Date.today, Date.today)
+  scope :remind, current.where('end_date <= ?', 3.weeks.from_now).where(:reminder => true)
+    .where('courses.client_group_id NOT IN ( SELECT client_group_id FROM courses WHERE client_group_id = courses.client_group_id AND start_date > ? )', 3.weeks.from_now)
   
   #VIRTUAL METHODS
   
@@ -141,6 +149,9 @@ class Course < AbstractModel
           end
           field :is_family do
             help 'Check this box to allow family registrations.'
+          end
+          field :reminder do
+            help 'Check for reminder to schedule next series'
           end
         end
         group :course_info do

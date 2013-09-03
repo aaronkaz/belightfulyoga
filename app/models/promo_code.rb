@@ -40,11 +40,11 @@ class PromoCode < AbstractModel
           field :unique do
             label 'Check if Qty must be unique items.'
           end 
-          field :line_itemable_type, :enum do
-            enum do
-              ['Course']
-            end
-          end 
+          #field :line_itemable_type, :enum do
+          #  enum do
+          #    ['Course']
+          #  end
+          #end 
         end
       end
       
