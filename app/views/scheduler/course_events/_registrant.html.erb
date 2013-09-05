@@ -1,5 +1,6 @@
 <tr>
     <td><%= registrant[:name] %></td>
+		<td><%= link_to registrant[:email], "mailto:#{registrant[:email]}" unless registrant[:email].blank? %></td>
     <td>
     <% if !registrant[:parent_id].blank? %>
         <%= content_tag :span, "family member - of: #{@course_event.registrants.select {|r| r[:type] == "User" && r[:id] == registrant[:parent_id] }.first[:name]}", :class => "label" %>
