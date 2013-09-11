@@ -65,8 +65,10 @@
                 <%
                 if @course.frequency == 'daily'
                     $tmp_date += 1.day
-                else    
-                    $tmp_date += 1.week
+				        elsif @course.frequency == 'weekly'
+				            $tmp_date += 1.week
+				        elsif @course.frequency == 'monthly'
+				            $tmp_date += 4.weeks
                 end
                 tmp_index += 1 
                 %>
@@ -80,8 +82,10 @@
                         <%
                         if @course.frequency == 'daily'
                             $tmp_date += 1.day
-                        else    
-                            $tmp_date += 1.week
+								        elsif @course.frequency == 'weekly'
+								            $tmp_date += 1.week
+								        elsif @course.frequency == 'monthly'
+								            $tmp_date += 4.weeks
                         end
                         tmp_index += 1 
                         %>

@@ -181,7 +181,7 @@ class Course < AbstractModel
           end
           field :frequency, :enum do
             enum do
-              ['weekly', 'daily']
+              ['weekly', 'daily', 'monthly']
             end
           end
           field :price
@@ -209,8 +209,10 @@ protected
           event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
           if self.frequency == 'daily'
             $tmp_date += 1.day
-          else    
+          elsif self.frequency == 'weekly'
             $tmp_date += 1.week
+          elsif self.frequency == 'monthly'
+            $tmp_date += 4.weeks
           end
           tmp_index += 1
         end while $tmp_date <= to 
@@ -221,8 +223,10 @@ protected
           course_event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
           if self.frequency == 'daily'
             $tmp_date += 1.day
-          else    
+          elsif self.frequency == 'weekly'
             $tmp_date += 1.week
+          elsif self.frequency == 'monthly'
+            $tmp_date += 4.weeks
           end
         end
         
