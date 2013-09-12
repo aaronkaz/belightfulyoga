@@ -4,7 +4,8 @@ class ClientGroup < AbstractModel
   has_many :courses
   belongs_to :contact_person, :class_name => "User"
   
-  attr_accessible :code, :image, :title, :type, :image_cache, :address_1, :address_2, :city, :state, :postal_code, :phone, :contact_person_id, :contact_notes
+  attr_accessible :code, :image, :title, :type, :image_cache, :address_1, :address_2, :city, :state, :postal_code, :phone, 
+  :contact_person_id, :contact_notes, :contact_name, :contact_email, :contact_phone
   validates_presence_of :code, :title
   
   extend FriendlyId
@@ -32,31 +33,43 @@ class ClientGroup < AbstractModel
       end
       
       edit do
-        field :code
-        field :title
-        field :address_1
-        field :address_2
-        field :city
-        field :state
-        field :postal_code
-        field :phone
-        #field :contact_person
-        field :contact_person do
-          nested_form false
-          associated_collection_cache_all false  # REQUIRED if you want to SORT the list as below
-          associated_collection_scope do
-              # bindings[:object] & bindings[:controller] are available, but not in scope's block!
-              client_group = bindings[:object]
-              Proc.new { |scope|
-                # scoping all Players currently, let's limit them to the team's league
-                # Be sure to limit if there are a lot of Players and order them by position
-                scope = scope.where(client_group_id: client_group.id)
-                scope = scope.reorder('first_name ASC') # REorder, not ORDER
-              }
-          end
+        group :general do
+          label "General Info"
+          field :code
+          field :title
+          field :address_1
+          field :address_2
+          field :city
+          field :state
+          field :postal_code
+          field :phone
         end
-        field :contact_notes
-        field :image, :carrierwave
+        group :contact do
+          label "Contact Info" 
+          field :contact_name
+          field :contact_email
+          field :contact_phone 
+          field :contact_notes
+        end  
+        #field :contact_person
+        #field :contact_person do
+        #  nested_form false
+        #  associated_collection_cache_all false  # REQUIRED if you want to SORT the list as below
+        #  associated_collection_scope do
+        #      # bindings[:object] & bindings[:controller] are available, but not in scope's block!
+        #      client_group = bindings[:object]
+        #      Proc.new { |scope|
+        #        # scoping all Players currently, let's limit them to the team's league
+        #        # Be sure to limit if there are a lot of Players and order them by position
+        #        scope = scope.where(client_group_id: client_group.id) if 
+        #        scope = scope.reorder('first_name ASC') # REorder, not ORDER
+        #      }
+        #  end
+        #end
+        group :other do
+          label "Other"
+          field :image, :carrierwave
+        end
       end
     end
   end  
