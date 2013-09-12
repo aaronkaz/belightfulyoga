@@ -4,6 +4,7 @@ class Course < AbstractModel
   belongs_to :client_group
   belongs_to :teacher  
   has_many :course_registrations, :dependent => :destroy
+    accepts_nested_attributes_for :course_registrations
   has_many :users, :through => :course_registrations
   has_many :course_events, :order => :event_date, :dependent => :destroy 
     accepts_nested_attributes_for :course_events, :allow_destroy => true
@@ -15,7 +16,7 @@ class Course < AbstractModel
   attr_accessor :ics_file, :schedule
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
   :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
-  :active, :course_events_attributes, :frequency, :reminder
+  :active, :course_events_attributes, :frequency, :reminder, :course_registrations_attributes
   #attr_accessible :end_time, :day
   
   

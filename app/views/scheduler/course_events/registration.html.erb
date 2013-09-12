@@ -3,7 +3,8 @@
 <%= render 'member_header', section: "registration" %>
 
 <%= form_for @course_event, :url => create_registration_scheduler_course_event_path(@course_event), :html => { :class => "form-horizontal", :method => :put } do |f| %>
-    <%= f.fields_for :course_registrations, @course_event.course_registrations.build(:course_id => @course_event.course_id) do |registration| %>
+	<%= f.fields_for :course do |c| %>
+    <%= c.fields_for :course_registrations, @course_event.course_registrations.build(:course_id => @course_event.course_id) do |registration| %>
         <%= registration.hidden_field :course_id, :value => registration.object.course_id %>
         <div class="control-group">
             <%= registration.label :user_id, "Select user", :class => "control-label" %>
@@ -28,6 +29,7 @@
         </div>
         
     <% end %>
+	<% end %>	
     
     <div class="form-actions">
         <%= f.submit "Add Registration", :class => "btn btn-primary" %>

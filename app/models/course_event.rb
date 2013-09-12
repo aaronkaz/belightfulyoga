@@ -1,5 +1,6 @@
 class CourseEvent < ActiveRecord::Base
   belongs_to :course
+    accepts_nested_attributes_for :course
   belongs_to :teacher
   has_one :client_group, :through => :course
   has_many :course_registrations, :through => :course
@@ -9,7 +10,7 @@ class CourseEvent < ActiveRecord::Base
   has_many :walkins, :dependent => :destroy
     accepts_nested_attributes_for :walkins
     
-  attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id, :teacher_pay_out
+  attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id, :teacher_pay_out, :course_attributes, :course_registrations_attributes
   
   def event_end_date
     self.event_date + self.course.length_minutes.minutes
@@ -19,7 +20,7 @@ class CourseEvent < ActiveRecord::Base
     registrants = Array.new
     self.course_registrations.each do |registration|
       registrants << { :id => registration.user.id, :type => "User", :name => "#{registration.user.full_name}", :email => "#{registration.user.email}", :parent_id => nil, :walk_in => false, :reg_type => registration.registration_type }
-      if !registration.guests.empty?
+      if registration.cart.present? && registration.guests.any?
         registration.guests.each do |guest|
           registrants << { :id => guest.id, :type => "Guest", :name => "#{guest.name}", :email => nil, :parent_id => registration.user.id, :walk_in => false, :reg_type => "family" }
         end

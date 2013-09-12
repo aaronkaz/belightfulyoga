@@ -24,7 +24,7 @@ Belightfulyoga::Application.routes.draw do
       member do 
         get :summary
         get :registration
-        post :create_registration
+        put :create_registration
         get :registration_user
         post :create_registration_user
         get :walkin
