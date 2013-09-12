@@ -143,16 +143,18 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
     
     # SET COLUMN WIDTHS
     worksheet.set_column('A:A', 32) # name
-    worksheet.set_column('B:B', 14) # reg type
-    worksheet.set_column('C:C', 22.3) # paid
-    worksheet.set_column('D:D', 14) # attended
+    worksheet.set_column('B:B', 32) # name
+    worksheet.set_column('C:C', 14) # reg type
+    worksheet.set_column('D:D', 22.3) # paid
+    worksheet.set_column('E:E', 14) # attended
 
   
     # TABLE HEADERS
     worksheet.write('A1', 'Name', format_th)
-    worksheet.write('B1', 'Registration', format_th)
-    worksheet.write('C1', 'Paid', format_th)
-    worksheet.write('D1', 'Attended', format_th)
+    worksheet.write('B1', 'Email', format_th)
+    worksheet.write('C1', 'Registration', format_th)
+    worksheet.write('D1', 'Paid', format_th)
+    worksheet.write('E1', 'Attended', format_th)
     
     # WRITE VALUES
     $row_offset = 1
@@ -161,16 +163,17 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
       
       $row_offset = $row_offset + 1
       worksheet.write('A' + $row_offset.to_s, registrant[:name])
-      worksheet.write('B' + $row_offset.to_s, !registrant[:reg_type].nil? ? registrant[:reg_type] : "walkin")
+      worksheet.write('B' + $row_offset.to_s, registrant[:email])
+      worksheet.write('C' + $row_offset.to_s, !registrant[:reg_type].nil? ? registrant[:reg_type] : "walkin")
       if registrant[:type] == "User"
         if registrant[:walk_in] == true
-          worksheet.write('C' + $row_offset.to_s, attend.paid)
+          worksheet.write('D' + $row_offset.to_s, attend.paid)
         else
           registration = @course_event.course_registrations.find_by_user_id(registrant[:id])
-          worksheet.write('C' + $row_offset.to_s, (registration.paid / @course_event.course.course_events.length)) if !registration.nil?
+          worksheet.write('D' + $row_offset.to_s, (registration.paid / @course_event.course.course_events.length)) if !registration.nil?
         end
       end
-      worksheet.write('D' + $row_offset.to_s, attend.present?)
+      worksheet.write('E' + $row_offset.to_s, attend.present?)
     end   
 
     # write to file
