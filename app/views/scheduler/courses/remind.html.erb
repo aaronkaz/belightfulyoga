@@ -1,0 +1,76 @@
+<div class="page-header"><%= content_tag :h1, "Unscheduled Courses" %></div>
+
+<ul class="breadcrumb">
+	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
+	<li>Schedule Upcoming Series <span class="divider">/</span></li>
+</ul>
+
+<h2>Schedule Next Series</h2>
+
+<% if @remind.empty? %>
+
+<div class="alert">There are currently no recurring series to be scheduled.</div>
+
+<% else %>
+
+<table class="table table-condensed table-striped">
+<%= render 'course_head' %>
+
+<tbody>
+	<% @remind.each do |course| %>
+	<%= render 'course', :course => course %>
+	<% end %>
+</tbody>	    
+	
+</table>
+
+<% end %>
+
+<hr>
+
+<h2>Current Series</h2>
+
+<% if @current.empty? %>
+
+<div class="alert">There are no recurring series currently running.</div>
+
+<% else %>
+
+<table class="table table-condensed table-striped">
+<%= render 'course_head' %>
+
+<tbody>
+	<% @current.each do |course| %>
+	<%= render 'course', :course => course %>
+	<% end %>
+</tbody>	    
+	
+</table>
+
+<% end %>
+
+
+
+
+<hr>
+
+<h2>Upcoming Series</h2>
+
+<% if @upcoming.empty? %>
+
+<div class="alert">There are no upcoming recurring series.</div>
+
+<% else %>
+
+<table class="table table-condensed table-striped">
+	<%= render 'course_head' %>
+
+<tbody>
+	<% @upcoming.each do |course| %>
+	<%= render 'course', :course => course %>
+	<% end %>
+</tbody>	    
+	
+</table>
+
+<% end %>

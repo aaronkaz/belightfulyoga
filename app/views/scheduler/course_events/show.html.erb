@@ -42,6 +42,11 @@
     </tbody>
 </table>   
 
+<div class="alert alert-info">
+	<b>Actual Number Attended:</b> 
+	<%= f.text_field :attended, :class => "span2", :style => "text-align:right;" %>
+</div>	
+
 <div class="form-actions">
     <%= f.submit "Update Class", :class => "btn btn-primary" %>
     <%= link_to "Export to Excel", to_excel_scheduler_course_event_path(@course_event), :class => "btn" %>

@@ -27,14 +27,7 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
     end
     
     @teachers.each do |teacher|
-      events = teacher.course_events.where('event_date >= ? AND event_date <= ?', params[:pay_out][:start_date], params[:pay_out][:end_date]).where(:paid => nil)
-      unless events.empty?
-        total = 0.to_d
-        events.each do |event|
-          total += event.total_pay_out
-        end
-        teacher.pay_outs.create(:start_date => params[:pay_out][:start_date], :end_date => params[:pay_out][:end_date], :calculated_pay_out => total)
-      end
+      teacher.pay_outs.create(:start_date => params[:pay_out][:start_date], :end_date => params[:pay_out][:end_date])
     end
     
     flash[:success] = "Pay Outs created"
@@ -43,7 +36,6 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
   
   def show
     @pay_out = PayOut.find(params[:id])
-    @events = @pay_out.events
   end
   
   def update

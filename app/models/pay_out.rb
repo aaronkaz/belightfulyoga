@@ -1,27 +1,45 @@
 class PayOut < ActiveRecord::Base
   belongs_to :teacher
+  has_many :course_events
+    accepts_nested_attributes_for :course_events
   
   attr_accessor :mark_paid
-  attr_accessible :adjustments, :admin_approved, :calculated_pay_out, :end_date, :paid_date, :start_date, :teacher_approved, :total_pay_out, :mark_paid
+  attr_accessible :adjustments, :admin_approved, :calculated_pay_out, :end_date, :paid_date, :start_date, :teacher_approved, :total_pay_out, 
+  :mark_paid, :course_events_attributes
   
-  before_save :update_total
-  before_save :pay_it, :if => :mark_paid
+  before_create :get_events
+  after_save :update_total
+  before_update :pay_it, :if => :mark_paid
   
   
-  def events
-    self.teacher.course_events.where('event_date >= ? AND event_date <= ? AND (paid is null OR paid = ?)', self.start_date, self.end_date, self.paid_date)
+  def find_events
+    self.teacher.course_events.where('event_date >= ? AND event_date <= ? AND pay_out_id is NULL', self.start_date, self.end_date)
   end
   
-protected
+private
+
+  def get_events
+    self.find_events.each do |event|
+      self.course_events << event
+    end
+  end
 
   def update_total
-    self.total_pay_out = self.adjustments.nil? ? self.calculated_pay_out : (self.calculated_pay_out + self.adjustments)
+    calculated_pay_out = 0
+    self.course_events.each do |event|
+      calculated_pay_out += event.total_pay_out
+    end  
+    total_pay_out = self.adjustments.nil? ? calculated_pay_out : (calculated_pay_out + self.adjustments)
+    self.update_column(:calculated_pay_out, calculated_pay_out)
+    self.update_column(:total_pay_out, total_pay_out)
+    #self.update_attributes(:calculated_pay_out => calculated_pay_out, :total_pay_out => total_pay_out )
+    logger.info "YOYOYYOYY"
   end
   
   def pay_it
     if self.mark_paid == "1"
       the_date = Time.now
-      self.events.update_all(:paid => the_date)
+      self.course_events.update_all(:paid => the_date)
       self.paid_date = the_date  
     end
   end

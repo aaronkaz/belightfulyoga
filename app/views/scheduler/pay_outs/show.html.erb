@@ -10,8 +10,9 @@
 	<li><%= link_to raw("<i class='icon-th-list'></i> List"), unpaid_scheduler_pay_outs_path %></li>
 </ul>
 
+<%= form_for [:scheduler, @pay_out], :html => { :class => "form-inline" } do |f| %>
 <div class="well">
-    <%= form_for [:scheduler, @pay_out], :html => { :class => "form-horizontal" } do |f| %>
+
     <dl class="dl-horizontal">
         <dt>Payout Period</dt>
         <dd><%= @pay_out.start_date.strftime('%m/%d/%Y') %> - <%= @pay_out.end_date.strftime('%m/%d/%Y') %></dd>
@@ -48,14 +49,8 @@
            <dd><%= @pay_out.paid_date.strftime('%m/%d/%Y') %></dd>
         <% end %>
         
-    </dl>   
+    </dl>     
     
-    <% if @pay_out.paid_date.blank? %>
-    <div class="form-actions">
-        <%= f.submit :class => "btn"%>
-    </div> 
-    <% end %>    
-    <% end %>
     
 </div>    
 
@@ -72,27 +67,45 @@
 	  <th><%= sortable "event_date", "Time" %></th>
 	  <th><%= sortable "client_groups.title", "Client Group" %></th>
 	  <th><%= sortable "courses.id", "Course" %></th>
-	  <th style="text-align:right;">Registered</th>
-	  <th style="text-align:right;">Walkin</th>
-	  <th style="text-align:right;">Pay Out</th>
+	  <th>Registered</th>
+	  <th>Walkin</th>
+		<th style="text-align:right;">Attended</th>
+	  <th style="text-align:right;">Teacher Rate</th>
+		<th style="text-align:right;">Pay Out</th>
 	  <th></th>
 	</tr>	
 </thead>
 
 <tbody>
-	<% @events.each do |course_event| %>
+	<%= f.fields_for :course_events, @pay_out.course_events.order(:event_date) do |c| %>
 	<tr>
-		<td><%= course_event.event_date.strftime('%m/%d/%Y') %></td>
-		<td><%= course_event.event_date.strftime('%I:%M%p') %></td>
-		<td><%= course_event.course.client_group.title %></td>
-		<td><span class="label">ID: <%= course_event.course.id %></span> <%= "#{course_event.course.default_title}" %>
-		<td style="text-align:right;"><%= course_event.course_registrations.length %></td>
-		<td style="text-align:right;"><%= course_event.walkins.length %></td>
-		<td style="text-align:right;"><%= number_to_currency(course_event.total_pay_out) %></td>
-		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-small"%></td>
+		<td><%= c.object.event_date.strftime('%m/%d/%Y') %></td>
+		<td><%= c.object.event_date.strftime('%I:%M%p') %></td>
+		<td><%= c.object.course.client_group.title %></td>
+		<td><span class="label">ID: <%= c.object.course.id %></span> <%= "#{c.object.course.default_title}" %>
+		<td><%= c.object.course_registrations.length %></td>
+		<td><%= c.object.walkins.length %> <%= "(+#{number_to_currency(c.object.walkin_pay_out)})" if c.object.walkins.any? %></td>
+		<td style="text-align:right;"><%= c.text_field :attended, :style => "text-align:right;width:40px;"%></td>
+		<td style="text-align:right;">
+			<% if current_admin.admin? %>
+			<div class="input-prepend"><span class="add-on">$</span><%= c.text_field :teacher_pay_out, :style => "text-align:right;width:50px;"%></div>
+			<% else %>
+			<%= number_to_currency(c.object.teacher_pay_out) %>
+			<% end %></td>
+		<td style="text-align:right;"><%= number_to_currency(c.object.total_pay_out) %></td>
+		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, c.object], :class => "btn btn-small"%></td>
 	</tr>	
 	<% end %>
 </tbody>	
 
 	
 </table>
+
+
+<div class="form-actions">
+    <%= f.submit :class => "btn btn-primary"%>
+</div> 
+
+
+
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912170824) do
+ActiveRecord::Schema.define(:version => 20130917161658) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -136,15 +136,18 @@ ActiveRecord::Schema.define(:version => 20130912170824) do
   create_table "course_events", :force => true do |t|
     t.integer  "course_id"
     t.datetime "event_date"
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
     t.integer  "event_index"
     t.integer  "teacher_id"
     t.decimal  "teacher_pay_out", :precision => 8, :scale => 2
     t.datetime "paid"
+    t.integer  "attended",                                      :default => 0
+    t.integer  "pay_out_id"
   end
 
   add_index "course_events", ["course_id"], :name => "index_course_events_on_course_id"
+  add_index "course_events", ["pay_out_id"], :name => "index_course_events_on_pay_out_id"
   add_index "course_events", ["teacher_id"], :name => "index_course_events_on_teacher_id"
 
   create_table "course_registrations", :force => true do |t|

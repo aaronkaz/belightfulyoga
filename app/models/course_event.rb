@@ -10,7 +10,10 @@ class CourseEvent < ActiveRecord::Base
   has_many :walkins, :dependent => :destroy
     accepts_nested_attributes_for :walkins
     
-  attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id, :teacher_pay_out, :course_attributes, :course_registrations_attributes
+  belongs_to :pay_out  
+    
+  attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id, :teacher_pay_out, :course_attributes, 
+  :course_registrations_attributes, :attended
   
   def event_end_date
     self.event_date + self.course.length_minutes.minutes
@@ -44,12 +47,17 @@ class CourseEvent < ActiveRecord::Base
     walkins.sum(:paid)
   end
   
+  def walkin_pay_out
+    checks = walkins.where(:payment_type => "check").sum(:paid)
+    checks * 0.5
+  end
+  
   def total_collected
     amount_collected + walkin_amount_collected
   end
   
   def total_pay_out
-    teacher_pay_out + (walkin_amount_collected * 0.5)
+    teacher_pay_out + (walkin_pay_out)
   end
   
   RailsAdmin.config do |config|
