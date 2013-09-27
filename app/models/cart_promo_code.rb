@@ -29,13 +29,15 @@ protected
       if !self.promo_code.must_have_qty.blank? #check quantity
         if promo_code.unique? #check for unique items
           items = self.cart.line_items
-          items = items.where(:line_itemable_type => promo_code.line_itemable_type) if promo_code.line_itemable_type.blank?
+          items = items.where(:line_itemable_type => "Course")
+          #items = items.where(:line_itemable_type => promo_code.line_itemable_type) if promo_code.line_itemable_type.blank?
           if items.group('line_items.id').length < promo_code.must_have_qty
             errors.add "'#{promo_code.code}'", "must have #{promo_code.must_have_qty} line items"
           end  
         else #check total quantity
           items = self.cart.line_items
-          items = items.where(:line_itemable_type => promo_code.line_itemable_type) if promo_code.line_itemable_type.blank?
+          items = items.where(:line_itemable_type => "Course")
+          #items = items.where(:line_itemable_type => promo_code.line_itemable_type) if promo_code.line_itemable_type.blank?
           if items.sum(:qty) < promo_code.must_have_qty
             errors.add "'#{promo_code.code}'", "must have #{promo_code.must_have_qty}"
           end
