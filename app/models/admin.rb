@@ -11,7 +11,8 @@ class Admin < ActiveRecord::Base
   
   RailsAdmin.config do |config|
     config.model Admin do   
-      label 'Administrator' 
+      visible false
+      #label 'Administrator' 
       navigation_label 'Users'
       weight -3
       

@@ -162,9 +162,9 @@ class Course < AbstractModel
           end
           field :start_date
           field :end_date
-          field :hide_date do
-            help 'set the date to close online registration'
-          end  
+          #field :hide_date do
+          #  help 'set the date to close online registration'
+          #end  
           #field :day, :enum do
           #  enum do
           #    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']

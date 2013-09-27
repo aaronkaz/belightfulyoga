@@ -17,7 +17,7 @@ class Teacher < Admin
   
   RailsAdmin.config do |config|
     config.model Teacher do 
-      parent Admin
+      navigation_label 'Users'
       weight -3
       
       object_label_method :full_name
