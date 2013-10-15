@@ -1,7 +1,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Sku</th>
+			<th>Sku</th>
       <th>Product</th>
       <th style="text-align:right;">Price</th>
       <th style="text-align:center;">Qty</th>
@@ -12,12 +12,22 @@
   <tbody>
     <% @cart.line_items.each do |line_item| %>
     <tr>
-      <td><%= line_item.line_itemable.sku unless !defined?(line_item.line_itemable.sku) %></td>
+		  <td><%= line_item.line_itemable.id %></td>
       <td><%= line_item.line_itemable.line_item_title %></td>
       <td style="text-align:right;"><%= number_to_currency(line_item.line_itemable.price) %></td>
       <td style="text-align:center;"><%= line_item.qty %></td>
       <td style="text-align:right;"><%= number_to_currency(line_item.line_itemable.price * line_item.qty) %></td>
     </tr>  
+    <% end %>
+		
+    <% @cart.promo_codes.each do |promo| %>
+      <tr>
+				<td><%= "#{promo.code}" %></td>
+        <td><%= "#{promo.description}" %></td>
+        <td style="text-align:right;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:right;" nowrap>- <%= number_to_currency(promo.amount) %></td>
+      </tr>  
     <% end %>
     
   </tbody>      
@@ -27,16 +37,19 @@
     <td colspan="4" style="text-align:right;"><b>Subtotal</b></td>
     <td style="text-align:right;"><%= number_to_currency(@cart.subtotal) %></td>
   </tr> 
+
   
   <tr>
     <td colspan="4" style="text-align:right;"><b>Sales Tax</b></td>
     <td style="text-align:right;"><%= number_to_currency(@cart.sales_tax) %></td>
   </tr>
   
+	<!-- 
   <tr>
-    <td colspan="4" style="text-align:right;"><b>Shipping <%#= "(#{UpsShipping::SERVICES[@cart.selected_shipping_array.split(',')[0]]})" %></b></td>
+    <td colspan="3" style="text-align:right;"><b>Shipping <%#= "(#{UpsShipping::SERVICES[@cart.selected_shipping_array.split(',')[0]]})" %></b></td>
     <td style="text-align:right;"><%#= number_to_currency(@cart.selected_shipping_array.split(',')[1]) %></td>
   </tr>  
+		-->
   
   <tr>
     <td colspan="4" style="text-align:right;"><b>Total</b></td>

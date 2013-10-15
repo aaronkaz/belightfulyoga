@@ -9,3 +9,9 @@ en:
     formats:
       default: "%Y-%m-%d %I:%M %p"
       long: "%B %d, %Y %I:%M %p"
+  admin:
+    actions:
+      duplicate:
+        title: "%{model_label} Duplicate"
+        breadcrumb: "Duplicate"
+        menu: "Duplicate"

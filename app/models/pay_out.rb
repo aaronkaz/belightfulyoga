@@ -33,7 +33,6 @@ private
     self.update_column(:calculated_pay_out, calculated_pay_out)
     self.update_column(:total_pay_out, total_pay_out)
     #self.update_attributes(:calculated_pay_out => calculated_pay_out, :total_pay_out => total_pay_out )
-    logger.info "YOYOYYOYY"
   end
   
   def pay_it

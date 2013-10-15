@@ -1,4 +1,5 @@
 <%= content_tag :strong, "Order #:" %> <%= @cart.id %><br>
+<%= content_tag :strong, "Company/Group:" %> <%= @cart.user.client_group.title %><br>
 <%= content_tag :strong, "Status:" %> <%= @cart.status %><br>
 <%= content_tag :strong, "Last updated:" %> <%= l(@cart.updated_at, :format => :long) %><br>
 

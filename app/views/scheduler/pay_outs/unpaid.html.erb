@@ -7,7 +7,7 @@
 
 <ul class="nav nav-tabs">
 	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
-	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Create Pay Outs"), new_scheduler_pay_out_path) %>
+	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Create Pay Outs"), new_scheduler_pay_out_path) if current_admin.admin? %>
 
 </ul>
 

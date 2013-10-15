@@ -16,7 +16,7 @@ class Course < AbstractModel
   attr_accessor :ics_file, :schedule
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
   :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
-  :active, :course_events_attributes, :frequency, :reminder, :course_registrations_attributes
+  :active, :course_events_attributes, :frequency, :reminder, :course_registrations_attributes, :day
   #attr_accessible :end_time, :day
   
   

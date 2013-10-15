@@ -23,9 +23,9 @@ class Scheduler::CoursesController < Scheduler::ApplicationController
   end
   
   def remind
-    @remind = Course.remind
-    @current = Course.current.where(:reminder => true)
-    @upcoming = Course.where(:reminder => true).where('start_date > ?', Date.today)
+    @remind = Course.remind.order(:end_date)
+    @current = Course.current.where(:reminder => true).order(:end_date)
+    @upcoming = Course.where(:reminder => true).where('start_date > ?', Date.today).order(:end_date)
   end
   
   def edit

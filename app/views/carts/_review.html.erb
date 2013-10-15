@@ -7,20 +7,22 @@
 <%= form_tag ENV['PP_URI'], :method => :post, :class => 'form-inline' do %>
 
 
-<input type="hidden" name="cmd" value="_ext-enter" />
+<input type="hidden" name="cmd" value="_cart" />
+
+<input type="hidden" name="upload" value="1">
+
 <input type="hidden" name="redirect_cmd" value="_xclick" />
 
 <%= hidden_field_tag "business", ENV['PP_USERNAME'] %>
 
 <input type="hidden" name="rm" value="2" />
 
-<%= hidden_field_tag "amount", @cart.grand_total %>
-
 <input type="hidden" name="tax" value="0" />
 <input type="hidden" name="no_note" value="1" />
 <input type="hidden" name="currency_code" value="USD" />
 
-<%= hidden_field_tag "item_name", "Your order from Belightful Yoga (##{@cart.id})" %>
+
+
 <%= hidden_field_tag "custom", @cart.id %>
 <%= hidden_field_tag "return", receipt_cart_url(@cart) %>
 <%= hidden_field_tag "cancel_return", cart_url(@cart) %>
@@ -37,8 +39,24 @@
 <%= hidden_field_tag "city", @cart.billing_address.city %>
 <%= hidden_field_tag "state", @cart.billing_address.state %>
 
-<input type="hidden" name="address_override" value="0" />
+<input type="hidden" name="address_override" value="1" />
 <input type="hidden" name="no_shipping" value="2" />
+
+
+<% @cart.line_items.order(:created_at).each_with_index do |line_item, index| %>
+<% i = index + 1 %>
+	<%= hidden_field_tag "amount_#{i}", line_item.line_itemable.price %>
+	<%= hidden_field_tag "item_name_#{i}", "#{current_user.client_group.title} -- #{line_item.line_itemable.line_item_title}" %>
+	<%= hidden_field_tag "item_number_#{i}", line_item.line_itemable.id %>
+<% end %>
+
+
+
+<%= hidden_field_tag "discount_amount_cart", @cart.promo_codes.where(:discount_type => "dollar").sum(:amount) %>
+
+
+<%#= hidden_field_tag "amount", @cart.grand_total %>
+<%#= hidden_field_tag "item_name", "Your order from Belightful Yoga (##{@cart.id})" %>
 
 
 <%= button_tag "Continue To Payment >>", :class => "btn btn-large btn-primary pull-right" %>

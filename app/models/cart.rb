@@ -96,6 +96,7 @@ class Cart < ActiveRecord::Base
         #    bindings[:view].link_to("#{bindings[:object].line_items.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "LineItem", "f[course][51422][o]" => "is", "f[cart][51422][v]" => "#{bindings[:object].id}", :query => ""})
         #  end
         #end
+        
         field :waiver
       end
       
@@ -105,7 +106,12 @@ class Cart < ActiveRecord::Base
             ['New', 'Completed', 'Fulfilled', 'Refunded']
           end
         end
-        field :user        
+        field :user  
+        field :line_items do
+          def render
+            bindings[:view].render :partial => 'line_items'
+          end
+        end      
       end
       
     end

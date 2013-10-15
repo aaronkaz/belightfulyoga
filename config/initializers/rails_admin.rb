@@ -1,6 +1,9 @@
 # RailsAdmin config file. Generated on February 06, 2013 00:32
 # See github.com/sferik/rails_admin for more informations
 
+require "rails_admin/duplicate"
+
+
 RailsAdmin.config do |config|
 
   config.actions do
@@ -19,6 +22,8 @@ RailsAdmin.config do |config|
       # history_show
       # show_in_app
 
+      duplicate
+      
       # Add the nestable action for each model
       nestable do
         visible do
@@ -56,7 +61,7 @@ RailsAdmin.config do |config|
   # Exclude specific models (keep the others):
   # config.excluded_models = ['Address', 'Admin', 'Cart', 'CartPromoCode', 'Ckeditor::Asset', 'Ckeditor::AttachmentFile', 'Ckeditor::Picture', 'ClientGroup', 'Course', 'CourseEvent', 'CourseRegistration', 'LineItem', 'Page', 'PagePart', 'PagePartPlacement', 'PromoCode', 'Teacher', 'User', 'Waiver']
 
-  config.excluded_models = ["Ckeditor::Asset", "Ckeditor::AttachmentFile", "Ckeditor::Picture"]
+  config.excluded_models = ["Ckeditor::Asset", "Ckeditor::AttachmentFile", "Ckeditor::Picture", "PayOut"]
 
   # Include specific models (exclude the others):
   # config.included_models = ['Address', 'Admin', 'Cart', 'CartPromoCode', 'Ckeditor::Asset', 'Ckeditor::AttachmentFile', 'Ckeditor::Picture', 'ClientGroup', 'Course', 'CourseEvent', 'CourseRegistration', 'LineItem', 'Page', 'PagePart', 'PagePartPlacement', 'PromoCode', 'Teacher', 'User', 'Waiver']

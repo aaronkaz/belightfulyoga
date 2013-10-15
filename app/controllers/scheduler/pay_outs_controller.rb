@@ -5,8 +5,8 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
   def index
     @pay_outs = PayOut.where('paid_date is not null')
     @pay_outs = @pay_outs.where('pay_outs.teacher_id = ?', teacher) unless teacher.blank?
-    @pay_outs = @pay_outs.where('start_date >= ?', start_date)
-    @pay_outs = @pay_outs.where('end_date <= ?', end_date)
+    @pay_outs = @pay_outs.where('start_date >= ?', start_date) unless start_date.blank?
+    @pay_outs = @pay_outs.where('end_date <= ?', end_date) unless end_date.blank?
     @pay_outs = @pay_outs.order(sort_column + " " + sort_direction)
   end
   
@@ -51,11 +51,11 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
 private
 
   def end_date
-    params[:end_date] ||= Date.today
+    params[:end_date]
   end
   
   def start_date
-    params[:start_date] ||= 60.days.ago
+    params[:start_date]
   end
   
 end
