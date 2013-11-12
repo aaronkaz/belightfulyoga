@@ -5,7 +5,7 @@ class PayOut < ActiveRecord::Base
   
   attr_accessor :mark_paid
   attr_accessible :adjustments, :admin_approved, :calculated_pay_out, :end_date, :paid_date, :start_date, :teacher_approved, :total_pay_out, 
-  :mark_paid, :course_events_attributes
+  :mark_paid, :course_events_attributes, :comment
   
   before_create :get_events
   after_save :update_total

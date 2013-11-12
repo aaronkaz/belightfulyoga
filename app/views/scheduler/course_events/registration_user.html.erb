@@ -44,7 +44,7 @@
         <div class="control-group">
             <%= registration.label :registration_type, :class => "control-label" %>
             <div class="controls">
-                <%= registration.select :registration_type, options_for_select(['cash', 'check']), {}, :class => "span2" %>
+                <%= registration.select :registration_type, options_for_select(['cash', 'check', 'paypal']), {}, :class => "span2" %>
             </div>
         </div>
         

@@ -48,7 +48,7 @@ class CourseEvent < ActiveRecord::Base
   end
   
   def walkin_pay_out
-    checks = walkins.where(:payment_type => "check").sum(:paid)
+    checks = walkins.where('payment_type = ? OR payment_type = ?', "check", "paypal").sum(:paid)
     checks * 0.5
   end
   

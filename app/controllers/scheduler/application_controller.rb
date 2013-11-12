@@ -2,6 +2,7 @@ class Scheduler::ApplicationController < ApplicationController
   layout proc { |controller| params[:print] == 'true' ? 'admin/iframe' : 'admin/scheduler'}
   before_filter :authenticate_admin!
   before_filter :initialize_teachers
+  before_filter :teacher_payouts
   
   helper_method :sort_column, :sort_direction, :teacher
   
@@ -37,6 +38,14 @@ private
   
   def teacher
     params[:teacher] ||= current_admin.admin? ? "" : current_admin.id
+  end
+  
+  def teacher_payouts
+    pay_outs = PayOut.where(:teacher_id => current_admin.id).where(:teacher_approved => false)
+    if pay_outs.any? && params[:controller] == "scheduler/application"
+      flash[:info] = "Please approve your pending payout(s)"
+      redirect_to unpaid_scheduler_pay_outs_path
+    end
   end
 
   def sort_column

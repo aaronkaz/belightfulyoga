@@ -43,6 +43,10 @@ RailsAdmin.config do |config|
   # RailsAdmin may need a way to know who the current user is]
   config.authenticate_with do
     authenticate_admin!
+    unless current_admin.try(:admin?)
+      flash[:error] = "You are not an admin"
+      redirect_to main_app.scheduler_root_path
+    end
   end
   config.current_user_method { current_admin } # auto-generated
 
