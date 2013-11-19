@@ -48,6 +48,14 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
     end
   end
   
+  def destroy
+    @pay_out = PayOut.find(params[:id])
+    if @pay_out.destroy
+      flash[:success] = "Pay Out Deleted"
+      redirect_to unpaid_scheduler_pay_outs_path
+    end
+  end
+  
 private
 
   def end_date

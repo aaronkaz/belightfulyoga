@@ -52,7 +52,8 @@
 		<td><%= content_tag :span, pay_out.teacher.full_name, :class => "label", :style => "background-color:##{pay_out.teacher.color};color:black;" %></td>
 		<td><%= number_to_currency(pay_out.calculated_pay_out) %></td>
 		<td><%= boolean_show(pay_out.teacher_approved?) %></td>
-		<td nowrap><%= link_to raw("<i class='icon-eye-open'></i> Details"), [:scheduler, pay_out], :class => "btn btn-block btn-small" %></td>
+		<td nowrap><%= link_to raw("<i class='icon-eye-open'></i> Details / Edit"), [:scheduler, pay_out], :class => "btn btn-small" %>
+		<%= link_to raw("<i class='icon-remove'></i> Delete"), [:scheduler, pay_out], :method => :delete, :confirm => "Are you sure?", :class => "btn btn-small btn-danger" if current_admin.admin? %></td>
 	</tr>	
 	<% end %>
 </tbody>	
