@@ -10,10 +10,11 @@ class PayOut < ActiveRecord::Base
   before_create :get_events
   after_save :update_total
   before_update :pay_it, :if => :mark_paid
+  before_destroy :detach_events
   
   
   def find_events
-    self.teacher.course_events.where('event_date >= ? AND event_date <= ? AND pay_out_id is NULL', self.start_date, self.end_date)
+    self.teacher.course_events.where('event_date >= ? AND event_date <= ? AND pay_out_id is NULL', self.start_date.beginning_of_day, self.end_date.end_of_day)
   end
   
 private
@@ -40,6 +41,12 @@ private
       the_date = Time.now
       self.course_events.update_all(:paid => the_date)
       self.paid_date = the_date  
+    end
+  end
+  
+  def detach_events
+    self.course_events.each do |ce|
+      ce.update_column(:pay_out_id, nil)
     end
   end
   
