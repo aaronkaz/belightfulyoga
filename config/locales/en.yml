@@ -7,8 +7,8 @@ en:
         default: "%Y-%m-%d"
   time:
     formats:
-      default: "%Y-%m-%d %I:%M %p"
-      long: "%B %d, %Y %I:%M %p"
+      default: "%Y-%m-%d %l:%M %p"
+      long: "%B %d, %Y %l:%M %p"
   admin:
     actions:
       duplicate:

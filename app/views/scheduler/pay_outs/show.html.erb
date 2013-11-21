@@ -80,7 +80,7 @@
 	<%= f.fields_for :course_events, @pay_out.course_events.order(:event_date) do |c| %>
 	<tr>
 		<td><%= c.object.event_date.strftime('%m/%d/%Y') %></td>
-		<td><%= c.object.event_date.strftime('%I:%M%p') %></td>
+		<td><%= c.object.event_date.strftime('%l:%M%p') %></td>
 		<td><%= c.object.course.client_group.title %></td>
 		<td><span class="label">ID: <%= c.object.course.id %></span> <%= "#{c.object.course.default_title}" %>
 		<td><%= c.object.course_registrations.length %></td>

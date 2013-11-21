@@ -1,7 +1,7 @@
 <%= content_tag :h1, "Your Course Registration is Confirmed!" %>
 <p>This email is a confirmation that you are now registered for course: <br>
 <%= content_tag :strong, @course.line_item_title %><br>
-Time: <%= "#{@course.day.pluralize}" %> <%= "#{@course.start_time.strftime('%I:%M%p')} - #{@course.end_time.strftime('%I:%M%p')}" %>
+Time: <%= "#{@course.day.pluralize}" %> <%= "#{@course.start_time.strftime('%l:%M%p')} - #{@course.end_time.strftime('%l:%M%p')}" %>
 </p>
 
 <p style="align:center;">

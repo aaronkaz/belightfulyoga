@@ -9,7 +9,7 @@ Belightfulyoga::Application.routes.draw do
   
   
   #SCHEDULER
-  namespace :scheduler do
+  namespace :scheduler, :path => '/calendar' do
     resources :courses do
       collection do
         get :unscheduled
@@ -89,6 +89,11 @@ Belightfulyoga::Application.routes.draw do
   
   resources :waivers
   
+  
+  get '/scheduler', to: redirect('/calendar')
+  match '/scheduler/*path', :to => redirect{|params, req|
+      "/calendar/#{params[:path]}?#{req.query_string}"
+    }
   root :to => 'pages#show', :id => 'home'
   resources :pages, :path => '/'
   

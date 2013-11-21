@@ -19,6 +19,11 @@ class CourseEvent < ActiveRecord::Base
     self.event_date + self.course.length_minutes.minutes
   end
   
+  def is_first?
+    first_class = self.course.course_events.order(:event_date).first
+    self.id == first_class.id
+  end
+  
   def registrants
     registrants = Array.new
     self.course_registrations.each do |registration|

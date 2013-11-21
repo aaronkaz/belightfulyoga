@@ -54,7 +54,7 @@
         <td><%= course.client_group.title %></td>
         <td><%= content_tag :span, course.teacher.full_name, :class => "label btn-block", :style => "background-color:##{course.teacher.color};color:black;" %></td>
 				<td style="text-align:right;"><%= content_tag :b, course.course_registrations.length, :class => course.course_registrations.length == 0 ? "text-error" : "text-success" %><%=  %></td>
-        <td nowrap><%= link_to raw("<i class='icon-calendar'></i> Schedule"), edit_scheduler_course_path(course), :class => "btn btn-small" if current_admin.admin? %></td>
+        <td nowrap><%= link_to raw("<i class='icon-pencil'></i> Schedule"), edit_scheduler_course_path(course), :class => "btn btn-small" if current_admin.admin? %></td>
     </tr>    
     <% end %>
 </tbody>    

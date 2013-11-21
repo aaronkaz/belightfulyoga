@@ -7,8 +7,8 @@ class Event < ActiveRecord::Base
     if !self.start_date.blank?
       string = "#{self.start_date.strftime("%a")}., #{self.start_date.strftime('%b %d, %Y')}"
       string << " - #{self.end_date.strftime('%b %d, %Y')}" unless self.end_date.blank?
-      string << ", #{self.start_time.strftime('%I:%M %p')}" unless self.start_time.blank?
-      string << " - #{self.end_time.strftime('%I:%M %p')}" unless self.end_time.blank?
+      string << ", #{self.start_time.strftime('%l:%M %p')}" unless self.start_time.blank?
+      string << " - #{self.end_time.strftime('%l:%M %p')}" unless self.end_time.blank?
     else
       nil
     end

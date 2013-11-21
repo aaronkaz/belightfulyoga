@@ -11,6 +11,7 @@
 
 </ul>
 
+
 <%= form_tag scheduler_course_events_path, :method => 'get', :class => 'form-inline' do %>
 	<div class="well">
 	    <strong>Filter by:</strong> 
@@ -51,8 +52,8 @@
 	<tr>
 	    <td><%= check_box_tag "course_event_ids[]", course_event.id %></td>
 		<td><%= course_event.event_date.strftime('%m/%d/%Y') %></td>
-		<td><%= course_event.event_date.strftime('%I:%M%p') %></td>
-		<td><%= course_event.course.client_group.title %></td>
+		<td><%= course_event.event_date.strftime('%l:%M%p') %></td>
+		<td><%= content_tag :i, "", :class => "icon-star" if course_event.is_first? %><%= course_event.course.client_group.title %></td>
 		<td><%= content_tag :span, course_event.teacher.full_name, :class => "label btn-block", :style => "background-color:##{course_event.teacher.color};color:black;" %></td>
 		<td><%= link_to raw("ID: #{course_event.course.id}"), "/admin/course/#{course_event.course.id}/edit", :target => "_blank", :class => "btn btn-mini"%> <%= "#{course_event.course.default_title}" %>
 		<td>

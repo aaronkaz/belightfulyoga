@@ -121,7 +121,7 @@ class Course < AbstractModel
           searchable [:first_name, :last_name, :id]
           pretty_value do
             if bindings[:object].active?
-              bindings[:view].link_to(bindings[:view].raw("<i class='icon-calendar'></i>"), bindings[:view].main_app.edit_scheduler_course_path(bindings[:object]), :class => "btn btn-small")
+              bindings[:view].link_to(bindings[:view].raw("<i class='icon-pencil'></i> Schedule"), bindings[:view].main_app.edit_scheduler_course_path(bindings[:object]), :class => "btn btn-mini")
             end
           end
         end

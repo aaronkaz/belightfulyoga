@@ -19,6 +19,9 @@
 				right: 'month,agendaWeek,agendaDay'
 			},
 			editable: true,
+			eventRender: function (event, element) {
+			    element.find('span.fc-event-title').html(element.find('span.fc-event-title').text());           
+			},
 			eventClick: function(calEvent, jsEvent, view) {
     						//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
     		        //alert('Event: ' + calEvent.id);
