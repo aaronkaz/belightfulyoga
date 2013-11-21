@@ -231,7 +231,9 @@ protected
           end
         end
         
-      end  
+      end 
+      
+      self.course_events.where('event_date > ?', self.end_date).delete_all 
   end  
   
 end
