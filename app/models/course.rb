@@ -196,32 +196,53 @@ class Course < AbstractModel
   
 protected
 
+  def freq_to_days
+    if self.frequency == 'daily'
+      return 1
+    elsif self.frequency == 'weekly'
+      return 7
+    elsif self.frequency == 'monthly'
+      return 28
+    end
+  end
+
+  def generate_events(start_at, end_at)
+    $tmp_date = start_at
+    
+    begin
+      event = self.course_events.new
+      event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
+      if self.frequency == 'daily'
+        $tmp_date += 1.day
+      elsif self.frequency == 'weekly'
+        $tmp_date += 1.week
+      elsif self.frequency == 'monthly'
+        $tmp_date += 4.weeks
+      end
+    end while $tmp_date <= end_at 
+  end
+
+
   def create_or_update_events
-    logger.info "find or create"
-      from = self.start_date
-      to = self.end_date
-      $tmp_date = from
-      tmp_index = 0    
+    logger.info "\n\n\n\n\n\nfind or create\n\n\n\n\n\n\n\n\n"
+
       
       if self.course_events.empty?
     
-        begin
-          event = self.course_events.new
-          event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
-          if self.frequency == 'daily'
-            $tmp_date += 1.day
-          elsif self.frequency == 'weekly'
-            $tmp_date += 1.week
-          elsif self.frequency == 'monthly'
-            $tmp_date += 4.weeks
-          end
-          tmp_index += 1
-        end while $tmp_date <= to 
+        generate_events(self.start_date, self.end_date)
         
       else
+        num_days = self.end_date.mjd - self.start_date.mjd
+        num_events = (num_days / self.freq_to_days) + 1
+        $tmp_date = self.start_date
         
-        self.course_events.order(:event_date).each do |course_event|
-          course_event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
+        self.course_events.order(:event_date).each_with_index do |course_event, index|
+          if (index + 1) > num_events
+            course_event.destroy
+          else
+            course_event.update_attributes(:event_date => "#{$tmp_date} #{self.start_time}", :teacher_id => self.teacher_id, :teacher_pay_out => self.teacher_rate)
+          end
+        
           if self.frequency == 'daily'
             $tmp_date += 1.day
           elsif self.frequency == 'weekly'
@@ -229,11 +250,16 @@ protected
           elsif self.frequency == 'monthly'
             $tmp_date += 4.weeks
           end
+          
+        end
+        
+        if self.course_events.length < num_events
+          generate_events($tmp_date, self.end_date)
         end
         
       end 
       
-      self.course_events.where('event_date > ?', self.end_date).delete_all 
+      #self.course_events.where('event_date > ?', self.end_date).delete_all 
   end  
   
 end
