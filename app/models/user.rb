@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
 protected
   
   def check_code
-    client_group = ClientGroup.find_by_code(self.code)
+    client_group = ClientGroup.where('code iLike ?', code).first
     if client_group
       self.client_group_id = client_group.id
     else  

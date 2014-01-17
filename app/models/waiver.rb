@@ -31,7 +31,7 @@ protected
     else
       #CHECK THAT SIGNATURE CONTAINS FIRST NAME AND LAST NAME
       if !signature.blank?
-        errors.add :signature, "does not match entered name" unless signature.downcase.include?(first_name.downcase) && signature.downcase.include?(last_name.downcase)
+        errors.add :signature, "does not match entered name" unless signature.downcase.include?(first_name.gsub(' ', '').downcase) && signature.downcase.include?(last_name.gsub(' ', '').downcase)
       end 
       #IF SOMETHING ENTERED FOR GUARDIAN OF OR SIGNATURE, MAKE SURE THERE IS MATCH
       errors.add :guardian_of, "must be present" if !guardian_signature.blank? && guardian_of.blank?
