@@ -37,8 +37,9 @@
 	  <th><%= sortable "start_date", "Start Date" %></th>
 	  <th><%= sortable "end_date", "End Date" %></th>
 	  <th><%= sortable "admins.first_name", "Teacher" %></th>
-	  <th>Amount</th>
+	  <th>Total Amount</th>
 	  <th>Teacher Verified</th>
+		<th>Comments</th>
 	  <th></th>
 	</tr>	
 </thead>
@@ -50,8 +51,14 @@
 		<td><%= pay_out.start_date.strftime('%m/%d/%Y') %></td>
 		<td><%= pay_out.end_date.strftime('%m/%d/%Y') %></td>
 		<td><%= content_tag :span, pay_out.teacher.full_name, :class => "label", :style => "background-color:##{pay_out.teacher.color};color:black;" %></td>
-		<td><%= number_to_currency(pay_out.calculated_pay_out) %></td>
+		<td><%= number_to_currency(pay_out.total_pay_out) %></td>
 		<td><%= boolean_show(pay_out.teacher_approved?) %></td>
+		<td><% if !pay_out.comment.blank? %>
+			<div class="alert alert-warning">
+			<%= simple_format pay_out.comment %>
+			</div>
+			<% end %>
+		</td>
 		<td nowrap><%= link_to raw("<i class='icon-eye-open'></i> Details / Edit"), [:scheduler, pay_out], :class => "btn btn-small" %>
 		<%= link_to raw("<i class='icon-remove'></i> Delete"), [:scheduler, pay_out], :method => :delete, :confirm => "Are you sure?", :class => "btn btn-small btn-danger" if current_admin.admin? %></td>
 	</tr>	

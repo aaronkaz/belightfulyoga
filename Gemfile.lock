@@ -53,6 +53,7 @@ GEM
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       json (>= 1.7)
+    chronic (0.10.2)
     ckeditor (4.0.4)
       mime-types
       orm_adapter
@@ -250,6 +251,7 @@ DEPENDENCIES
   bootstrap-sass
   bootstrap-will_paginate
   carrierwave
+  chronic
   ckeditor
   coffee-rails
   devise

@@ -3,7 +3,7 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
   helper_method :start_date, :end_date 
   
   def index
-    @pay_outs = PayOut.where('paid_date is not null')
+    @pay_outs = PayOut.joins(:teacher).where('paid_date is not null')
     @pay_outs = @pay_outs.where('pay_outs.teacher_id = ?', teacher) unless teacher.blank?
     @pay_outs = @pay_outs.where('start_date >= ?', start_date) unless start_date.blank?
     @pay_outs = @pay_outs.where('end_date <= ?', end_date) unless end_date.blank?
@@ -11,8 +11,9 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
   end
   
   def unpaid
-    @pay_outs = PayOut.where(:paid_date => nil)
+    @pay_outs = PayOut.joins(:teacher).where(:paid_date => nil)
     @pay_outs = @pay_outs.where('pay_outs.teacher_id = ?', teacher) unless teacher.blank?
+    @pay_outs = @pay_outs.order(sort_column + " " + sort_direction)
   end
   
   def new
@@ -57,6 +58,10 @@ class Scheduler::PayOutsController < Scheduler::ApplicationController
   end
   
 private
+
+  def sort_column
+    params[:sort] ||= 'admins.id'
+  end
 
   def end_date
     params[:end_date]

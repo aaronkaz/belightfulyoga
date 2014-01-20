@@ -214,7 +214,13 @@ $('.color_picker').spectrum({
 
 $('.div-toggle').click(function() {
 	var target = $(this).data('target')
-	$('#' + target).toggle()
+	$(this).next('#' + target).toggle()
+	return false
+})
+
+$('.div-un-toggle').click(function() {
+	var target = $(this).data('target')
+	$(this).parent('#' + target).toggle()
 	return false
 })
 

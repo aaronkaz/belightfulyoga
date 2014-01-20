@@ -8,7 +8,7 @@ class PayOut < ActiveRecord::Base
   :mark_paid, :course_events_attributes, :comment
   
   before_create :get_events
-  after_save :update_total
+  after_commit :update_total
   before_update :pay_it, :if => :mark_paid
   before_destroy :detach_events
   
@@ -26,8 +26,10 @@ private
   end
 
   def update_total
+    #logger.info "\n\n\n\ UPDATING PAYOUT TOTAL \n\n\n\  "
+    
     calculated_pay_out = 0
-    self.course_events.each do |event|
+    course_events.each do |event|
       calculated_pay_out += event.total_pay_out
     end  
     total_pay_out = self.adjustments.nil? ? calculated_pay_out : (calculated_pay_out + self.adjustments)

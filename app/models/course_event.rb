@@ -13,7 +13,10 @@ class CourseEvent < ActiveRecord::Base
   belongs_to :pay_out  
     
   attr_accessible :event_date, :attendees_attributes, :walkins_attributes, :teacher_id, :teacher_pay_out, :course_attributes, 
-  :course_registrations_attributes, :attended
+  :course_registrations_attributes, :attended, :pay_out_id
+  
+  #around_update :pay_out_change
+  #after_update :update_pay_outs
   
   def event_end_date
     self.event_date + self.course.length_minutes.minutes
@@ -70,5 +73,26 @@ class CourseEvent < ActiveRecord::Base
       visible false 
     end
   end
+  
+private
+  
+  #def pay_out_change
+  #  logger.info "\n\n\n\ CHECK PAYOUT CHANGED IN COURSE EVENT \n\n\n\  "
+  #  changed = self.pay_out_id_changed?
+  #  if changed
+  #    logger.info "\n\n\n\ PAYOUT ID CHANGED!! \n\n\n\  "
+  #    @flag = true
+  #    @last_pay_out = PayOut.find(self.pay_out_id_was)
+  #    @new_pay_out = PayOut.find(self.pay_out_id)
+  #  end
+  #  yield
+  #end
+  #
+  #def update_pay_outs
+  #  if @flag
+  #    @last_pay_out.touch
+  #    @new_pay_out.touch
+  #  end
+  #end
   
 end

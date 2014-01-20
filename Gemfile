@@ -48,6 +48,7 @@ gem 'letter_opener', :group => :development
 gem 'writeexcel'
 gem 'typhoeus'
 gem 'gibbon', git: 'git://github.com/amro/gibbon.git', :branch => 'master'
+gem 'chronic'
 
 
 # To use ActiveModel has_secure_password

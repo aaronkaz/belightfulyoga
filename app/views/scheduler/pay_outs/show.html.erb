@@ -32,7 +32,7 @@
         <dt>Total Amount</dt>
         <dd><%= number_to_currency(@pay_out.total_pay_out) %></dd>
         
-        <% if current_admin.id == @pay_out.teacher.id && @pay_out.paid_date.blank? %>
+        <% if (current_admin.id == @pay_out.teacher.id || current_admin.admin?) && @pay_out.paid_date.blank? %>
             <dt>Amount Verified</dt>
             <dd><label class="checkbox"><%= f.check_box :teacher_approved %> <span class="text-info">Check here to approve pay out amount</span></dd>
         <% else %>
@@ -93,7 +93,15 @@
 			<%= number_to_currency(c.object.teacher_pay_out) %>
 			<% end %></td>
 		<td style="text-align:right;"><%= number_to_currency(c.object.total_pay_out) %></td>
-		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, c.object], :class => "btn btn-small"%></td>
+		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, c.object], :class => "btn btn-block btn-small"%>
+		
+			<%= link_to "Change Pay Out", "#", :class => 'btn btn-small btn-block div-toggle', :data => { :target => "change_pay_out" } if current_admin.admin? %>
+			        <div id="change_pay_out" style="display:none;">
+			        PayOut: <%= c.select :pay_out_id, PayOut.where(:paid_date => nil).collect { |p| ["#{p.teacher.full_name} -- #{p.start_date.strftime('%m/%d/%Y')} - #{p.end_date.strftime('%m/%d/%Y')}", p.id] } %><%= link_to "cancel", "#", :class => 'btn btn-mini btn-danger div-un-toggle', :data => { :target => "change_pay_out" } %>
+			        </div>
+		
+		
+		</td>
 	</tr>	
 	<% end %>
 </tbody>	
