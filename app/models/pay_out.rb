@@ -8,6 +8,7 @@ class PayOut < ActiveRecord::Base
   :mark_paid, :course_events_attributes, :comment
   
   before_create :get_events
+  after_create :notify_teacher
   after_commit :update_total
   before_update :pay_it, :if => :mark_paid
   before_destroy :detach_events
@@ -50,6 +51,10 @@ private
     self.course_events.each do |ce|
       ce.update_column(:pay_out_id, nil)
     end
+  end
+  
+  def notify_teacher
+    TeacherMailer.payout_notification(self.id).deliver
   end
   
 end
