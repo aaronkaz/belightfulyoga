@@ -39,7 +39,8 @@
 <%= hidden_field_tag "city", @cart.billing_address.city %>
 <%= hidden_field_tag "state", @cart.billing_address.state %>
 
-<input type="hidden" name="address_override" value="1" />
+<%#= hidden_field_tag "address_override", "1" %>
+
 <input type="hidden" name="no_shipping" value="2" />
 
 
