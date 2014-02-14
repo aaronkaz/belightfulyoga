@@ -19,7 +19,7 @@ ExceptionNotification.configure do |config|
   # Email notifier sends notifications by email.
   config.add_notifier :email, {
     email_prefix: "[ERROR] ",
-    sender_address: 'noreply@belightfulyoga.com',
+    sender_address: 'postmaster@notifications.belightfulyoga.com',
     exception_recipients: 'aaronmichaelmusic@gmail.com',
     ignore_exceptions: ExceptionNotifier.ignored_exceptions
   }

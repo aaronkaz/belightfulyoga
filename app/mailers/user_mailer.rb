@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   layout 'mailer'
-  default from: "no-reply@belightfulyoga"
+  default from: "postmaster@notifications.belightfulyoga.com"
   
   def order_confirmation(cart_id)
     @cart = Cart.find(cart_id)
