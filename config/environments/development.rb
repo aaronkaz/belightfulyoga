@@ -37,6 +37,17 @@ Belightfulyoga::Application.configure do
   
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
-  config.action_mailer.delivery_method = :letter_opener
+  #config.action_mailer.delivery_method = :letter_opener
+  
+  config.action_mailer.delivery_method = :smtp  
+  
+  ActionMailer::Base.smtp_settings = {
+    :port           => ENV['MAILGUN_SMTP_PORT'], 
+    :address        => ENV['MAILGUN_SMTP_SERVER'],
+    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
+    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
+    :domain         => 'yourapp.heroku.com',
+    :authentication => :plain,
+  }
     
 end

@@ -1,0 +1,12 @@
+Belightful Yoga Teacher Payout Notification
+
+A payout has been created for you in the Belightful Yoga Calendar system for the following period:
+<%= "#{@payout.start_date.strftime('%m/%d/%Y')} - #{@payout.end_date.strftime('%m/%d/%Y')}"%>
+
+
+Your verification (checking the approval box) is needed by the end of the payout period.
+
+Please login to review the details, ensure all class attendance is complete and confirm the information is accurate.  If necessary, make note of any adjustments needed in the "comments" box.  
+
+
+<%= "#{scheduler_pay_out_url(@payout)}" %>
