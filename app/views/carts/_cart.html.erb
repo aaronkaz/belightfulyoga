@@ -14,9 +14,9 @@
     <tr>
 		  <td><%= line_item.line_itemable.id %></td>
       <td><%= line_item.line_itemable.line_item_title %></td>
-      <td style="text-align:right;"><%= number_to_currency(line_item.line_itemable.price) %></td>
+      <td style="text-align:right;"><%= number_to_currency(line_item.unit_price) %></td>
       <td style="text-align:center;"><%= line_item.qty %></td>
-      <td style="text-align:right;"><%= number_to_currency(line_item.line_itemable.price * line_item.qty) %></td>
+      <td style="text-align:right;"><%= number_to_currency(line_item.unit_price * line_item.qty) %></td>
     </tr>  
     <% end %>
 		
@@ -35,7 +35,7 @@
   <tfoot>
   <tr>  
     <td colspan="4" style="text-align:right;"><b>Subtotal</b></td>
-    <td style="text-align:right;"><%= number_to_currency(@cart.subtotal) %></td>
+    <td style="text-align:right;"><%= %><%= number_to_currency(@cart.subtotal) %></td>
   </tr> 
 
   

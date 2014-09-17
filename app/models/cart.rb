@@ -91,6 +91,11 @@ class Cart < ActiveRecord::Base
         field :id
         field :status
         field :user
+        field :courses do
+          pretty_value do
+            bindings[:object].courses.collect{|c| "<small>##{c.line_itemable.id} -- #{c.line_itemable.admin_title}</small>" }.join('<br>').html_safe
+          end
+        end
         #field :line_items do
         #  pretty_value do
         #    bindings[:view].link_to("#{bindings[:object].line_items.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "LineItem", "f[course][51422][o]" => "is", "f[cart][51422][v]" => "#{bindings[:object].id}", :query => ""})
