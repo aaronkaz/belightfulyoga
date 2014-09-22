@@ -14,12 +14,20 @@ class CourseRegistration < ActiveRecord::Base
   
   after_create :send_confirmation_email
   
+  def waiver
+    if registerable_type == "User"
+      cart.user_waiver
+    elsif registerable_type == "NonUser"
+      registerable.waiver
+    end
+  end
+  
   def guests
     self.cart.user_waiver.guests
   end
   
   def waiver_file
-    self.cart.present? ? "/waivers/#{self.cart.session_id}.waiver.#{self.course.old_id}.html" : nil
+    self.cart.present? && !self.cart.session_id.blank? ? "/waivers/#{self.cart.session_id}.waiver.#{self.course.old_id}.html" : nil
   end
   
   def has_waiver_file?
@@ -37,17 +45,22 @@ class CourseRegistration < ActiveRecord::Base
         field :registerable do
           label 'User'
         end
-        #field :user
         field :cart
-        #field :waiver do
-        #  pretty_value do
-        #    if bindings[:object].waiver.present?
-        #      bindings[:view].link_to("Waiver", {:action => :edit, :controller => 'rails_admin/main', :model_name => "Waiver", :id => bindings[:object].waiver.id} )
-        #    else
-        #      bindings[:object].has_waiver_file? ? bindings[:view].link_to("Waiver", "#{bindings[:object].waiver_file}") : nil
-        #    end  
-        #  end
-        #end
+        field :waiver do
+          pretty_value do
+            if bindings[:object].waiver.present?
+              bindings[:view].link_to("Waiver", bindings[:view].main_app.cart_waiver_path(bindings[:object].cart, bindings[:object].waiver), target: "_blank")
+            elsif bindings[:object].has_waiver_file?
+              bindings[:view].link_to("Waiver", "#{bindings[:object].waiver_file}", target: "_blank")
+            else
+              ""
+            end 
+          end
+        end
+        field :updated_at do
+          label 'Registered'
+        end
+        
       end
       
     end
