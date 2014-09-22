@@ -1,0 +1,59 @@
+.waiver-form {
+	color: #000000;
+	
+	h1 {
+		text-align: center;
+		font-size: 14pt;
+		margin: 15px 0;
+	}
+	
+	:input {
+		padding:0;
+		margin: 0;
+	}
+	
+	input[type=text] { 
+		border-width:0;
+		border-bottom:1px solid #000000;
+		border-radius: 0;
+		-moz-border-radius: 0;
+		padding:0;
+		margin:0;
+		margin-left: 5px;
+	}
+	
+	textarea { 
+		height:50px;
+		border-width:0;
+		background: url(/images/textBox.gif);
+		width:856px;
+		line-height:25px; }
+	
+	label {
+		font-family: arial;
+		font-size: 10pt;
+		&.underline {
+			border-bottom:1px solid #000000;
+		}
+	}
+	
+	.waiver-value {
+		border-bottom:1px solid #000000;
+		padding:0;
+		margin:0;
+		margin-left: 10px;
+		font-family: courier;
+	}
+	
+	p {
+		font-size: 9pt;
+		width:856px;
+	}
+	
+	div.field_with_errors {
+		display: inline-block;
+	}
+
+	div.field_with_errors input[type=text] { border: 1px solid red; }
+	
+}

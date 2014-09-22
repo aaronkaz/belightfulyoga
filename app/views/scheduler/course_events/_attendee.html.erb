@@ -2,8 +2,8 @@
 <% if f.object.walk_in? %>
     <%= f.text_field :paid, :value => f.object.paid, :class => "span2" %>
     <%= f.select :payment_type, options_for_select(['cash', 'check', 'paypal'], :selected => f.object.payment_type), {}, :class => "span2" %>
-<% else%>
-    <% registration = @course_event.course_registrations.find_by_user_id(f.object.attendable.id) %>
+<% else %>
+    <% registration = @course_event.course_registrations.find_by_registerable_type_and_registerable_id(f.object.attendable_type, f.object.attendable.id) %>
     <%= number_to_currency(registration.paid / @course_event.course.course_events.length) if !registration.nil? && current_admin.admin? %>
 <% end %>
 

@@ -8,6 +8,7 @@ class Cart < ActiveRecord::Base
   
   has_many :line_items, :dependent => :destroy
     accepts_nested_attributes_for :line_items, :allow_destroy => true
+  has_many :non_users, through: :line_items
     
   has_many :courses, :class_name => "LineItem", :conditions => { :line_itemable_type => "Course"}
   has_many :course_registrations
@@ -19,12 +20,15 @@ class Cart < ActiveRecord::Base
   has_many :promo_codes, :through => :cart_promo_codes
     accepts_nested_attributes_for :promo_codes, :allow_destroy => true
   
-  has_one :waiver
-    accepts_nested_attributes_for :waiver
+  has_many :waivers
+    accepts_nested_attributes_for :waivers
+    
+  has_one :user_waiver, class_name: "Waiver", conditions: 'user_id IS NOT NULL'
+  has_many :non_user_waivers, class_name: "Waiver", conditions: 'non_user_id IS NOT NULL'
      
   attr_accessor :ship_to_billing, :promo_code
   attr_accessible :line_items_attributes, :billing_address_id, :postal_code, :selected_shipping_array, :shipping_address_id, :shipping_confirm, :status, 
-    :billing_address_attributes, :shipping_address_attributes, :ship_to_billing, :waiver_attributes, :promo_code, :promo_codes_attributes, :cart_promo_codes_attributes,
+    :billing_address_attributes, :shipping_address_attributes, :ship_to_billing, :waivers_attributes, :promo_code, :promo_codes_attributes, :cart_promo_codes_attributes,
     :id, :user_id, :session_id#, :created_at, :updated_at
   
   before_create { self.status = "New" }
@@ -78,6 +82,45 @@ class Cart < ActiveRecord::Base
     family_courses.length > 0 ? true : false
   end
   
+  def group_courses
+    courses.joins('INNER JOIN courses ON courses.id = line_items.line_itemable_id').where('courses.course_type = ? OR courses.course_type = ?', 'family', 'multiple')
+  end
+  
+  def multiple_registrants?
+    group_courses.any?
+  end
+  
+  def registrants_complete?
+    $flag = true
+    group_courses.each do |line_item|
+      if line_item.line_itemable.course_type == "multiple"
+        if line_item.non_users.empty? || (line_item.non_users.any? && line_item.non_users.length < (line_item.qty - 1))
+          $flag = false
+        end
+      elsif line_item.line_itemable.course_type == "family"
+        if line_item.non_users.empty?
+          $flag = false
+        end
+      end
+    end
+    return $flag
+  end
+  
+  def waivers_complete?
+    $flag = true
+    if !user_waiver.present? || (user_waiver.present? && !user_waiver.valid?)
+      $flag = false
+    end
+    if non_users.any?
+      non_users.each do |non_user|
+        if !non_user.waiver.present? || (non_user.waiver.present? && !non_user.waiver.valid?)
+          $flag = false
+        end
+      end
+    end
+    return $flag
+  end
+  
   def line_items_changed?
     line_items.any?(&:changed?)
   end
@@ -102,7 +145,7 @@ class Cart < ActiveRecord::Base
         #  end
         #end
         
-        field :waiver
+        #field :waiver
       end
       
       edit do
@@ -141,12 +184,17 @@ protected
   def find_or_create_registrations
     #course_promos = self.promo_codes.where(:line_itemable_type => "Course").where(:discount_type => "dollar").sum(:amount)
     course_promos = self.promo_codes.where(:discount_type => "dollar").sum(:amount)
-    distributed_discount = (course_promos / self.courses.where('unit_price > 0').length)
+    distributed_discount = (course_promos / self.courses.where('unit_price > 0').sum('qty'))
     
     self.courses.each do |course|
       class_paid = course.unit_price.to_i == 0 ? "0" : ( course.unit_price - distributed_discount )
-      registration = self.course_registrations.find_or_create_by_course_id_and_user_id(course.line_itemable_id, self.user_id)
+      registration = self.course_registrations.find_or_create_by_course_id_and_registerable_type_and_registerable_id(course.line_itemable_id, "User", self.user_id)
       registration.update_attributes(:registration_type => "online", :paid => class_paid)
+      
+      course.non_users.each do |non_user|
+        registration = self.course_registrations.find_or_create_by_course_id_and_registerable_type_and_registerable_id(course.line_itemable_id, "NonUser", non_user.id)
+        registration.update_attributes(:registration_type => "online", :paid => class_paid)
+      end
     end  
   end
   

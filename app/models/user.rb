@@ -3,9 +3,10 @@ class User < ActiveRecord::Base
   belongs_to :client_group
   has_many :addresses
   has_many :carts
-  has_many :course_registrations
+  has_many :course_registrations, as: :registerable
     accepts_nested_attributes_for :course_registrations
     has_many :courses, :through => :course_registrations
+    
   has_many :course_attendees, as: :attendable
   has_many :walkins, :source => :course_attendees, :foreign_key => :attendable_id, :conditions => { :walk_in => true }
     accepts_nested_attributes_for :walkins

@@ -1,0 +1,79 @@
+<h2>Course Registrants</h2>
+<p>Please complete the required form below to inform of us additional registrants who will be attending the class with you.</p>
+
+<%= error_messages_for(@cart) %>
+
+<%= form_for @cart, :url => update_checkout_cart_path(@cart), :html => { :method => :put, :class => 'form-horizontal'} do |f| %>
+<%= hidden_field_tag :stage, @stage %>
+
+
+
+<%= f.fields_for :line_items do |line_item_f| %>
+
+	
+		
+		<%= content_tag :h4, line_item_f.object.line_itemable.line_item_title %>
+		
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Full Name</th>
+					<th>Age</th>
+				</tr>
+			</thead>
+			
+			<tbody id="cart_non_users">
+		<% if line_item_f.object.line_itemable.course_type == "multiple" %>
+			<% if params[:action] == "checkout" %>
+			
+				<%= line_item_f.fields_for :non_users do |non_user| %>
+					<%= render 'line_item_non_user', non_user: non_user %>
+				<% end %>
+			
+				<% unless line_item_f.object.registrants_complete? %>
+				<% num_needed = ((line_item_f.object.qty - 1) - line_item_f.object.non_users.length) %>
+				
+				<% (1..(num_needed)).each do |i| %>
+					<%= line_item_f.fields_for :non_users, line_item_f.object.non_users.new do |non_user| %>
+						<%= render 'line_item_non_user', non_user: non_user %>
+					<% end %>
+				<% end %>
+				
+				<% end %>
+				
+			<% elsif params[:action] == "update_checkout" %>
+			
+					<%= line_item_f.fields_for :non_users do |non_user| %>
+						<%= render 'line_item_non_user', non_user: non_user %>
+					<% end %>
+    	
+			
+			<% end %>
+		<% elsif line_item_f.object.line_itemable.course_type == "family" %>	
+		
+			<%= line_item_f.fields_for :non_users do |non_user| %>
+				<%= render 'line_item_non_user', non_user: non_user %>
+			<% end %>
+			
+			<% if params[:action] == "checkout" && @cart.non_users.empty? %>
+				<%= line_item_f.fields_for :non_users, line_item_f.object.non_users.build do |non_user| %>
+					<%= render 'line_item_non_user', non_user: non_user %>
+				<% end %>
+			<% end %>
+			
+			
+			
+			
+			
+		<% end %>
+			</tbody>
+		</table>
+		
+		<%= link_to_add_non_user("Add Family Member", line_item_f) if line_item_f.object.line_itemable.course_type == "family" %>
+		
+	
+<% end %>	
+
+<div class="form-actions"><%= f.submit "Continue", :class => "btn btn-primary" %></div>
+
+<% end %>

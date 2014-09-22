@@ -18,7 +18,8 @@ class UserMailer < ActionMailer::Base
   def registration_confirmation(registration_id)
     @registration = CourseRegistration.find(registration_id)
     @course = @registration.course
-    mail(:to => @registration.user.email, :subject => "Belightful Yoga Registration Confirmation")
+    @user = @registration.registerable
+    mail(:to => @user.email, :subject => "Belightful Yoga Registration Confirmation - #{@user.full_name}")
   end
   
   

@@ -6,9 +6,21 @@ class ApplicationController < ActionController::Base
 private
 
   def current_cart
-    Cart.where(:status => "New").find(cookies[:cart_id])
-    rescue ActiveRecord::RecordNotFound
-    nil 
+    if user_signed_in?
+      cart = current_user.carts.where(status: "New").order('created_at DESC').first
+      if cart.present?
+        return cart
+      else
+        cart = current_user.carts.create
+        return cart
+      end
+    else
+      return nil
+    end  
+      
+    #Cart.where(:status => "New").find(cookies[:cart_id])
+    #rescue ActiveRecord::RecordNotFound
+    #nil 
   end
   
   def initialize_page(id)

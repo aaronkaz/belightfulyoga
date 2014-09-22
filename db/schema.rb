@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131015154756) do
+ActiveRecord::Schema.define(:version => 20140922114617) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -158,10 +158,13 @@ ActiveRecord::Schema.define(:version => 20131015154756) do
     t.datetime "updated_at",                                      :null => false
     t.string   "registration_type"
     t.decimal  "paid",              :precision => 8, :scale => 2
+    t.string   "registerable_type"
+    t.integer  "registerable_id"
   end
 
   add_index "course_registrations", ["cart_id"], :name => "index_course_registrations_on_cart_id"
   add_index "course_registrations", ["course_id"], :name => "index_course_registrations_on_course_id"
+  add_index "course_registrations", ["registerable_type", "registerable_id"], :name => "index_on_course_registrations_registerable"
   add_index "course_registrations", ["user_id"], :name => "index_course_registrations_on_user_id"
 
   create_table "courses", :force => true do |t|
@@ -189,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20131015154756) do
     t.boolean  "active",                                        :default => false
     t.string   "frequency"
     t.boolean  "reminder",                                      :default => false
+    t.string   "course_type"
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"
@@ -228,6 +232,16 @@ ActiveRecord::Schema.define(:version => 20131015154756) do
 
   add_index "line_items", ["cart_id"], :name => "index_line_items_on_cart_id"
   add_index "line_items", ["line_itemable_type", "line_itemable_id"], :name => "index_line_items_on_line_itemable_type_and_line_itemable_id"
+
+  create_table "non_users", :force => true do |t|
+    t.integer  "line_item_id"
+    t.string   "name"
+    t.integer  "age"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "non_users", ["line_item_id"], :name => "index_non_users_on_line_item_id"
 
   create_table "page_part_placements", :force => true do |t|
     t.integer  "page_id"
@@ -389,9 +403,11 @@ ActiveRecord::Schema.define(:version => 20131015154756) do
     t.string   "family_members"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "non_user_id"
   end
 
   add_index "waivers", ["cart_id"], :name => "index_waivers_on_cart_id"
+  add_index "waivers", ["non_user_id"], :name => "index_waivers_on_non_user_id"
   add_index "waivers", ["user_id"], :name => "index_waivers_on_user_id"
 
 end

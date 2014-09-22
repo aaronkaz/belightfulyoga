@@ -5,7 +5,10 @@ class Course < AbstractModel
   belongs_to :teacher  
   has_many :course_registrations, :dependent => :destroy
     accepts_nested_attributes_for :course_registrations
-  has_many :users, :through => :course_registrations
+  
+  
+  #has_many :users, :through => :course_registrations
+  
   has_many :course_events, :order => :event_date, :dependent => :destroy 
     accepts_nested_attributes_for :course_events, :allow_destroy => true
     has_many :walkins, :through => :course_events
@@ -16,7 +19,7 @@ class Course < AbstractModel
   attr_accessor :ics_file, :schedule
   attr_accessible :client_group_id, :teacher_id, :title, :end_date, :hide_date, :is_family, :description, 
   :location, :notes, :price, :paid_by_company, :start_date, :start_time, :image, :image_cache, :remove_image, :length_minutes, :teacher_rate, :end_time, :old_id, 
-  :active, :course_events_attributes, :frequency, :reminder, :course_registrations_attributes, :day
+  :active, :course_events_attributes, :frequency, :reminder, :course_registrations_attributes, :day, :course_type
   #attr_accessible :end_time, :day
   
   
@@ -25,7 +28,7 @@ class Course < AbstractModel
   
   
   #CALLBACKS
-  validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes, :frequency#, :teacher_id, :teacher_rate #hide for seed
+  validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes, :frequency, :course_type#, :teacher_id, :teacher_rate #hide for seed
   validates_presence_of :teacher_id, :teacher_rate, :if => lambda { self.active? }
   
   after_create :create_or_update_events, :if => lambda { self.active? && !self.start_date.blank? && !self.end_date.blank? && self.teacher.present? }
@@ -98,6 +101,13 @@ class Course < AbstractModel
   end
   
   
+  after_initialize do
+    if self.new_record?
+      self.course_type = 'individual'
+    end
+  end
+  
+  
   #RAILS ADMIN
   RailsAdmin.config do |config|
     config.model Course do    
@@ -131,13 +141,18 @@ class Course < AbstractModel
             bindings[:view].link_to("#{bindings[:object].course_registrations.count}", {:action => :index, :controller => 'rails_admin/main', :model_name => "CourseRegistration", "f[course][51422][o]" => "is", "f[course][51422][v]" => "#{bindings[:object].id}", :query => ""})
           end
         end
-        field :is_family
+        #field :is_family
       end
       
       edit do
         group :course_data do
           label "Course Data"
           field :active
+          field :course_type, :enum do
+            enum do
+              [['Individual', 'individual'], ['Family/Group (single price)', 'family'], ['Family/Group (incurrs fees)', 'multiple']]
+            end
+          end
           field :client_group
           field :teacher
           field :teacher_rate
@@ -148,9 +163,9 @@ class Course < AbstractModel
           field :location do
             label 'Location/Room'
           end
-          field :is_family do
-            help 'Check this box to allow family registrations.'
-          end
+          #field :is_family do
+          #  help 'Check this box to allow family registrations.'
+          #end
           field :reminder do
             help 'Check for reminder to schedule next series'
           end

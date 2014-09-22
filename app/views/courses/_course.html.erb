@@ -1,48 +1,71 @@
+			
+			
+			
+
+
 <div class="offering">
-    <%= image_tag course.image_url(:thumb) unless course.image.blank? %>
-    <div class="class-info">
-    <%= content_tag :h2, "#{course.title} Belightful Yoga" %>
-	<%= content_tag :p, course.description unless course.description.blank? %>
-	<dl class="dl-horizontal">
-   	    <dt>Start date:</dt>
-   	    <dd><%= course.start_date.strftime('%m/%d/%Y') %></dd>
-	    <dt>End date:</dt>
-   	    <dd><%= course.end_date.strftime('%m/%d/%Y') %></dd>
-	    <dt>Time:</dt>
-   	    <dd><%= "#{course.day.pluralize}" %><br><%= "#{course.start_time.strftime('%l:%M%p')} - #{course.end_time.strftime('%l:%M%p')}" %></dd>
-   	    <dt>Location/Room:</dt>
-   	    <dd><%= simple_format(course.location) %></dd>
-	    <dt>Price:</dt>
-   	    <dd><%= number_to_currency(course.price) %></dd>
-   	    <% unless course.notes.blank? %>
-   	    <dt>Notes:</dt>
-   	    <dd><%= simple_format(course.notes) %></dd>	
-   	    <% end %>
-    </dl>	
-	
-	<% if !current_cart.nil? && !current_cart.line_items.where(:line_itemable_type => "Course").where(:line_itemable_id => course.id).empty? %>
-	  <span class="label label-important">This class is already in your cart</span>
+		<div class="row-fluid">
+			<div class="span4">
+				<%= image_tag(course.image_url, class: "img-responsive") unless course.image.blank? %>
+			</div>
+			<div class="span8">
+			  <%= content_tag :h3, "#{course.title} Belightful Yoga" %>
+				<%= content_tag :p, course.description unless course.description.blank? %>
+				<%= content_tag :h2, "#{course.start_date.strftime('%m/%d/%Y')} to #{course.end_date.strftime('%m/%d/%Y')}"%>
+				<%= content_tag :p, raw("#{course.day.pluralize}<br>#{course.start_time.strftime('%l:%M%p')} - #{course.end_time.strftime('%l:%M%p')}") %>
+				<dl>
+			   	    <dt>Location/Room:</dt>
+			   	    <dd><%= simple_format(course.location) %></dd>
+				
+			   	    <% unless course.notes.blank? %>
+			   	    <dt>Notes:</dt>
+			   	    <dd><%= simple_format(course.notes) %></dd>	
+			   	    <% end %>
+			  </dl>
+				
+				
+				<% if !current_cart.nil? && !current_cart.line_items.where(:line_itemable_type => "Course").where(:line_itemable_id => course.id).empty? %>
+				  <span class="label label-important">This class is already in your cart</span>
 	  
-	<% elsif !current_user.courses.find_by_id(course.id).nil? %>  
-	    <span class="label label-important">You are already registered for this class!</span>
-	<% else %>  
+				<% elsif !current_user.courses.find_by_id(course.id).nil? %>  
+				    <span class="label label-important">You are already registered for this class!</span>
+				<% else %>  
 	
-	    <%= form_for @cart, :html => { :class => "form-horizontal"} do |f| %>       
-            <% 
-            new_object = f.object.send(:line_items).klass.new
-            id = new_object.object_id
-            %>
-            <%= f.fields_for(:line_items, new_object, child_index: id) do |line_item| %>
-              <%= line_item.hidden_field :line_itemable_type, :value => "Course" %>
-              <%= line_item.hidden_field :line_itemable_id, :value => course.id %>
-              <%= line_item.hidden_field :unit_price, :value => course.price %>
-              <%= line_item.hidden_field :qty, :value => 1 %>
-            <% end %>
-                <div class="form-actions" style="background-color:#fff;">
-                <%= f.submit "Add To Cart", :class => "btn btn-primary" %>   
-                </div>
-        <% end %>
-    <% end %>
-    </div>
+				    <%= form_for @cart, :html => { :class => "form-inline"} do |f| %>       
+				          <% 
+				          new_object = f.object.send(:line_items).klass.new
+				          id = new_object.object_id
+				          %>
+				          <%= f.fields_for(:line_items, new_object, child_index: id) do |line_item| %>
+				            <%= line_item.hidden_field :line_itemable_type, :value => "Course" %>
+				            <%= line_item.hidden_field :line_itemable_id, :value => course.id %>
+				            <%= line_item.hidden_field :unit_price, :value => course.price %>
+				            
+										
+										<p class="lead">Price: <%= content_tag :strong, number_to_currency(course.price) %></p>
+										
+										<% if course.course_type == "multiple" %>
+											Qty: <%= line_item.text_field :qty, :value => 1, class: 'input-small' %>
+										<% else %>
+											<%= line_item.hidden_field :qty, :value => 1 %>
+										<% end %>
+										
+										
+				          <% end %>
+					
+										
+
+				              <%= f.submit "Add To Cart", :class => "btn btn-primary" %>   
+				      <% end %>
+			  <% end %>
+				
+				
+			</div>
+		</div>
+
+		
+	
+	
+
     <br style="clear:both;">
 </div>    

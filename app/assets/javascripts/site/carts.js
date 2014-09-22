@@ -16,4 +16,16 @@ $(document).ready(function() {
 		remove_waiver_guests()
 	  return false
 	})
+	
+	remove_waiver_guests()
+	
+	$('#add_non_user').click(function() {
+		time = new Date().getTime()
+	  regexp = new RegExp($(this).data('id'), 'g')
+		$('#cart_non_users').append($(this).data('fields').replace(regexp, time))
+		//remove_waiver_guests()
+	  return false
+	})
+	
+	
 })

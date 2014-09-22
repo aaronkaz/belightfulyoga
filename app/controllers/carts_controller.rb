@@ -14,13 +14,13 @@ class CartsController < ApplicationController
   end
   
   def create
-    @cart = Cart.new(params[:cart])
-    if @cart.save
-      cookies[:cart_id] = { :value => @cart.id, :expires => Time.now + 1.week}
-      redirect_to @cart
-    else
-      
-    end
+    #@cart = Cart.new(params[:cart])
+    #if @cart.save
+    #  cookies[:cart_id] = { :value => @cart.id, :expires => Time.now + 1.week}
+    #  redirect_to @cart
+    #else
+    #  
+    #end
   end
   
   def show    
@@ -66,46 +66,33 @@ class CartsController < ApplicationController
     @cart.build_shipping_address if params[:new_shipping].present?
     
     #START THE GAUNTLET - MUST PASS THROUGH SERIES OF GATES TO WIN!
-    # GATE 1 - HAS USER
-    if user_signed_in?     
-      current_user.carts << @cart if @cart.user.nil? #make association if it has not happened yet somehow
-      
+    # GATE 1 - MULTIPLE NAME REGISTRANTS
+    if @cart.multiple_registrants? && !@cart.registrants_complete?  
+      @stage = "registrants"
+    else  
       #GATE 2 - BILLING INFORMATION
       if @cart.billable? && @cart.billing_address.nil?
-        @stage = "billing"
+        @stage = "billing" unless @stage == "registrants"
         @cart.build_billing_address if @cart.user.addresses.empty?
       else       
         #GATE 3 - SHIPPING INFORMATION
         if @cart.shippable? && @cart.shipping_address.nil?
-          @stage = "shipping" unless @stage == "billing"         
+          @stage = "shipping" unless @stage == "registrants" || @stage == "billing"         
         else
           #GATE 4 - SHIPPING METHOD
           if @cart.shippable? && !@cart.shipping_confirm?
-            @stage = "shipping_method" unless @stage == "billing" || @stage == "shipping"      
+            @stage = "shipping_method" unless @stage == "registrants" || @stage == "billing" || @stage == "shipping"      
           else       
              
             #GATE - WAIVERS  
-            if @cart.require_waiver? && @cart.waiver.nil?
-              @stage = "waiver" unless @stage == "billing" || @stage == "shipping" || @stage == "shipping_method" || @stage == "review"
-              last_waiver = current_user.waivers.last
+            if !@cart.waivers_complete?
+              @stage = "waiver" unless @stage == "registrants" || @stage == "billing" || @stage == "shipping" || @stage == "shipping_method" || @stage == "review"
               
-              if @cart.billing_address.present?
-                @cart.build_waiver :first_name => current_user.first_name, :middle_initial => current_user.middle_initial, :last_name => current_user.last_name, :address_1 => @cart.billing_address.address_1, 
-                  :address_2 => @cart.billing_address.address_2, :city => @cart.billing_address.city, :state => @cart.billing_address.state, :postal_code => @cart.billing_address.postal_code, 
-                  :home_phone => @cart.user.home_phone, :work_phone => @cart.user.work_phone, :work_phone_ext => @cart.user.work_phone_ext, :cell_phone => @cart.user.cell_phone, :birth_date => @cart.user.birthdate,
-                  :email_address => @cart.user.email, :occupation => @cart.user.occupation, :emergency_contact => !@cart.user.waivers.empty? ? @cart.user.waivers.last.emergency_contact : nil
-              elsif !last_waiver.nil?
-                @cart.build_waiver :first_name => current_user.first_name, :middle_initial => current_user.middle_initial, :last_name => current_user.last_name, :address_1 => last_waiver.address_1, 
-                  :address_2 => last_waiver.address_2, :city => last_waiver.city, :state => last_waiver.state, :postal_code => last_waiver.postal_code, 
-                  :home_phone => last_waiver.home_phone, :work_phone => last_waiver.work_phone, :work_phone_ext => last_waiver.work_phone_ext, :cell_phone => last_waiver.cell_phone, :birth_date => last_waiver.birth_date,
-                  :email_address => @cart.user.email, :occupation => last_waiver.occupation, :emergency_contact => last_waiver.emergency_contact
-                
-              else
-                @cart.build_waiver :first_name => current_user.first_name, :middle_initial => current_user.middle_initial, :last_name => current_user.last_name, :home_phone => @cart.user.home_phone, :work_phone => @cart.user.work_phone, :work_phone_ext => @cart.user.work_phone_ext, :cell_phone => @cart.user.cell_phone, :birth_date => @cart.user.birthdate,
-                  :email_address => @cart.user.email, :occupation => @cart.user.occupation, :emergency_contact => nil
-              end
+              @waiver = present_waiver(next_waiver_user_to_complete)
+              
+              
             else               
-              @stage = "review" unless @stage == "billing" || @stage == "shipping" || @stage == "shipping_method" || @stage == "waiver"
+              @stage = "review" unless @stage == "registrants" || @stage == "billing" || @stage == "shipping" || @stage == "shipping_method" || @stage == "waiver"
               # IF CART IS NON-BILLABLE
               if !@cart.billable?
                 @cart.update_attribute(:status, "Completed")
@@ -119,8 +106,6 @@ class CartsController < ApplicationController
         end
         
       end  
-    else
-      @stage = "user"
     end
     
     
@@ -147,6 +132,8 @@ class CartsController < ApplicationController
     else
       @checkout_steps = checkout_steps
       @stage = params[:stage]
+      
+      @waiver = present_waiver(next_waiver_user_to_complete) if @stage == "waiver"
       render 'checkout'
     end
   end
@@ -178,6 +165,7 @@ private
 
   def checkout_steps
     checkout_steps = Array.new
+    checkout_steps << "registrants" if @cart.multiple_registrants?
     checkout_steps << "billing_address" if @cart.billable?
     checkout_steps << "shipping_address" if @cart.shippable?
     checkout_steps << "shipping_method" if @cart.shippable?
@@ -195,6 +183,68 @@ private
         redirect_to request.referrer
       end
     end
+  end
+  
+  def next_waiver_user_to_complete
+    if @cart.user_waiver.present? && @cart.user_waiver.valid?
+        @cart.non_users.each do |non_user|
+          if non_user.waiver.present? && non_user.waiver.valid?
+          else
+            return non_user
+          end
+        end
+    else
+      return @cart.user
+    end
+  end
+  
+  def present_waiver(user)
+    if user.class.name == "User"
+      if @cart.user_waiver.present?
+        @cart.user_waiver
+      else
+        build_user_waiver
+      end
+    elsif user.class.name == "NonUser"
+      if user.waiver.present?
+        user.waiver
+      else
+        build_non_user_waiver(user)
+      end
+    end
+  end
+  
+  def build_user_waiver
+    last_waiver = current_user.waivers.last
+    
+    waiver_params = { :first_name => current_user.first_name, :middle_initial => current_user.middle_initial, :last_name => current_user.last_name,
+                    :home_phone => @cart.user.home_phone, :work_phone => @cart.user.work_phone, :work_phone_ext => @cart.user.work_phone_ext, 
+                    :cell_phone => @cart.user.cell_phone, :birth_date => @cart.user.birthdate, :email_address => @cart.user.email, 
+                    :occupation => @cart.user.occupation, :user_id => current_user.id }
+                    waiver_params.merge!({:emergency_contact => last_waiver.emergency_contact, :referral => last_waiver.referral}) if last_waiver.present?
+                    waiver_params.merge!({:address_1 => @cart.billing_address.address_1, :city => @cart.billing_address.city, 
+                      :state => @cart.billing_address.state, :postal_code => @cart.billing_address.postal_code}) if @cart.billing_address.present?
+    
+    @cart.build_user_waiver(waiver_params)
+  end
+  
+  def build_non_user_waiver(user)
+    main_waiver = @cart.user_waiver
+    last_waiver = current_user.waivers.last
+    
+    n = user.name.split(' ')
+    last_name = "#{n.last}"
+    n.slice!(-1)
+    first_name = n.join(' ')
+    
+    waiver_params = { :first_name => first_name, :last_name => last_name, :non_user_id => user.id }
+    waiver_params.merge!({ :home_phone => last_waiver.home_phone, :work_phone => last_waiver.work_phone, :work_phone_ext => last_waiver.work_phone_ext, 
+                            :cell_phone => last_waiver.cell_phone, :emergency_contact => last_waiver.emergency_contact, 
+                            :address_1 => last_waiver.address_1, :city => last_waiver.city, :state => last_waiver.state, 
+                            :postal_code => last_waiver.postal_code, :email_address => last_waiver.email_address, 
+                            :referral => last_waiver.referral }) if last_waiver.present?
+    waiver_params.merge!({:occupation => "N/A", :guardian_of => user.name }) if user.age < 18
+    @cart.non_user_waivers.new(waiver_params)
   end
   
   def resolve_layout

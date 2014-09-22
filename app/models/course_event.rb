@@ -30,12 +30,14 @@ class CourseEvent < ActiveRecord::Base
   def registrants
     registrants = Array.new
     self.course_registrations.each do |registration|
-      registrants << { :id => registration.user.id, :type => "User", :name => "#{registration.user.full_name}", :email => "#{registration.user.email}", :parent_id => nil, :walk_in => false, :reg_type => registration.registration_type }
+      registrants << { :id => registration.registerable_id, :type => registration.registerable_type, :name => "#{registration.registerable.full_name}", :email => "#{registration.registerable.email}", :parent_id => nil, :walk_in => false, :reg_type => registration.registration_type }
+      
       if registration.cart.present? && registration.guests.any?
         registration.guests.each do |guest|
-          registrants << { :id => guest.id, :type => "Guest", :name => "#{guest.name}", :email => nil, :parent_id => registration.user.id, :walk_in => false, :reg_type => "family" }
+          registrants << { :id => guest.id, :type => "Guest", :name => "#{guest.name}", :email => nil, :parent_id => registration.registerable.id, :walk_in => false, :reg_type => "family" }
         end
       end
+      
     end
     self.walkins.each do |walkin|
       registrants << { :id => walkin.attendable_id, :type => "User", :name => "#{walkin.attendable.full_name}", :email => "#{walkin.attendable.email}", :parent_id => nil, :walk_in => true, :reg_type => nil }

@@ -75,7 +75,8 @@ Belightfulyoga::Application.routes.draw do
   match :registered_courses, :to => 'courses#registered_courses'
   
   
-  resources :carts, :path=> 'shopping-cart' do
+  resources :carts, :path => 'shopping-cart' do
+    resources :waivers
     member do
       get :checkout
       put :update_checkout

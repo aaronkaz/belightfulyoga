@@ -1,0 +1,86 @@
+<%= form_for [@cart, @waiver], :html => { class: "form-inline"} do |waiver| %>
+<div class="waiver-form" style="width: 943px;">
+	
+<h1>Belightful Yoga, LLC<br>
+Classes/Workshops/Series<br>
+<u>Agreement of Release and Waiver of Liability</u>
+</h1>
+
+<div class="row-fluid">
+	<div class="span5"><%= waiver.label :last_name, "Participant Last Name:" %><label class="waiver-value"><%= @waiver.last_name %></label></div>
+	<div class="span2"><%= waiver.label :middle_initial, "Middle Initial:" %><label class="waiver-value"><%= @waiver.middle_initial %></label></div>
+	<div class="span5"><%= waiver.label :first_name, "First Name:" %><label class="waiver-value"><%= @waiver.first_name %></label></div>	
+</div>
+
+<div class="row-fluid">
+	<div class="span12"><%= waiver.label :address_1, "Address:" %><label class="waiver-value"><%= @waiver.address_1 %></label></div>	
+</div>
+
+<div class="row-fluid">
+	<div class="span5"><%= waiver.label :city, "City:" %><label class="waiver-value"><%= @waiver.city %></label></div>
+	<div class="span4"><%= waiver.label :state, "State:" %><label class="waiver-value"><%= @waiver.state %></label></div>
+	<div class="span3"><%= waiver.label :postal_code, "Zip:" %><label class="waiver-value"><%= @waiver.postal_code %></label></div>	
+</div>
+
+<div class="row-fluid">
+	<div class="span5"><%= waiver.label :home_phone, "Home Phone:" %><label class="waiver-value"><%= @waiver.home_phone %></label></div>
+	<div class="span4"><%= waiver.label :work_phone, "Work Phone:" %><label class="waiver-value"><%= @waiver.work_phone %></label></div>
+	<div class="span3"><%= waiver.label :work_phone_ext, "Ext.:" %><label class="waiver-value"><%= @waiver.work_phone_ext %></label></div>	
+</div>
+
+<div class="row-fluid">
+	<div class="span5"><%= waiver.label :cell_phone, "Cell Phone:" %><label class="waiver-value"><%= @waiver.cell_phone %></label></div>
+	<div class="span7"><%= waiver.label :birth_date, "Birthdate:" %><label class="waiver-value"><%= @waiver.birth_date.strftime('%m/%d') %></label></div>
+</div>
+
+<div class="row-fluid">
+	<div class="span5"><%= waiver.label :email_address, "Email Address:" %><label class="waiver-value"><%= @waiver.email_address %></label></div>
+	<div class="span7"><%= waiver.label :occupation, "Occupation:" %><label class="waiver-value"><%= @waiver.occupation %></label></div>
+</div>
+
+<div class="row-fluid">
+	<div class="span12"><%= waiver.label :emergency_contact, raw("Emergency Contact: <i>(Name, Phone and Relationship) </i>") %>
+	<label class="waiver-value"><%= simple_format @waiver.emergency_contact %></label></div>	
+</div>
+
+<div class="row-fluid">
+	<div class="span12"><%= waiver.label :referral, "How did you hear about us?" %><label class="waiver-value"><%= @waiver.referral %></label></div>	
+</div>
+
+
+<p>1. I am a participant in Yoga Classes, Wellness Programs or Workshops offered by Belightful Yoga, LLC (hereinafter “Belightful Yoga, LLC, ”, which includes all of its employees, agents, contractors, associates and representatives). As a participant, I will receive information and instruction about yoga and health. I recognize that yoga requires physical exertion, which may be strenuous and may cause physical injury, and I am fully aware of the risks and hazards involved. 2. In consideration of being permitted to participate in Yoga Classes, Wellness Programs or Workshops, I agree to assume full responsibility for any risks, injuries or damages, known or unknown, which I might incur as a result of participation in the program. 3. I understand during classes at Belightful Yoga, LLC, instructors may physically adjust me. I release all personnel associated with Belightful Yoga, LLC from any claim whatsoever on account of adjustments, treatment or service rendered during my participation in Yoga Classes, Wellness Programs or Workshops. 4. In further consideration of being permitted to participate in Yoga Classes, Wellness Programs or Workshops, I knowingly, voluntarily and expressly waive any claim I may have against Belightful Yoga, LLC for injury or damage that I may sustain as a result of participation in Yoga Classes, Wellness Programs or Workshops. 5. I understand that it is my responsibility to consult a physician prior to and regarding my participation in Yoga Classes, Wellness Programs or Workshops. I represent and warrant that I am physically fit and I have no medical condition, which would prevent my participation in the Yoga Classes, Wellness Programs or Workshops. 6. I assume all responsibility, for all risks of damage or injury that may occur to me as a student of the Belightful Yoga, LLC courses and instruction while attending classes, participation in exercises, using the assigned Belightful Yoga, LLC locations. 7. I, my heirs or legal representatives forever release, waive, discharge and covenant not to sue Belightful Yoga, LLC for any injury or death caused by their negligence or other acts. 8. Furthermore, I give permission to Belightful Yoga, LLC to use photographs and/or comments in which I or family members have or are featured. Photographs and/or testimonials obtained during a Belightful Yoga, LLC sponsored event may be shared with program participants, and/or used as a part of a public display which may include the Belightful Yoga, LLC website and/or print and electronic publications. 9. I understand all classes/series are non-refundable and non-transferable. 10. Payment of Services: Students must provide full payment prior to participation in class. 11. Returned Checks: All returned checks will be charged a $35.00 processing fee.</p>
+
+<p><strong><em>I acknowledge that I have read this document in its entirety or, if I am unable to read the form, it has been read to me in its entirety.  I have had an opportunity to ask questions, which have been answered to my
+satisfaction.  I voluntarily consent to the terms and conditions stated above.
+</em></strong></p>
+
+
+<% unless waiver.object.non_user.present? && waiver.object.non_user.age < 18 %>
+<div class="row-fluid">
+	<div class="span8"><label class="waiver-value"><%= @waiver.signature %></label><br>
+		<%= waiver.label :signature, "Signature" %></div>
+	<div class="span4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
+		<label>Date</label></div>
+</div>
+
+<br><br>
+<% end %>
+
+<% unless @waiver.guardian_of.blank? %>
+<div class="row-fluid">
+	<div class="span12"><%= waiver.label :guardian_of, raw("<u>If Under 18 Years of Age:</u> As parent/legal
+guardian of") %><label class="waiver-value"><%= @waiver.guardian_of %></label><br>
+	<label>
+I consent to the above terms and conditions.</label></div>	
+</div>
+
+<div class="row-fluid">
+	<div class="span8"><label class="waiver-value"><%= @waiver.guardian_signature %></label><br>
+		<%= waiver.label :guardian_signature, "Signature of Parent" %></div>
+	<div class="span4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
+		<label>Date</label></div>
+</div>
+<% end %>
+
+</div>
+<% end %>
