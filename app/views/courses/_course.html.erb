@@ -56,7 +56,14 @@
 										
 
 				              <%= f.submit "Add To Cart", :class => "btn btn-primary" %>   
+
+											
 				      <% end %>
+							
+							<% if course.course_type == "multiple" %>
+								<p class="alert alert-warning"><strong>Please specify the total number of participants (including yourself) for this course in the 'Qty' field above</strong></p>
+							<% end %>
+							
 			  <% end %>
 				
 				
