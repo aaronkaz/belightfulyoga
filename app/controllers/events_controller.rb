@@ -2,7 +2,8 @@ class EventsController < ApplicationController
   before_filter :initialize_page
   
   def index
-    @events = Event.where('start_date is null OR end_date >= ?', Date.today).order(:start_date)
+    @events = Event.where('(start_date IS NOT NULL AND end_date IS NULL AND start_date >= ?) OR (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date >= ?) OR start_date IS NULL', Date.today, Date.today).order(:start_date)
+    
   end
   
 private
