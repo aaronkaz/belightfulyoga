@@ -6,10 +6,11 @@
 	<%= f.fields_for :course do |c| %>
     <%= c.fields_for :course_registrations, @course_event.course_registrations.build(:course_id => @course_event.course_id) do |registration| %>
         <%= registration.hidden_field :course_id, :value => registration.object.course_id %>
+				<%= registration.hidden_field :registerable_type, value: "User" %>
         <div class="control-group">
-            <%= registration.label :user_id, "Select user", :class => "control-label" %>
+            <%= registration.label :registerable_id, "Select user", :class => "control-label" %>
             <div class="controls">
-                <%= registration.select :user_id, options_for_select(@course_event.client_group.users.order(:first_name).collect { |u| [u.full_name, u.id]}) %>
+                <%= registration.select :registerable_id, options_for_select(@course_event.client_group.users.order(:first_name).collect { |u| [u.full_name, u.id]}) %>
                 <%= link_to raw("<i class='icon-user'></i> Add a New User"), registration_user_scheduler_course_event_path(@course_event), :class => "btn" %>
             </div>
         </div>

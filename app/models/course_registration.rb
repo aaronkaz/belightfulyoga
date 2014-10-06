@@ -23,7 +23,11 @@ class CourseRegistration < ActiveRecord::Base
   end
   
   def guests
-    self.cart.user_waiver.guests
+    if cart.present? && cart.user_waiver.present?
+      self.cart.user_waiver.guests
+    else
+      Array.new
+    end
   end
   
   def waiver_file
