@@ -15,7 +15,7 @@ class CourseRegistration < ActiveRecord::Base
   after_create :send_confirmation_email
   
   def waiver
-    if registerable_type == "User"
+    if registerable_type == "User" && cart.present?
       cart.user_waiver
     elsif registerable_type == "NonUser"
       registerable.waiver

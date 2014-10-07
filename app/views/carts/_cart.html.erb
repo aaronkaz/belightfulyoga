@@ -11,13 +11,23 @@
   
   <tbody>
     <% @cart.line_items.each do |line_item| %>
-    <tr>
-		  <td><%= line_item.line_itemable.id %></td>
-      <td><%= line_item.line_itemable.line_item_title %></td>
-      <td style="text-align:right;"><%= number_to_currency(line_item.unit_price) %></td>
-      <td style="text-align:center;"><%= line_item.qty %></td>
-      <td style="text-align:right;"><%= number_to_currency(line_item.unit_price * line_item.qty) %></td>
-    </tr>  
+			<% if line_item.line_itemable.nil? %>
+  			<tr>
+				  <td><%= line_item.line_itemable_id %></td>
+  			  <td><span class="label">Course Removed</span></td>
+  			  <td style="text-align:right;"><%= number_to_currency(line_item.unit_price) %></td>
+  			  <td style="text-align:center;"><%= line_item.qty %></td>
+  			  <td style="text-align:right;"><%= number_to_currency(line_item.unit_price * line_item.qty) %></td>
+  			</tr>
+			<% else %>
+    		<tr>
+				  <td><%= line_item.line_itemable.id %></td>
+    		  <td><%= line_item.line_itemable.line_item_title %></td>
+    		  <td style="text-align:right;"><%= number_to_currency(line_item.unit_price) %></td>
+    		  <td style="text-align:center;"><%= line_item.qty %></td>
+    		  <td style="text-align:right;"><%= number_to_currency(line_item.unit_price * line_item.qty) %></td>
+    		</tr>  
+			<% end %>
     <% end %>
 		
     <% @cart.promo_codes.each do |promo| %>

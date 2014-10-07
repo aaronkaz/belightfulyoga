@@ -136,7 +136,11 @@ class Cart < ActiveRecord::Base
         field :user
         field :courses do
           pretty_value do
-            bindings[:object].courses.collect{|c| "<small>##{c.line_itemable.id} -- #{c.line_itemable.admin_title}</small>" }.join('<br>').html_safe
+            if bindings[:object].courses.any?
+              bindings[:object].courses.collect{|c| c.line_itemable.nil? ? "<span class='label'>##{c.line_itemable_id} course deleted</span>" : "<small>##{c.line_itemable.id} -- #{c.line_itemable.admin_title}</small>" }.join('<br>').html_safe
+            else
+              ""
+            end
           end
         end
         field :updated_at
