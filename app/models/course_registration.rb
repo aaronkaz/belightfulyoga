@@ -44,13 +44,37 @@ class CourseRegistration < ActiveRecord::Base
       weight -9
       
       list do
-        field :id
-        field :course
-        field :registerable do
-          label 'User'
+        #field :id
+        field :cart do
+          column_width 80
         end
-        field :cart
+        field :course do
+          column_width 200
+        end
+        field :registerable_type do
+          label 'User Type'
+          column_width 80
+          filterable true
+        end
+        field :registerable_id do
+          label 'User'
+          column_width 200
+          filterable true
+          
+          pretty_value do
+            if bindings[:object].registerable_type == "User"
+              bindings[:view].link_to("#{bindings[:object].registerable.full_name}", {:action => :edit, :controller => 'rails_admin/main', :model_name => "Customer", :id => "#{bindings[:object].registerable_id}"})
+            elsif bindings[:object].registerable_type == "NonUser"
+              bindings[:view].link_to("#{bindings[:object].registerable.full_name}", {:action => :edit, :controller => 'rails_admin/main', :model_name => "NonUser", id: bindings[:object].registerable_id})
+            else
+              ""
+            end
+          end
+        end
+        
+        
         field :waiver do
+          column_width 80
           pretty_value do
             if bindings[:object].waiver.present?
               bindings[:view].link_to("Waiver", bindings[:view].main_app.cart_waiver_path(bindings[:object].cart, bindings[:object].waiver), target: "_blank")
@@ -63,7 +87,10 @@ class CourseRegistration < ActiveRecord::Base
         end
         field :updated_at do
           label 'Registered'
+          column_width 200
         end
+        field :paid
+        field :registration_type
         
       end
       

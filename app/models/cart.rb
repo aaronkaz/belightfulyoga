@@ -144,19 +144,7 @@ class Cart < ActiveRecord::Base
           end
         end
         field :updated_at
-        field :course_registrations do
-          label 'Registrations'
-          pretty_value do
-            if bindings[:object].course_registrations.any?
-              bindings[:view].link_to("Registrations", {:action => :index, :controller => 'rails_admin/main', :model_name => "CourseRegistration", "f[cart][91648][o]" => "is", "f[cart][91648][v]" => "#{bindings[:object].id}", :query => ""}, class: "btn btn-mini")
-            else
-              ""
-            end     
-          end
-          
-        end
-        
-        #field :waiver
+
       end
       
       edit do

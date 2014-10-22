@@ -15,16 +15,16 @@ class Customer < User
         field :email
         field :client_group
         
-        field :course_registrations do
-          label 'Registrations'
-          searchable [:course_id, :created_at]
-          filterable [:course_id, :created_at]
+        field :courses do
+          searchable [:client_group_id, :created_at]
+          filterable [:client_group_id, :created_at]
           queryable true
           pretty_value do
             bindings[:object].course_registrations.collect{|c| bindings[:view].link_to(bindings[:view].raw("<small>#{c.course.admin_title}</small>"), {:action => :show, :controller => 'rails_admin/main', :model_name => "Course", id: c.course.id})}.join('<br>').html_safe
           end
         end
         
+  
         field :last_address do
           label 'Location'
           pretty_value do
@@ -36,10 +36,18 @@ class Customer < User
           end
         end
         
-        field :courses do
-          searchable [:client_group_id, :created_at]
-          filterable [:client_group_id, :created_at]
+        field :course_registrations do
+          label 'Registrations'
+          searchable [:course_id, :created_at]
+          filterable [:course_id, :created_at]
           queryable true
+          pretty_value do
+            if bindings[:object].course_registrations.any?
+              bindings[:view].link_to(bindings[:object].course_registrations.length, {:action => :index, :controller => 'rails_admin/main', :model_name => "CourseRegistration", "f[registerable_type][51549][o]" => "is", "f[registerable_type][51549][v]" => "User", "f[registerable_id][51609][o]" => "default", "f[registerable_id][51609][v][]" => "#{bindings[:object].id}", :query => ""}, class: "btn btn-mini")
+            else
+              ""
+            end
+          end
         end
 
         #field :last_sign_in_at
