@@ -130,6 +130,9 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mail_form (1.5.0)
+      actionmailer (>= 3.2, < 5)
+      activemodel (>= 3.2, < 5)
     mime-types (1.25)
     mini_magick (3.6.0)
       subexec (~> 0.2.1)
@@ -262,6 +265,7 @@ DEPENDENCIES
   jquery-ui-rails
   json
   letter_opener
+  mail_form
   mini_magick
   pg
   rails (= 3.2.13)

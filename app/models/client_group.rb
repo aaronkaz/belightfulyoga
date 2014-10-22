@@ -19,6 +19,12 @@ class ClientGroup < AbstractModel
     address << "#{city}, #{state} #{postal_code}"
     address
   end
+  
+  
+  def participating_users
+    self.users.joins(:course_registrations).group('users.id')
+  end
+  
     
   RailsAdmin.config do |config|
     config.model ClientGroup do    
@@ -30,6 +36,28 @@ class ClientGroup < AbstractModel
         field :id
         field :code
         field :title
+        field :users do
+          label 'Reg. Users'
+          pretty_value do
+            if bindings[:object].users.any?
+              bindings[:view].link_to(bindings[:object].users.length, {:action => :index, :controller => 'rails_admin/main', :model_name => "Customer", "f[client_group][21814][o]" => "is", "f[client_group][21814][v]" => "#{bindings[:object].id}", :query => ""}, class: "btn btn-mini")
+            else
+              ""
+            end     
+          end  
+        end
+        
+        field :participating_users do
+          label 'Participants'
+          pretty_value do
+            if bindings[:object].participating_users.any?
+              bindings[:view].link_to(bindings[:object].participating_users.length, {:action => :index, :controller => 'rails_admin/main', :model_name => "Customer", "f[courses][21814][v]" => "#{bindings[:object].id}", :query => ""}, class: "btn btn-mini")
+            else
+              ""
+            end     
+          end  
+        end
+        
       end
       
       edit do

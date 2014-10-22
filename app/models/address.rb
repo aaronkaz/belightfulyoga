@@ -6,6 +6,15 @@ class Address < ActiveRecord::Base
   RailsAdmin.config do |config|
     config.model Address do    
       visible false 
+      
+      edit do
+        field :address_1
+        field :address_2
+        field :city
+        field :state
+        field :postal_code
+      end
+      
     end
   end
   

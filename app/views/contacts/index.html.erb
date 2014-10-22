@@ -1,0 +1,3 @@
+<%= render "#{@page.page_title.tr(' ', '_').downcase}_body" rescue @body.text.html_safe %>
+
+<%= render 'form' %>

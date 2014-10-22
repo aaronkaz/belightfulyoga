@@ -89,7 +89,11 @@ Belightfulyoga::Application.routes.draw do
   end
   
   resources :waivers
-  
+  resources "contacts", only: [:index, :new, :create], path: "contact" do
+    collection do
+      get :thanks
+    end
+  end
   
   get '/scheduler', to: redirect('/calendar')
   match '/scheduler/*path', :to => redirect{|params, req|

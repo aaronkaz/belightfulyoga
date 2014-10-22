@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   
   belongs_to :client_group
   has_many :addresses
+    accepts_nested_attributes_for :addresses
+  has_one :last_address, class_name: "Address", order: "created_at DESC"
+  
   has_many :carts
   has_many :course_registrations, as: :registerable
     accepts_nested_attributes_for :course_registrations
@@ -11,6 +14,9 @@ class User < ActiveRecord::Base
   has_many :walkins, :source => :course_attendees, :foreign_key => :attendable_id, :conditions => { :walk_in => true }
     accepts_nested_attributes_for :walkins
   has_many :waivers
+  
+  
+  
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -23,7 +29,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :client_group_id, :synced_to_mailchimp, :first_name, :middle_initial, :last_name, :address_1, :address_2, 
   :city, :state, :zip, :home_phone, :work_phone, :work_phone_ext, :cell_phone, :occupation, :emergency_contact, :birthdate, :guardian, :code,
-  :walkins_attributes, :course_registrations_attributes
+  :walkins_attributes, :course_registrations_attributes, :addresses_attributes
   
   validates_presence_of :first_name, :last_name, :email
   
@@ -66,6 +72,7 @@ class User < ActiveRecord::Base
     config.model User do    
       label 'Site User'
       navigation_label 'Users'
+      visible false
       weight -2
       
       object_label_method do
