@@ -2,19 +2,21 @@ namespace :pay_outs do
   
   desc "This task is called by the Heroku scheduler add-on"
   task :check_to_create => :environment do
-    init_day = "4th friday"
+    init_day = "3rd saturday"
     this_month = Date.today.strftime('%B')
     #find the fourth friday
     init_pay_day = Chronic.parse("#{init_day} in #{this_month}")
     #get the monday before
-    this_init_day = init_pay_day - 4.days
+    this_init_day = init_pay_day - 2.days
     #get the wednesday before
-    pay_day = init_pay_day - 2.days
+    pay_day = init_pay_day
     
     if Date.today == this_init_day.to_date
       #CREATE PAY OUTS
       puts "creating payouts"
-      start_pay_day = (Chronic.parse("#{init_day} last month") - 1.day)
+      #start_pay_day = (Chronic.parse("#{init_day} last month") - 1.day)
+      start_pay_day = PayOut.order('end_date DESC').first.end_date + 1.day
+      
       teachers = Teacher.joins(:course_events).where('course_events.event_date >= ? AND course_events.event_date <= ? AND course_events.pay_out_id is NULL', start_pay_day.to_date.beginning_of_day, pay_day.to_date.end_of_day)
       .group('admins.id')
       teachers.each do |teacher|
