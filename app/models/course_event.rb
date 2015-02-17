@@ -70,6 +70,14 @@ class CourseEvent < ActiveRecord::Base
     teacher_pay_out + (walkin_pay_out)
   end
   
+  def schedule_title
+    if self.course.registration_type == 'training'
+      "#{teacher.full_name} @ #{course.title}"
+    else
+      "#{teacher.full_name} @ #{course.client_group.title}"
+    end
+  end
+  
   RailsAdmin.config do |config|
     config.model CourseEvent do    
       visible false 

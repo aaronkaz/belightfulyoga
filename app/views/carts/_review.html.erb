@@ -48,7 +48,9 @@
 <% @cart.line_items.order(:created_at).each_with_index do |line_item, index| %>
 <% i = index + 1 %>
 	<%= hidden_field_tag "amount_#{i}", line_item.line_itemable.price %>
-	<%= hidden_field_tag "item_name_#{i}", "#{current_user.client_group.title} -- #{line_item.line_itemable.line_item_title}" %>
+	
+	<%#= hidden_field_tag "item_name_#{i}", "#{current_user.client_group.title} -- #{line_item.line_itemable.line_item_title}" %>
+	<%= hidden_field_tag "item_name_#{i}", "#{line_item.line_itemable.line_item_title}" %>
 	<%= hidden_field_tag "item_number_#{i}", line_item.line_itemable.id %>
 <% end %>
 

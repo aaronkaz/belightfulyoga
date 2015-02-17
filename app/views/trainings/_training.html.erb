@@ -1,0 +1,79 @@
+<div class="offering">
+		<div class="row-fluid">
+			<div class="span4">
+				<%= image_tag(training.image_url, class: "img-responsive") unless training.image.blank? %>
+			</div>
+			<div class="span8">
+			  <%= content_tag :h3, "#{training.title} Belightful Yoga" %>
+				<%= content_tag :p, training.description unless training.description.blank? %>
+				<%= content_tag :h2, "#{training.start_date.strftime('%m/%d/%Y')} to #{training.end_date.strftime('%m/%d/%Y')}"%>
+				<p>
+					<% if training.frequency == 'weekly' %>
+						<%= training.day.pluralize %><br>
+					<% end %>
+					<%= raw("#{training.start_time.strftime('%l:%M%p')} - #{training.end_time.strftime('%l:%M%p')}") %>
+				</p>
+				
+				<dl>
+			   	    <dt>Location/Room:</dt>
+			   	    <dd><%= simple_format(training.location) %></dd>
+				
+			   	    <% unless training.notes.blank? %>
+			   	    <dt>Notes:</dt>
+			   	    <dd><%= simple_format(training.notes) %></dd>	
+			   	    <% end %>
+			  </dl>
+				
+				
+				<% if !current_cart.nil? && user_signed_in? && !current_cart.line_items.where(:line_itemable_type => "Course").where(:line_itemable_id => training.id).empty? %>
+				  <span class="label label-important">This class is already in your cart</span>
+	  
+				<% elsif user_signed_in? && !current_user.courses.find_by_id(training.id).nil? %>  
+				    <span class="label label-important">You are already registered for this class!</span>
+				<% else %>  
+	
+				    <%= form_for @cart, :html => { :class => "form-inline"} do |f| %>       
+				          <% 
+				          new_object = f.object.send(:line_items).klass.new
+				          id = new_object.object_id
+				          %>
+				          <%= f.fields_for(:line_items, new_object, child_index: id) do |line_item| %>
+				            <%= line_item.hidden_field :line_itemable_type, :value => "Course" %>
+				            <%= line_item.hidden_field :line_itemable_id, :value => training.id %>
+				            <%= line_item.hidden_field :unit_price, :value => training.price %>
+				            
+										
+										<p class="lead">Price: <%= content_tag :strong, number_to_currency(training.price) %></p>
+										
+										<% if training.course_type == "multiple" %>
+											Qty: <%= line_item.text_field :qty, :value => 1, class: 'input-small' %>
+										<% else %>
+											<%= line_item.hidden_field :qty, :value => 1 %>
+										<% end %>
+										
+										
+				          <% end %>
+					
+										
+
+				              <%= f.submit "Add To Cart", :class => "btn btn-primary" %>   
+
+											
+				      <% end %>
+							
+							<% if training.course_type == "multiple" %>
+								<p class="alert alert-warning"><strong>Please specify the total number of participants (including yourself) for this course in the 'Qty' field above</strong></p>
+							<% end %>
+							
+			  <% end %>
+				
+				
+			</div>
+		</div>
+
+		
+	
+	
+
+    <br style="clear:both;">
+</div>    

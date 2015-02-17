@@ -4,7 +4,7 @@ class Scheduler::CoursesController < Scheduler::ApplicationController
   helper_method :start_date
   
   def index
-    @courses = Course.joins('INNER JOIN course_events ON course_events.course_id = courses.id INNER JOIN client_groups ON client_groups.id = courses.client_group_id INNER JOIN admins ON admins.id = courses.teacher_id')
+    @courses = Course.includes(:client_group).joins('INNER JOIN course_events ON course_events.course_id = courses.id INNER JOIN admins ON admins.id = courses.teacher_id')
     @courses = @courses.where(:active => true)#.where('courses.id IS IN (SELECT DISTINCT(course_id) FROM course_events)')
     @courses = @courses.where('admins.id = ?', teacher) unless teacher.blank?
     @courses = @courses.where('client_groups.id = ?', params[:client]) unless params[:client].blank?

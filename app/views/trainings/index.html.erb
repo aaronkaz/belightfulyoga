@@ -1,0 +1,8 @@
+<h1 class="lefttab" id="offeringsList">Trainings</h1>
+<%= @body.text.html_safe %>
+
+<% if @trainings.empty? %>
+    <div class="alert alert-warning">No trainings are currently scheduled.</div>
+<% else %>
+    <%= render @trainings %>
+<% end %>    

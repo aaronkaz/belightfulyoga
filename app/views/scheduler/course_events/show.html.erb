@@ -16,8 +16,10 @@
         <dt>Actual Teacher:</dt>
         <dd><%= @course_event.teacher.full_name %></dd>
     <% end %>
+		<% if @course_event.course.client_group.present? %>
     <dt>Client:</dt>
     <dd><%= @course_event.course.client_group.title %></dd>
+		<% end %>
     <dt>Location:</dt>
     <dd><%= @course_event.course.address.html_safe %></dd>
 </dl>    

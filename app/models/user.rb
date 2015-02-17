@@ -33,10 +33,9 @@ class User < ActiveRecord::Base
   
   validates_presence_of :first_name, :last_name, :email
   
-  with_options :if => :code do |user|
-    user.validates_presence_of :code  
-    user.before_validation :check_code
-  end
+  validates_presence_of :code, :if => lambda { self.code.present? && !self.code.blank? }
+  before_validation :check_code, :if => lambda { self.code.present? && !self.code.blank? }
+
   
   def full_name
     return "#{first_name} #{last_name}"

@@ -18,7 +18,7 @@ class Scheduler::ApplicationController < ApplicationController
         @teacher = Teacher.find(params[:teacher_id])
         @events = Array.new        
         @teacher.course_events.where('course_events.event_date >= ? AND course_events.event_date <= ?', Time.at(params[:start].to_i).to_datetime, Time.at(params[:end].to_i).to_datetime).each do |event|
-          title = params[:print] == "true" ? "#{@teacher.first_name}" : "#{@teacher.full_name} @ #{event.course.client_group.title}"
+          title = params[:print] == "true" ? "#{@teacher.first_name}" : event.schedule_title
           title = "<i class='icon-star'></i> #{title}" if event.is_first?
           url = params[:print] == "true" ? nil : summary_scheduler_course_event_path(event.id)
           @events << { :id => event.id, :title => title.html_safe, :start => "#{event.event_date.strftime('%Y-%m-%d')} #{event.event_date.strftime('%H:%M:%S')}", :end => "#{event.event_end_date.strftime('%Y-%m-%d')} #{event.event_end_date.strftime('%H:%M:%S')}", :allDay => false, :url => url }

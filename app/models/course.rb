@@ -28,8 +28,10 @@ class Course < AbstractModel
   
   
   #CALLBACKS
-  validates_presence_of :client_group_id, :end_date, :price, :start_date, :start_time, :length_minutes, :frequency, :course_type#, :teacher_id, :teacher_rate #hide for seed
+  validates_presence_of :end_date, :price, :start_date, :start_time, :length_minutes, :frequency, :course_type#, :teacher_id, :teacher_rate #hide for seed
   validates_presence_of :teacher_id, :teacher_rate, :if => lambda { self.active? }
+  
+  validates_presence_of :client_group_id, :if => lambda { self.registration_type == 'private' }
   
   after_create :create_or_update_events, :if => lambda { self.active? && !self.start_date.blank? && !self.end_date.blank? && self.teacher.present? }
   after_save :create_or_update_events, :if => lambda { self.active? && (self.start_date_changed? || self.end_date_changed? || self.start_time_changed? || self.length_minutes_changed? || self.teacher_id_changed? || self.teacher_rate_changed?) }
@@ -67,7 +69,7 @@ class Course < AbstractModel
   def address
     address = ""
     address << "#{self.location}<br>" unless self.location.blank?
-    address << self.client_group.full_address
+    address << self.client_group.full_address if self.client_group.present?
     address
   end
   
@@ -153,6 +155,11 @@ class Course < AbstractModel
               [['Individual', 'individual'], ['Family/Group (single price)', 'family'], ['Family/Group (incurrs fees)', 'multiple']]
             end
           end
+          field :registration_type, :enum do
+            enum do
+              [['Private', 'private'], ['Public', 'public'], ['Training', 'training']]
+            end
+          end
           field :client_group
           field :teacher
           field :teacher_rate
@@ -192,7 +199,7 @@ class Course < AbstractModel
             label 'Class Length'
             help 'in hours'
             enum do
-              (30..360).step(15).collect { |i| ["#{i.to_d/60}", i]}
+              (30..600).step(15).collect { |i| ["#{i.to_d/60}", i]}
             end
           end
           field :frequency, :enum do

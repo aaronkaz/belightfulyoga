@@ -2,8 +2,10 @@
 <dl class="dl-horizontal">
     <dt>Course ID#</dt>
     <dd><%= @course.id %></dd>
+		<% if @course.client_group.present? %>
     <dt>Client</dt>
     <dd><%= @course.client_group.title %></dd>
+		<% end %>
     <dt>Scheduled Teacher</dt>
     <dd><%= @course.teacher.full_name %></dd>
     <dt>Location</dt>

@@ -67,6 +67,8 @@ Belightfulyoga::Application.routes.draw do
     resources :courses
   end
   
+  resources :trainings
+  
   resources :courses do
     member do
       get :ics

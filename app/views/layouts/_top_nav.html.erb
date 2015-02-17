@@ -1,7 +1,7 @@
 <ul>
  <%= content_tag :li, cart_link %>
  <% if user_signed_in? %>
- 	<%= content_tag :li, link_to("Available Classes", client_group_courses_path(current_user.client_group)) %>
+ 	<%= content_tag :li, link_to("Available Classes", client_group_courses_path(current_user.client_group)) if current_user.client_group.present? %>
  	<%= content_tag :li, link_to("Your Account", edit_user_registration_path) %>
  	<%= content_tag :li, link_to("Logout", destroy_user_session_path, :method => :delete) %>
  <% else %>

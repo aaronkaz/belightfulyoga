@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140922114617) do
+ActiveRecord::Schema.define(:version => 20150217184123) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_1"
@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(:version => 20140922114617) do
 
   create_table "courses", :force => true do |t|
     t.integer  "client_group_id"
-    t.boolean  "is_family",                                     :default => false
+    t.boolean  "is_family",                                       :default => false
     t.date     "start_date"
     t.date     "end_date"
     t.date     "hide_date"
@@ -177,22 +177,23 @@ ActiveRecord::Schema.define(:version => 20140922114617) do
     t.time     "end_time"
     t.string   "day"
     t.text     "location"
-    t.decimal  "price",           :precision => 8, :scale => 2, :default => 0.0
+    t.decimal  "price",             :precision => 8, :scale => 2, :default => 0.0
     t.text     "notes"
-    t.datetime "created_at",                                                       :null => false
-    t.datetime "updated_at",                                                       :null => false
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
     t.text     "description"
     t.string   "image"
     t.string   "title"
     t.integer  "teacher_id"
-    t.decimal  "paid_by_company", :precision => 8, :scale => 2, :default => 0.0
+    t.decimal  "paid_by_company",   :precision => 8, :scale => 2, :default => 0.0
     t.integer  "length_minutes"
-    t.decimal  "teacher_rate",    :precision => 8, :scale => 2
+    t.decimal  "teacher_rate",      :precision => 8, :scale => 2
     t.integer  "old_id"
-    t.boolean  "active",                                        :default => false
+    t.boolean  "active",                                          :default => false
     t.string   "frequency"
-    t.boolean  "reminder",                                      :default => false
+    t.boolean  "reminder",                                        :default => false
     t.string   "course_type"
+    t.string   "registration_type"
   end
 
   add_index "courses", ["client_group_id"], :name => "index_courses_on_client_group_id"
