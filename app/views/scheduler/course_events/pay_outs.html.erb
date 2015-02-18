@@ -56,7 +56,7 @@
 		<td><%= content_tag :span, course_event.teacher.full_name, :class => "label", :style => "background-color:##{course_event.teacher.color};color:black;" %></td>
 		<td><span class="label">ID: <%= course_event.course.id %></span> <%= "#{course_event.course.default_title}" %>
 		    <td><%= number_to_currency course_event.total_pay_out %></td>
-    		<td><%= link_to raw("<i class='icon-briefcase'></i> Accounting"), accounting_scheduler_course_event_path(course_event), :class => "btn btn-mini" if current_admin.admin?%> <%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-mini"%></td>
+    		<td><%= link_to raw("<i class='icon-briefcase'></i> Accounting"), accounting_scheduler_course_event_path(course_event), :class => "btn btn-xs" if current_admin.admin?%> <%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-xs"%></td>
 	</tr>	
 	<% end %>
 </tbody>	

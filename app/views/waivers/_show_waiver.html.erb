@@ -6,45 +6,45 @@ Classes/Workshops/Series<br>
 <u>Agreement of Release and Waiver of Liability</u>
 </h1>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :last_name, "Participant Last Name:" %><label class="waiver-value"><%= @waiver.last_name %></label></div>
-	<div class="span2"><%= waiver.label :middle_initial, "Middle Initial:" %><label class="waiver-value"><%= @waiver.middle_initial %></label></div>
-	<div class="span5"><%= waiver.label :first_name, "First Name:" %><label class="waiver-value"><%= @waiver.first_name %></label></div>	
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :last_name, "Participant Last Name:" %><label class="waiver-value"><%= @waiver.last_name %></label></div>
+	<div class="col-md-2"><%= waiver.label :middle_initial, "Middle Initial:" %><label class="waiver-value"><%= @waiver.middle_initial %></label></div>
+	<div class="col-md-5"><%= waiver.label :first_name, "First Name:" %><label class="waiver-value"><%= @waiver.first_name %></label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :address_1, "Address:" %><label class="waiver-value"><%= @waiver.address_1 %></label></div>	
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :address_1, "Address:" %><label class="waiver-value"><%= @waiver.address_1 %></label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :city, "City:" %><label class="waiver-value"><%= @waiver.city %></label></div>
-	<div class="span4"><%= waiver.label :state, "State:" %><label class="waiver-value"><%= @waiver.state %></label></div>
-	<div class="span3"><%= waiver.label :postal_code, "Zip:" %><label class="waiver-value"><%= @waiver.postal_code %></label></div>	
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :city, "City:" %><label class="waiver-value"><%= @waiver.city %></label></div>
+	<div class="col-md-4"><%= waiver.label :state, "State:" %><label class="waiver-value"><%= @waiver.state %></label></div>
+	<div class="col-md-3"><%= waiver.label :postal_code, "Zip:" %><label class="waiver-value"><%= @waiver.postal_code %></label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :home_phone, "Home Phone:" %><label class="waiver-value"><%= @waiver.home_phone %></label></div>
-	<div class="span4"><%= waiver.label :work_phone, "Work Phone:" %><label class="waiver-value"><%= @waiver.work_phone %></label></div>
-	<div class="span3"><%= waiver.label :work_phone_ext, "Ext.:" %><label class="waiver-value"><%= @waiver.work_phone_ext %></label></div>	
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :home_phone, "Home Phone:" %><label class="waiver-value"><%= @waiver.home_phone %></label></div>
+	<div class="col-md-4"><%= waiver.label :work_phone, "Work Phone:" %><label class="waiver-value"><%= @waiver.work_phone %></label></div>
+	<div class="col-md-3"><%= waiver.label :work_phone_ext, "Ext.:" %><label class="waiver-value"><%= @waiver.work_phone_ext %></label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :cell_phone, "Cell Phone:" %><label class="waiver-value"><%= @waiver.cell_phone %></label></div>
-	<div class="span7"><%= waiver.label :birth_date, "Birthdate:" %><label class="waiver-value"><%= @waiver.birth_date.strftime('%m/%d') %></label></div>
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :cell_phone, "Cell Phone:" %><label class="waiver-value"><%= @waiver.cell_phone %></label></div>
+	<div class="col-md-7"><%= waiver.label :birth_date, "Birthdate:" %><label class="waiver-value"><%= @waiver.birth_date.strftime('%m/%d') %></label></div>
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :email_address, "Email Address:" %><label class="waiver-value"><%= @waiver.email_address %></label></div>
-	<div class="span7"><%= waiver.label :occupation, "Occupation:" %><label class="waiver-value"><%= @waiver.occupation %></label></div>
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :email_address, "Email Address:" %><label class="waiver-value"><%= @waiver.email_address %></label></div>
+	<div class="col-md-7"><%= waiver.label :occupation, "Occupation:" %><label class="waiver-value"><%= @waiver.occupation %></label></div>
 </div>
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :emergency_contact, raw("Emergency Contact: <i>(Name, Phone and Relationship) </i>") %>
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :emergency_contact, raw("Emergency Contact: <i>(Name, Phone and Relationship) </i>") %>
 	<label class="waiver-value"><%= simple_format @waiver.emergency_contact %></label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :referral, "How did you hear about us?" %><label class="waiver-value"><%= @waiver.referral %></label></div>	
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :referral, "How did you hear about us?" %><label class="waiver-value"><%= @waiver.referral %></label></div>	
 </div>
 
 
@@ -56,10 +56,10 @@ satisfaction.  I voluntarily consent to the terms and conditions stated above.
 
 
 <% unless waiver.object.non_user.present? && waiver.object.non_user.age < 18 %>
-<div class="row-fluid">
-	<div class="span8"><label class="waiver-value"><%= @waiver.signature %></label><br>
+<div class="row">
+	<div class="col-md-8"><label class="waiver-value"><%= @waiver.signature %></label><br>
 		<%= waiver.label :signature, "Signature" %></div>
-	<div class="span4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
+	<div class="col-md-4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
 		<label>Date</label></div>
 </div>
 
@@ -67,17 +67,17 @@ satisfaction.  I voluntarily consent to the terms and conditions stated above.
 <% end %>
 
 <% unless @waiver.guardian_of.blank? %>
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :guardian_of, raw("<u>If Under 18 Years of Age:</u> As parent/legal
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :guardian_of, raw("<u>If Under 18 Years of Age:</u> As parent/legal
 guardian of") %><label class="waiver-value"><%= @waiver.guardian_of %></label><br>
 	<label>
 I consent to the above terms and conditions.</label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span8"><label class="waiver-value"><%= @waiver.guardian_signature %></label><br>
+<div class="row">
+	<div class="col-md-8"><label class="waiver-value"><%= @waiver.guardian_signature %></label><br>
 		<%= waiver.label :guardian_signature, "Signature of Parent" %></div>
-	<div class="span4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
+	<div class="col-md-4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
 		<label>Date</label></div>
 </div>
 <% end %>

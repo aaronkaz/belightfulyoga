@@ -1,13 +1,13 @@
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li><%= link_to "Class Lists", scheduler_course_events_path %> <span class="divider">/</span></li>
-	<li><%= "#{@course_event.event_date.strftime('%m/%d/%Y %l:%M%p')}" %> <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li><%= link_to "Class Lists", scheduler_course_events_path %></li>
+	<li><%= "#{@course_event.event_date.strftime('%m/%d/%Y %l:%M%p')}" %></li>
 	<li><%= section.titleize %></li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<%= content_tag :li, link_to(raw("<i class='icon-eye-open'></i> Roster"), [:scheduler, @course_event]), class: section == "show" ? "active" : nil %>
-	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Walk-in"), walkin_scheduler_course_event_path(@course_event)), class: section == "walk_in" ? "active" : nil %>
-	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Registration"), registration_scheduler_course_event_path(@course_event)), class: section == "registration" ? "active" : nil %>
-    <%= content_tag :li, link_to(raw("<i class='icon-briefcase'></i> Accounting"), accounting_scheduler_course_event_path(@course_event)), class: section == "accounting" ? "active" : nil if current_admin.admin? %>
+	<%= content_tag :li, link_to(raw("<i class='fa fa-list'></i> Roster"), [:scheduler, @course_event]), class: section == "show" ? "active" : nil %>
+	<%= content_tag :li, link_to(raw("<i class='fa fa-plus'></i> Walk-in"), walkin_scheduler_course_event_path(@course_event)), class: section == "walk_in" ? "active" : nil %>
+	<%= content_tag :li, link_to(raw("<i class='fa fa-plus'></i> Registration"), registration_scheduler_course_event_path(@course_event)), class: section == "registration" ? "active" : nil %>
+    <%= content_tag :li, link_to(raw("<i class='fa fa-briefcase'></i> Accounting"), accounting_scheduler_course_event_path(@course_event)), class: section == "accounting" ? "active" : nil if current_admin.admin? %>
 </ul>

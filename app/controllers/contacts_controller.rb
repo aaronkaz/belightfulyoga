@@ -27,7 +27,7 @@ class ContactsController < ApplicationController
 private
 
   def initialize_page
-    @page = Page.find('contact')
+    @page = Page.friendly.find('contact')
     @page.page_parts.each do |pp|
       instance_variable_set "@#{pp.title.gsub(' ', '_').downcase}", @page.page_part_placements.find_by_page_part_id(pp.id)
     end

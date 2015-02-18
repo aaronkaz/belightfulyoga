@@ -1,9 +1,9 @@
 <div class="page-header"><%= content_tag :h1, "Add Walk-in to '#{@course_event.event_date.strftime('%m/%d/%Y %l:%M%p')}'" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li><%= link_to "Class Lists", scheduler_course_events_path %> <span class="divider">/</span></li>
-	<li><%= link_to "#{@course_event.event_date.strftime('%m/%d/%Y %l:%M%p')}", [:scheduler, @course_event] %> <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li><%= link_to "Class Lists", scheduler_course_events_path %></li>
+	<li><%= link_to "#{@course_event.event_date.strftime('%m/%d/%Y %l:%M%p')}", [:scheduler, @course_event] %></li>
 	<li>Walk-in (invite new user)</li>
 </ul>
 

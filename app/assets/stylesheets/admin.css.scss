@@ -1,4 +1,5 @@
 /*
+ *= require font-awesome
  *= require_self
  *= require fullcalendar
  *= require spectrum
@@ -7,8 +8,6 @@
 */
 
 @import "bootstrap";
-@import "bootstrap-responsive";
-@import 'font-awesome';
 
 /* FullCalendar fc-button themed using Twitter Bootstrap. */
 
@@ -19,7 +18,7 @@
   position: relative;
   /*float: left;*/
   /*margin-left: -1px;*/
-  @include border-radius(0);
+  /*@include border-radius(0);*/
 }
 
 .fc-button.fc-state-active {
@@ -64,15 +63,15 @@
 }
 
 .fc-button-content {
-  line-height: $baseLineHeight;
-  height: $baseLineHeight;
+  /*line-height: $baseLineHeight;*/
+  /*height: $baseLineHeight;*/
   padding: 0 0;
 }
 
 .fc-state-default .fc-button-effect span {
-  @include buttonBackground($btnBackground, $btnBackgroundHighlight);
+  /*@include buttonBackground($btnBackground, $btnBackgroundHighlight);*/
 }
 
 .fc-state-active .fc-button-inner {
-  color: $grayDark;
+  /*color: $grayDark;*/
 }

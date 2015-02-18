@@ -5,7 +5,7 @@ class Scheduler::CourseEventsController < Scheduler::ApplicationController
   
   def index
     #@course_events = CourseEvent.joins('INNER JOIN courses ON courses.id = course_events.course_id INNER JOIN admins ON admins.id = courses.teacher_id').includes(:client_group)
-    @course_events = CourseEvent.includes(:client_group).joins('INNER JOIN admins ON admins.id = courses.teacher_id')
+    @course_events = CourseEvent.includes(:client_group).joins(:course).joins('INNER JOIN admins ON admins.id = courses.teacher_id')
     @course_events = @course_events.where('course_events.teacher_id = ?', teacher) unless teacher.blank?
     @course_events = @course_events.where('client_groups.id = ?', params[:client]) unless params[:client].blank?
     @course_events = @course_events.where('event_date >= ?', start_date)

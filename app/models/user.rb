@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
   has_many :carts
   has_many :course_registrations, as: :registerable
     accepts_nested_attributes_for :course_registrations
-    has_many :courses, :through => :course_registrations
+  has_many :courses, through: :course_registrations
     
   has_many :course_attendees, as: :attendable
-  has_many :walkins, :source => :course_attendees, :foreign_key => :attendable_id, :conditions => { :walk_in => true }
+  has_many :walkins, -> { where(walk_in: true) }, :source => :course_attendees, :foreign_key => :attendable_id
     accepts_nested_attributes_for :walkins
   has_many :waivers
   

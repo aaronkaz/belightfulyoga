@@ -6,7 +6,10 @@ body {background: #00aaad url("/images/background_adults.jpg");}
 
 /* Main Body Content Styles */
 
-#body_content {background: #00aaad url("/images/adults_content_bg.gif") top no-repeat;}
+#body-content {
+	background-color: #00aaad;
+	background-image: url("/images/adults_content_bg.gif") top no-repeat;
+}
 #body_content h1.lefttab {background: #fff url("/images/adults_left_tab.gif") right no-repeat; color: #00aaad;}
 
 

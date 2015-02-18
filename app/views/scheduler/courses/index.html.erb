@@ -1,13 +1,13 @@
 <div class="page-header"><%= content_tag :h1, "Current Courses" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li>Current Courses <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li>Current Courses</li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), scheduler_courses_path %></li>
-	<li><%= link_to raw("<i class='icon-th-list'></i> Unscheduled"), unscheduled_scheduler_courses_path %></li>
+	<li class="active"><%= link_to raw("<i class='fa fa-list'></i> List"), scheduler_courses_path %></li>
+	<li><%= link_to raw("<i class='fa fa-list'></i> Unscheduled"), unscheduled_scheduler_courses_path %></li>
 </ul>
 
 <%= form_tag scheduler_courses_path, :method => 'get', :class => 'form-inline' do %>
@@ -23,7 +23,7 @@
 		<%= hidden_field_tag :sort, params[:sort] %>
 
 		<%#= text_field_tag :search, params[:search], :class => "input-medium search-query", :placeholder => "search" %>
-		<%= button_tag raw("<i class='icon-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
+		<%= button_tag raw("<i class='fa fa-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
 		<%= link_to "Reset", scheduler_courses_path, :class => "btn" %>
 		</div>	
 <% end %>
@@ -48,13 +48,13 @@
 <tbody>
     <% @courses.each do |course| %>
     <tr>
-        <td><%= link_to raw("ID: #{course.id}"), "/admin/course/#{course.id}/edit", :target => "_blank", :class => "btn btn-mini"%> <%= "#{course.default_title}" %></td>
+        <td><%= link_to raw("ID: #{course.id}"), "/admin/course/#{course.id}/edit", :target => "_blank", :class => "btn btn-default btn-xs"%> <%= "#{course.default_title}" %></td>
         <td><%= course.start_date.strftime('%m/%d/%Y') %></td>
         <td><%= course.end_date.strftime('%m/%d/%Y') %></td>
         <td><%= course.client_group.title if course.client_group.present? %></td>
         <td><%= content_tag :span, course.teacher.full_name, :class => "label btn-block", :style => "background-color:##{course.teacher.color};color:black;" %></td>
 				<td style="text-align:right;"><%= content_tag :b, course.course_registrations.length, :class => course.course_registrations.length == 0 ? "text-error" : "text-success" %><%=  %></td>
-        <td nowrap><%= link_to raw("<i class='icon-pencil'></i> Schedule"), edit_scheduler_course_path(course), :class => "btn btn-small" if current_admin.admin? %></td>
+        <td nowrap><%= link_to raw("<i class='fa fa-pencil'></i> Schedule"), edit_scheduler_course_path(course), :class => "btn btn-default btn-sm" if current_admin.admin? %></td>
     </tr>    
     <% end %>
 </tbody>    

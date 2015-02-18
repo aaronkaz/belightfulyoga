@@ -1,12 +1,12 @@
 <div class="page-header"><%= content_tag :h1, "Pay Outs Archive" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li>Pay Outs Archive<span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li>Pay Outs Archive</li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
+	<li class="active"><%= link_to raw("<i class='fa fa-list'></i> List"), "" %></li>
 </ul>
 
 
@@ -22,7 +22,7 @@
 		<%= hidden_field_tag :direction, params[:direction] %>
 		<%= hidden_field_tag :sort, params[:sort] %>
 
-		<%= button_tag raw("<i class='icon-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
+		<%= button_tag raw("<i class='fa fa-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
 		<%= link_to "Reset", scheduler_pay_outs_path, :class => "btn" %>
 		</div>	
 <% end %>
@@ -51,7 +51,7 @@
 		<td><%= pay_out.end_date.strftime('%m/%d/%Y') %></td>
 		<td><%= content_tag :span, pay_out.teacher.full_name, :class => "label", :style => "background-color:##{pay_out.teacher.color};color:black;" %></td>
 		<td><%= number_to_currency(pay_out.total_pay_out) %></td>
-		<td nowrap><%= link_to raw("<i class='icon-eye-open'></i> Details"), [:scheduler, pay_out], :class => "btn btn-block btn-small" %></td>
+		<td nowrap><%= link_to raw("<i class='fa fa-eye'></i> Details"), [:scheduler, pay_out], :class => "btn btn-block btn-xs" %></td>
 	</tr>	
 	<% end %>
 </tbody>	

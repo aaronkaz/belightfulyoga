@@ -1,5 +1,5 @@
 class Teacher < Admin
-  default_scope where(:is_teacher => true)
+  default_scope {where(:is_teacher => true)}
   
   has_many :courses
   has_many :course_events
@@ -46,9 +46,7 @@ class Teacher < Admin
         group :web do
           label "Website Info"
           field :show_on_web
-          field :bio do
-            ckeditor true
-          end
+          field :bio, :ck_editor
           field :photo, :carrierwave
         end  
       end

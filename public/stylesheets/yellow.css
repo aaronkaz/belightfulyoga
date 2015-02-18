@@ -6,7 +6,10 @@ body {background: #edaa0a url("/images/background_youth.jpg");}
 
 /* Main Body Content Styles */
 
-#body_content {background: #edaa0a url("/images/youth_content_bg.gif") top no-repeat;}
+#body-content {
+	background-color: #edaa0a;
+	background-image: url("/images/youth_content_bg.gif") top no-repeat;
+}
 #body_content h1.lefttab {background: #fff url("/images/youth_left_tab.gif") right no-repeat; color: #edaa0a;}
 
 

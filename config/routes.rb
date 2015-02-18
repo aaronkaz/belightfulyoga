@@ -55,8 +55,8 @@ Belightfulyoga::Application.routes.draw do
       end
     end
     
-    match :course_analysis, :to => 'reports#course_analysis'
-    match :events, :to => 'application#events'
+    get :course_analysis, :to => 'reports#course_analysis'
+    post :events, :to => 'application#events'
     root :to => 'application#index'
   end
   
@@ -74,7 +74,7 @@ Belightfulyoga::Application.routes.draw do
       get :ics
     end
   end
-  match :registered_courses, :to => 'courses#registered_courses'
+  get :registered_courses, :to => 'courses#registered_courses'
   
   
   resources :carts, :path => 'shopping-cart' do
@@ -98,7 +98,7 @@ Belightfulyoga::Application.routes.draw do
   end
   
   get '/scheduler', to: redirect('/calendar')
-  match '/scheduler/*path', :to => redirect{|params, req|
+  get '/scheduler/*path', :to => redirect{|params, req|
       "/calendar/#{params[:path]}?#{req.query_string}"
     }
   root :to => 'pages#show', :id => 'home'

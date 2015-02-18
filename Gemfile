@@ -2,27 +2,38 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '3.2.13'
+gem 'rails', '4.1.0'
+
+gem 'rails_12factor'
+gem 'protected_attributes'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
 gem 'thin'
-gem 'taps'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 4.0.3'
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+# Use CoffeeScript for .js.coffee assets and views
+gem 'coffee-rails', '~> 4.0.0'
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 1.2'
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
 end
+
+gem 'spring',        group: :development
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.1.0'
 gem "font-awesome-rails"
 
 
@@ -30,7 +41,7 @@ gem 'json'
 gem 'bootstrap-will_paginate'
 
 gem 'devise'
-gem 'devise_invitable', '~> 1.1.0'
+gem 'devise_invitable'
 
 gem "rmagick"
 gem "mini_magick"
@@ -40,7 +51,7 @@ gem 'ckeditor'
 
 gem "acts_as_list"
 gem 'ancestry'
-gem 'friendly_id'
+gem 'friendly_id', '~> 5.0.0'
 
 gem 'rails_admin'
 gem 'rails_admin_nestable'

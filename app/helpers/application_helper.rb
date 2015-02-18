@@ -2,9 +2,9 @@ module ApplicationHelper
   
   def cart_link
     if !current_cart.nil?
-      link_to "Cart", current_cart
+      link_to raw("<i class='fa fa-shopping-cart'></i> Cart"), current_cart
     else
-      link_to "Cart", "#"
+      link_to raw("<i class='fa fa-shopping-cart'></i> Cart"), "#"
     end
   end
   

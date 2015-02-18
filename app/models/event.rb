@@ -29,9 +29,7 @@ class Event < ActiveRecord::Base
         field :end_time do
           strftime_format "%I:%M %p"
         end
-        field :description do
-          ckeditor true
-        end
+        field :description, :ck_editor
         field :image, :carrierwave
       end
       

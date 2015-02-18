@@ -7,11 +7,11 @@
 
 <dl class="dl-horizontal">
     <dt>Teacher Rate:</dt>
-    <dd><%= number_to_currency @course_event.teacher_pay_out %> <%= link_to "Change", "#", :class => 'btn btn-mini div-toggle', :data => { :target => "teacher_rate" } %>
+    <dd><%= number_to_currency @course_event.teacher_pay_out %> <%= link_to "Change", "#", :class => 'btn btn-xs div-toggle', :data => { :target => "teacher_rate" } %>
         <div id="teacher_rate" style="margin-top:10px;display:none;">
         Rate for this Class: <%= f.text_field :teacher_pay_out, :class => "span2" %>
         <%= f.submit "Update", :class => 'btn btn-small' %>
-        <%= link_to "cancel", "#", :class => 'btn btn-mini btn-danger div-toggle', :data => { :target => "teacher_rate" } %>
+        <%= link_to "cancel", "#", :class => 'btn btn-xs btn-danger div-un-toggle', :data => { :target => "teacher_rate" } %>
         </div>
     </dd>
     <dt>Payable to:</dt>

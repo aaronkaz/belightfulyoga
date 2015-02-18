@@ -1,3 +1,7 @@
+<% content_for :sidebar do %><%= raw @sidebar.text %><% end %>
+
+<% content_for :body do %>
+
 <style type="text/css">
 #cartWin p {
     font-size: 83%;
@@ -11,11 +15,11 @@
 
 <div id="cartWin" class="events_list">
 <% @teachers.each do |teacher| %>
-<div class="row-fluid">
-    <div class="span4">
-        <%= image_tag teacher.photo_url if teacher.photo.present? %>
+<div class="row">
+    <div class="col-md-4">
+        <%= image_tag teacher.photo_url, class: "img-responsive" if teacher.photo.present? %>
     </div>
-    <div class="span8">
+    <div class="col-md-8">
         <%= content_tag :strong, teacher.full_name %><br>
         <%= teacher.bio.html_safe %>
     </div>    
@@ -23,3 +27,4 @@
     <hr style="clear:both;">
 <% end %>  
 </div>
+<% end %>

@@ -1,5 +1,5 @@
 class Administrator < Admin
-  default_scope where(:admin => true)
+  default_scope { where(:admin => true) }
   
   #mount_uploader :photo, TeacherPhotoUploader
   

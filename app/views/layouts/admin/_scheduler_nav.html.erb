@@ -1,14 +1,14 @@
 <div class="well">
 <ul class="nav nav-list">
     <li class="nav-header">Scheduling</li>
-    <li><%= link_to raw("<i class='icon-calendar'></i> Calendar"), scheduler_root_path %></li>
-    <li><%= link_to raw("<i class='icon-print'></i> Calendar (Print Version)"), scheduler_root_path(:print => true) %></li>
+    <li><%= link_to raw("<i class='fa fa-calendar'></i> Calendar"), scheduler_root_path %></li>
+    <li><%= link_to raw("<i class='fa fa-print'></i> Calendar (Print Version)"), scheduler_root_path(:print => true) %></li>
 		
 	  <li><%= link_to remind_scheduler_courses_path do %>
-				<i class='icon-calendar-empty'></i> Schedule Ongoing Series <%= content_tag :span, Course.remind.length, :class => "badge" %>
+				<i class='fa fa-calendar-o'></i> Schedule Ongoing Series <%= content_tag :span, Course.remind.length, :class => "badge" %>
 				<% end if current_admin.admin? %></li>	
-    <li><%= link_to raw("<i class='icon-list'></i> Class List"), scheduler_course_events_path %></li>
-    <li><%= link_to raw("<i class='icon-list'></i> Course List"), scheduler_courses_path %></li>
+    <li><%= link_to raw("<i class='fa fa-list'></i> Class List"), scheduler_course_events_path %></li>
+    <li><%= link_to raw("<i class='fa fa-list'></i> Course List"), scheduler_courses_path %></li>
     
     <!-- 
     <li class="nav-header">Attendance</li>
@@ -16,11 +16,11 @@
     -->
     
     <li class="nav-header">Accounting & Payroll</li>
-    <%= content_tag :li, link_to(raw("<i class='icon-money'></i> Pay Outs"), unpaid_scheduler_pay_outs_path) %>
-    <%= content_tag :li, link_to(raw("<i class='icon-archive'></i> Archive"), scheduler_pay_outs_path) %>
+    <%= content_tag :li, link_to(raw("<i class='fa fa-money'></i> Pay Outs"), unpaid_scheduler_pay_outs_path) %>
+    <%= content_tag :li, link_to(raw("<i class='fa fa-archive'></i> Archive"), scheduler_pay_outs_path) %>
     
     <li class="nav-header">Reporting</li>
-    <%= content_tag :li, link_to(raw("<i class='icon-bar-chart'></i> Course Analysis"), scheduler_course_analysis_path) if current_admin.admin? %>
+    <%= content_tag :li, link_to(raw("<i class='fa fa-bar-chart'></i> Course Analysis"), scheduler_course_analysis_path) if current_admin.admin? %>
     
     
 </ul>   

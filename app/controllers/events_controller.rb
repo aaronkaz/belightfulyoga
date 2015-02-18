@@ -9,7 +9,7 @@ class EventsController < ApplicationController
 private
 
   def initialize_page
-    @page = Page.find('current-events')
+    @page = Page.friendly.find('current-events')
     @page.page_parts.each do |pp|
       instance_variable_set "@#{pp.title.gsub(' ', '_').downcase}", @page.page_part_placements.find_by_page_part_id(pp.id)
     end

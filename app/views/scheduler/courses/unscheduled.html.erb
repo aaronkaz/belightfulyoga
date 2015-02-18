@@ -1,12 +1,12 @@
 <div class="page-header"><%= content_tag :h1, "Unscheduled Courses" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li>Unscheduled Courses <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li>Unscheduled Courses</li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), unscheduled_scheduler_courses_path %></li>
+	<li class="active"><%= link_to raw("<i class='fa fa-list'></i> List"), unscheduled_scheduler_courses_path %></li>
 </ul>
 
 <table class="table table-condensed table-striped">
@@ -29,7 +29,7 @@
 		<td><%= course.client_group.title %></td>
 		<td><%= content_tag :span, course.teacher.full_name, :class => "label", :style => "background-color:##{course.teacher.color};color:black;" %></td>
 		<td><span class="label">ID: <%= course.id %></span> <%= "#{course.default_title}" %></td>
-		<td nowrap><%= link_to raw("<i class='icon-edit'></i> Schedule"), edit_scheduler_course_path(course), :class => "btn btn-small"%></td>
+		<td nowrap><%= link_to raw("<i class='fa fa-edit'></i> Schedule"), edit_scheduler_course_path(course), :class => "btn btn-sm"%></td>
 	</tr>	
 	<% end %>
 </tbody>	    

@@ -9,7 +9,7 @@ class Course < AbstractModel
   
   #has_many :users, :through => :course_registrations
   
-  has_many :course_events, :order => :event_date, :dependent => :destroy 
+  has_many :course_events, -> {order(:event_date)}, :dependent => :destroy 
     accepts_nested_attributes_for :course_events, :allow_destroy => true
     has_many :walkins, :through => :course_events
   has_many :line_items, as: :line_itemable
@@ -39,10 +39,9 @@ class Course < AbstractModel
   
   
   #SCOPES
-  scope :unscheduled, where(:active => true).where('courses.id NOT IN (SELECT DISTINCT(course_id) FROM course_events)').order(:start_date)
-  scope :current, where(:active => true).where('start_date <= ? AND end_date >= ?', Date.today, Date.today)
-  scope :remind, current.where('end_date <= ?', 3.weeks.from_now).where(:reminder => true)
-    .where('courses.client_group_id NOT IN ( SELECT client_group_id FROM courses WHERE client_group_id = courses.client_group_id AND start_date > ? )', 3.weeks.from_now)
+  scope :unscheduled, -> {where(:active => true).where('courses.id NOT IN (SELECT DISTINCT(course_id) FROM course_events)').order(:start_date)}
+  scope :current, -> {where(:active => true).where('start_date <= ? AND end_date >= ?', Date.today, Date.today)}
+  scope :remind, -> {current.where('end_date <= ?', 3.weeks.from_now).where(:reminder => true).where('courses.client_group_id NOT IN ( SELECT client_group_id FROM courses WHERE client_group_id = courses.client_group_id AND start_date > ? )', 3.weeks.from_now) }
   
   #VIRTUAL METHODS
   

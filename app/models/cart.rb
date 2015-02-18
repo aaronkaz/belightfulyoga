@@ -10,10 +10,10 @@ class Cart < ActiveRecord::Base
     accepts_nested_attributes_for :line_items, :allow_destroy => true
   has_many :non_users, through: :line_items
     
-  has_many :courses, :class_name => "LineItem", :conditions => { :line_itemable_type => "Course"}
+  has_many :courses, -> { where(line_itemable_type: "Course")}, :class_name => "LineItem"
   has_many :course_registrations
   
-  has_many :products, :class_name => "LineItem", :conditions => { :line_itemable_type => "Product"}
+  has_many :products, -> { where(line_itemable_type: "Product")}, :class_name => "LineItem"
   
   has_many :cart_promo_codes, :dependent => :destroy
     accepts_nested_attributes_for :cart_promo_codes
@@ -23,8 +23,8 @@ class Cart < ActiveRecord::Base
   has_many :waivers
     accepts_nested_attributes_for :waivers
     
-  has_one :user_waiver, class_name: "Waiver", conditions: 'user_id IS NOT NULL'
-  has_many :non_user_waivers, class_name: "Waiver", conditions: 'non_user_id IS NOT NULL'
+  has_one :user_waiver, -> {where('user_id IS NOT NULL')}, class_name: "Waiver"
+  has_many :non_user_waivers, -> {where('non_user_id IS NOT NULL')}, class_name: "Waiver"
      
   attr_accessor :ship_to_billing, :promo_code
   attr_accessible :line_items_attributes, :billing_address_id, :postal_code, :selected_shipping_array, :shipping_address_id, :shipping_confirm, :status, 

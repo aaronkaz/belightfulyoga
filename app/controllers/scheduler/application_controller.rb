@@ -32,7 +32,7 @@ class Scheduler::ApplicationController < ApplicationController
 private
 
   def initialize_teachers
-    @teachers = Teacher.scoped
+    @teachers = Teacher.all
     @teachers = @teachers.where('admins.id = ?', current_admin.id) if !current_admin.admin?
     @teachers.order(:first_name)
   end

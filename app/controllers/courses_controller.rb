@@ -50,7 +50,7 @@ class CoursesController < ApplicationController
 private
 
   def client_group_sanity
-    @client_group = ClientGroup.find(params[:client_group_id]) rescue redirect_to(root_path)
+    @client_group = ClientGroup.friendly.find(params[:client_group_id]) rescue redirect_to(root_path)
     redirect_to(root_path) if @client_group.id != current_user.client_group.id
   end
   

@@ -1,12 +1,12 @@
 <div class="page-header"><%= content_tag :h1, "Classes" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li>Class Lists <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li>Class Lists</li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
+	<li class="active"><%= link_to raw("<i class='fa fa-list'></i> List"), "" %></li>
 	<%#= content_tag :li, link_to(raw("<i class='icon-plus'></i> Walk-in"), walkin_scheduler_course_event_path(@course_event)) %>
 
 </ul>
@@ -53,13 +53,13 @@
 	    <td><%= check_box_tag "course_event_ids[]", course_event.id %></td>
 		<td><%= course_event.event_date.strftime('%m/%d/%Y') %></td>
 		<td><%= course_event.event_date.strftime('%l:%M%p') %></td>
-		<td><%= content_tag :i, "", :class => "icon-star" if course_event.is_first? %><%= course_event.course.client_group.title if course_event.course.client_group.present? %></td>
+		<td><%= content_tag :i, "", :class => "fa fa-star" if course_event.is_first? %><%= course_event.course.client_group.title if course_event.course.client_group.present? %></td>
 		<td><%= content_tag :span, course_event.teacher.full_name, :class => "label btn-block", :style => "background-color:##{course_event.teacher.color};color:black;" %></td>
-		<td><%= link_to raw("ID: #{course_event.course.id}"), "/admin/course/#{course_event.course.id}/edit", :target => "_blank", :class => "btn btn-mini"%> <%= "#{course_event.course.default_title}" %>
+		<td><%= link_to raw("ID: #{course_event.course.id}"), "/admin/course/#{course_event.course.id}/edit", :target => "_blank", :class => "btn btn-default btn-xs"%> <%= "#{course_event.course.default_title}" %>
 		<td>
 		    <%= content_tag :b, "#{course_event.registrants.length}", :class => course_event.registrants.length == 0 ? "text-error" : "text-success" %>
 		</td>
-		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-small"%></td>
+		<td><%= link_to raw("<i class='fa fa-list'></i> Roster"), [:scheduler, course_event], :class => "btn btn-default btn-xs"%></td>
 		<td nowrap><%#= render 'admin/shared/record_actions', :model_class => model_class, :instance => record %></td>
 	</tr>	
 	<% end %>

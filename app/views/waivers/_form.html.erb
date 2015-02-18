@@ -8,45 +8,45 @@ Classes/Workshops/Series<br>
 <u>Agreement of Release and Waiver of Liability</u>
 </h1>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :last_name, "Participant Last Name:" %><%= waiver.text_field :last_name %></div>
-	<div class="span2"><%= waiver.label :middle_initial, "Middle Initial:" %><%= waiver.text_field :middle_initial, :style => "width:20px;" %></div>
-	<div class="span5"><%= waiver.label :first_name, "First Name:" %><%= waiver.text_field :first_name, style: "width:219px;" %></div>	
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :last_name, "Participant Last Name:" %><%= waiver.text_field :last_name %></div>
+	<div class="col-md-2"><%= waiver.label :middle_initial, "Middle Initial:" %><%= waiver.text_field :middle_initial, :style => "width:20px;" %></div>
+	<div class="col-md-5"><%= waiver.label :first_name, "First Name:" %><%= waiver.text_field :first_name, style: "width:219px;" %></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :address_1, "Address:" %><%= waiver.text_field :address_1, :style => "width:800px;" %></div>	
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :address_1, "Address:" %><%= waiver.text_field :address_1, :style => "width:800px;" %></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :city, "City:" %><%= waiver.text_field :city, :style => "width:331px;" %></div>
-	<div class="span4"><%= waiver.label :state, "State:" %><%= waiver.select :state, us_states, { :include_blank => true }, :style => "width:189px;" %></div>
-	<div class="span3"><%= waiver.label :postal_code, "Zip:" %><%= waiver.text_field :postal_code, :style => "width:112px;" %></div>	
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :city, "City:" %><%= waiver.text_field :city, :style => "width:331px;" %></div>
+	<div class="col-md-4"><%= waiver.label :state, "State:" %><%= waiver.select :state, us_states, { :include_blank => true }, :style => "width:189px;" %></div>
+	<div class="col-md-3"><%= waiver.label :postal_code, "Zip:" %><%= waiver.text_field :postal_code, :style => "width:112px;" %></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :home_phone, "Home Phone:" %><%= waiver.text_field :home_phone, :style => "width:271px;" %></div>
-	<div class="span4"><%= waiver.label :work_phone, "Work Phone:" %><%= waiver.text_field :work_phone, :style => "width:165px;" %></div>
-	<div class="span3"><%= waiver.label :work_phone_ext, "Ext.:" %><%= waiver.text_field :work_phone_ext, :style => "width:107px;" %></div>	
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :home_phone, "Home Phone:" %><%= waiver.text_field :home_phone, :style => "width:271px;" %></div>
+	<div class="col-md-4"><%= waiver.label :work_phone, "Work Phone:" %><%= waiver.text_field :work_phone, :style => "width:165px;" %></div>
+	<div class="col-md-3"><%= waiver.label :work_phone_ext, "Ext.:" %><%= waiver.text_field :work_phone_ext, :style => "width:107px;" %></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :cell_phone, "Cell Phone:" %><%= waiver.text_field :cell_phone, :style => "width:284px;" %></div>
-	<div class="span7"><%= waiver.label :birth_date, "Birthdate:" %><%= waiver.date_select :birth_date, { :discard_year => true, :prompt => true }, :style => "width:105px;" %></div>
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :cell_phone, "Cell Phone:" %><%= waiver.text_field :cell_phone, :style => "width:284px;" %></div>
+	<div class="col-md-7"><%= waiver.label :birth_date, "Birthdate:" %><%= waiver.date_select :birth_date, { :discard_year => true, :prompt => true }, :style => "width:105px;" %></div>
 </div>
 
-<div class="row-fluid">
-	<div class="span5"><%= waiver.label :email_address, "Email Address:" %><%= waiver.text_field :email_address, :style => "width:260px;" %></div>
-	<div class="span7"><%= waiver.label :occupation, "Occupation:" %><%= waiver.text_field :occupation, :style => "width:379px;" %></div>
+<div class="row">
+	<div class="col-md-5"><%= waiver.label :email_address, "Email Address:" %><%= waiver.text_field :email_address, :style => "width:260px;" %></div>
+	<div class="col-md-7"><%= waiver.label :occupation, "Occupation:" %><%= waiver.text_field :occupation, :style => "width:379px;" %></div>
 </div>
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :emergency_contact, raw("Emergency Contact: <i>(Name, Phone and Relationship) </i>") %>
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :emergency_contact, raw("Emergency Contact: <i>(Name, Phone and Relationship) </i>") %>
 	<%= waiver.text_area :emergency_contact %></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :referral, "How did you hear about us?" %><%= waiver.text_field :referral, :style => "width:670px;" %></div>	
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :referral, "How did you hear about us?" %><%= waiver.text_field :referral, :style => "width:670px;" %></div>	
 </div>
 
 
@@ -58,10 +58,10 @@ satisfaction.  I voluntarily consent to the terms and conditions stated above.
 
 
 <% unless waiver.object.non_user.present? && waiver.object.non_user.age < 18 %>
-<div class="row-fluid">
-	<div class="span8"><%= waiver.text_field :signature, :style => "width:620px;" %><br>
+<div class="row">
+	<div class="col-md-8"><%= waiver.text_field :signature, :style => "width:620px;" %><br>
 		<%= waiver.label :signature, "Signature" %></div>
-	<div class="span4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
+	<div class="col-md-4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
 		<label>Date</label></div>
 </div>
 
@@ -69,17 +69,17 @@ satisfaction.  I voluntarily consent to the terms and conditions stated above.
 <% end %>
 
 
-<div class="row-fluid">
-	<div class="span12"><%= waiver.label :guardian_of, raw("<u>If Under 18 Years of Age:</u> As parent/legal
+<div class="row">
+	<div class="col-md-12"><%= waiver.label :guardian_of, raw("<u>If Under 18 Years of Age:</u> As parent/legal
 guardian of") %><%= waiver.text_field :guardian_of, :style => "width:300px;" %><br>
 	<label>
 I consent to the above terms and conditions.</label></div>	
 </div>
 
-<div class="row-fluid">
-	<div class="span8"><%= waiver.text_field :guardian_signature, :style => "width:620px;" %><br>
+<div class="row">
+	<div class="col-md-8"><%= waiver.text_field :guardian_signature, :style => "width:620px;" %><br>
 		<%= waiver.label :guardian_signature, "Signature of Parent" %></div>
-	<div class="span4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
+	<div class="col-md-4"><label class="underline" style="width:225px;"><%= Date.today.strftime("%m/%d/%Y")%></label><br>
 		<label>Date</label></div>
 </div>
 

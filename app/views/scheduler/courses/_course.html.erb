@@ -3,7 +3,7 @@
 	<td><%= course.end_date.strftime('%m/%d/%Y') %></td>
 	<td><%= course.client_group.title %></td>
 	<td><%= content_tag :span, course.teacher.full_name, :class => "label btn-block", :style => "background-color:##{course.teacher.color};color:black;" %></td>
-	<td><span class="label">ID: <%= course.id %></span> <%= "#{course.default_title}" %></td>
+	<td><span class="label label-default">ID: <%= course.id %></span> <%= "#{course.default_title}" %></td>
 	<td nowrap>
 		<%= content_tag :b, (course.end_date - 3.weeks).strftime('%m/%d/%Y')%>
 		
@@ -12,9 +12,9 @@
 	<td>
 		<% next_course = course.client_group.courses.where('start_date > ?', course.end_date).order(:start_date).first %>
 		<% if next_course.present? %>
-			<span class="label">ID: <%= next_course.id %></span> <%= "#{next_course.start_date.strftime('%m/%d/%Y')}" %>
+			<span class="label label-default">ID: <%= next_course.id %></span> <%= "#{next_course.start_date.strftime('%m/%d/%Y')}" %>
 		<% else %>
-		<%= content_tag :span, "unscheduled", :class => "text-error"%>
+		<%= content_tag :span, "unscheduled", :class => "text-danger"%>
 		<% end %>
 	</td>		
 </tr>

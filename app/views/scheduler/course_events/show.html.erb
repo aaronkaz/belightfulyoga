@@ -7,9 +7,9 @@
 <div class="well">
 <dl class="dl-horizontal">
     <dt>Scheduled Teacher:</dt>
-    <dd><%= @course_event.course.teacher.full_name %> <%= link_to "Change", "#", :class => 'btn btn-mini div-toggle', :data => { :target => "course_substitute" } if current_admin.admin? %>
+    <dd><%= @course_event.course.teacher.full_name %> <%= link_to "Change", "#", :class => 'btn btn-xs div-toggle', :data => { :target => "course_substitute" } if current_admin.admin? %>
         <div id="course_substitute" style="margin-top:10px;display:none;">
-        Substitute: <%= f.select :teacher_id, Teacher.all.collect { |t| [t.full_name, t.id] } %><%= link_to "cancel", "#", :class => 'btn btn-mini btn-danger div-toggle', :data => { :target => "course_substitute" } %>
+        Substitute: <%= f.select :teacher_id, Teacher.all.collect { |t| [t.full_name, t.id] } %><%= link_to "cancel", "#", :class => 'btn btn-xs btn-danger div-un-toggle', :data => { :target => "course_substitute" } %>
         </div>
     </dd>
     <% if @course_event.course.teacher_id != @course_event.teacher_id %>

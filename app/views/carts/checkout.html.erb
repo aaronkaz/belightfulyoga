@@ -1,12 +1,11 @@
-<%= stylesheet_link_tag    "/stylesheets/wide.css", :media => "all" %>
-
+<% content_for :body do %>
 <h3>Checkout</h3><br>
 
 <div id="cartWin">
 <ul class="breadcrumb">
   <% @checkout_steps.each_with_index do |step, index| %>
     <%= content_tag :li do %>
-        <%= eval("#{step}_breadcrumb(#{index + 1})") %> <span class="divider">/</span>
+        <%= eval("#{step}_breadcrumb(#{index + 1})") %>
     <% end %>
   <% end %>
 </ul>
@@ -14,3 +13,4 @@
 <%= render "#{@stage}" %>
 
 </div>
+<% end %>

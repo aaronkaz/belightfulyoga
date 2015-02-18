@@ -1,3 +1,4 @@
+<% content_for :body do %>
 <h1 class="lefttab">Your Registered Courses</h1>
 
 <div id="cartWin">
@@ -17,10 +18,11 @@
             <td><%= course.line_item_title %></td>
             <td><%= "#{course.day.pluralize}" %><br><%= "#{course.start_time.strftime('%l:%M%p')} - #{course.end_time.strftime('%l:%M%p')}" %></td>
             <td><%= course.location %></td>
-            <td><%= link_to raw("<i class='icon-calendar'></i> Add To Calendar"), ics_course_path(course), :class => "btn" %></td>
+            <td><%= link_to raw("<i class='fa fa-calendar'></i> Add To Calendar"), ics_course_path(course), :class => "btn" %></td>
         </tr>    
         <% end %>
     </tbody>
 </table>                 
     
 </div>
+<% end %>

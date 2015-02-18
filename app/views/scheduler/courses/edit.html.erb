@@ -1,15 +1,15 @@
 <div class="page-header"><%= content_tag :h1, "Edit Courses" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li><%= link_to "Unscheduled Courses", unscheduled_scheduler_courses_path %> <span class="divider">/</span></li>
-	<li><%= @course.id %> <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li><%= link_to "Unscheduled Courses", unscheduled_scheduler_courses_path %></li>
+	<li><%= @course.id %></li>
 	<li>Edit</li>
 </ul>
 
 <ul class="nav nav-tabs">
-    <li class="active"><%= link_to raw("<i class='icon-edit'></i> Edit"), edit_scheduler_course_path(@course) %></li>
-	<li><%= link_to raw("<i class='icon-th-list'></i> List"), unscheduled_scheduler_courses_path %></li>
+    <li class="active"><%= link_to raw("<i class='fa fa-edit'></i> Edit"), edit_scheduler_course_path(@course) %></li>
+	<li><%= link_to raw("<i class='fa fa-list'></i> List"), unscheduled_scheduler_courses_path %></li>
 </ul>
 
 <%= form_for [:scheduler, @course], :html => {:class => "form-inline"} do |f| %>

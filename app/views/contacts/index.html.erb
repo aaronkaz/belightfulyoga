@@ -1,3 +1,7 @@
-<%= render "#{@page.page_title.tr(' ', '_').downcase}_body" rescue @body.text.html_safe %>
+<% content_for :sidebar do %><%= raw @sidebar.text %><% end %>
+
+<% content_for :body do %>
+<%= raw @body.text %>
 
 <%= render 'form' %>
+<% end %>

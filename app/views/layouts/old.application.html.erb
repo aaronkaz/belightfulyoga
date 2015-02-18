@@ -18,72 +18,55 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	
-	<div id="top-navigation">
-		<div class="container">
-			<%= render 'layouts/top_nav' %>
-		</div>
-	</div>
-	
 
-	<div class="container" id="main-container">
-		
-		<div class="row">
-			
-			<div class="col-md-8">
-				<a href="/"><img src="/images/logo-header.gif" height="210" width="652" border="0" class="center-block" /></a>
-				<nav><div id="nav"><%= render 'layouts/nav' %></div></nav>
-			</div>
-			
-			<div class="col-md-4">
-			  <div id="home_rotate" class="pull-right hidden-sm">
-			      <% if !@top_right_image.nil? && ! @top_right_image.text.blank? %>
-			        <%= @top_right_image.text.html_safe %>
-			      <% else %>
-			        <%= image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %>
-			      <% end %>
-			  </div>
-			</div>
-			
-		</div>
+	<div id="container" class="container">
+		<header>
+		<menu><div id="topNav"><%= render 'layouts/top_nav' %></div></menu>
+		<!-- <h1>Belightful Yoga.  Mobile Yoga, we come to U.</h1> -->
+		<div id="logo">
+			<a href="/"><img src="/images/logo-header.gif" height="210" width="652" border="0" /></a>
+			<!-- Navigation -->
+			<nav><div id="nav"><%= render 'layouts/nav' %></div></nav>
+		    	<!-- Navigation -->    
+	  </div>
 
+	  <div id="home_rotate">
+	      <% if !@top_right_image.nil? && ! @top_right_image.text.blank? %>
+	        <%= @top_right_image.text.html_safe %>
+	      <% else %>
+	        <%= image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %>
+	      <% end %>
+	  </div> 
 
-
-   	<% flash.each do |key, msg| %>
-   		<%= content_tag :div, :class => "alert alert-#{key}", :style => 'color:#000;' do %>
-   			<%= msg %>
-   		<% end %>
-   	<% end %>
-	 	
-		<% if content_for(:sidebar).present? && !content_for(:sidebar).blank? %>
-	 	<div class="row">
-	 		
-	 		<div class="col-md-9">
-				<div id="body-content">
-	 				<%= yield(:body) %>
-	 				<%= render '/layouts/hero' if @page.present? && @page.home? %>
-					<br style="clear:both;">
-				</div>
-	 		</div>
-	 		
-	 		<div class="col-md-3">
-	 			<% if (!@sidebar.nil? && !@sidebar.text.blank?) || content_for?(:sidebar) %>
-	 			<div id="sidebar-content">
-	 				<%= yield(:sidebar) %>	
-	 			</div>
-	 			<% end %>
-	 		</div>
-	 		
-	 	</div>
-		<% else %>
-			<div id="body-content">
- 				<%= yield(:body) %>
- 				<%= render '/layouts/hero' if @page.present? && @page.home? %>
-				<br style="clear:both;">
-			</div>
-		<% end %>
         
+    	
+		<!-- Content -->
+		<section><div id="body_content">
+		
+		    <% flash.each do |key, msg| %>
+		        <br>
+        		<%= content_tag :div, :class => "alert alert-#{key}", :style => 'color:#000;' do %>
+        			<%= msg %>
+        		<% end %>
+        	<% end %>
+		
+		<%= yield %>
+		<%= render '/layouts/hero' if @page.present? && @page.home? %>
+		
+		</div></section>
+		<!-- Content -->
 
+		<!-- SideBar -->
+		<% if (!@sidebar.nil? && !@sidebar.text.blank?) || content_for?(:sidebar) %>
+		<aside><div id="sidebar">
+		    <%= render '/layouts/social' %>
+		    <%= yield(:sidebar) %>	
+			<%= @sidebar.text.html_safe rescue nil %>
+			</div></aside>
+		<% end %>
+		<!-- SideBar -->
+
+		<!-- Footer -->
 		<footer><%= render 'layouts/footer' %></footer>
 		<!-- Footer -->
 

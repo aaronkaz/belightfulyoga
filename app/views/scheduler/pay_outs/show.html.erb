@@ -1,13 +1,13 @@
 <div class="page-header"><%= content_tag :h1, "Pay Out Details" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li><%= link_to "Pay Outs", unpaid_scheduler_pay_outs_path %> <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li><%= link_to "Pay Outs", unpaid_scheduler_pay_outs_path %></li>
 	<li>Pay Out Details</li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<li><%= link_to raw("<i class='icon-th-list'></i> List"), unpaid_scheduler_pay_outs_path %></li>
+	<li><%= link_to raw("<i class='fa fa-list'></i> List"), unpaid_scheduler_pay_outs_path %></li>
 </ul>
 
 <%= form_for [:scheduler, @pay_out], :html => { :class => "form-inline" } do |f| %>
@@ -82,7 +82,7 @@
 		<td><%= c.object.event_date.strftime('%m/%d/%Y') %></td>
 		<td><%= c.object.event_date.strftime('%l:%M%p') %></td>
 		<td><%= c.object.course.client_group.title if c.object.course.client_group.present? %></td>
-		<td><span class="label">ID: <%= c.object.course.id %></span> <%= "#{c.object.course.default_title}" %>
+		<td><span class="label label-default">ID: <%= c.object.course.id %></span> <%= "#{c.object.course.default_title}" %>
 		<td><%= c.object.course_registrations.length %></td>
 		<td><%= c.object.walkins.length %> <%= "(+#{number_to_currency(c.object.walkin_pay_out)})" if c.object.walkins.any? %></td>
 		<td style="text-align:right;"><%= c.text_field :attended, :style => "text-align:right;width:40px;"%></td>
@@ -93,11 +93,11 @@
 			<%= number_to_currency(c.object.teacher_pay_out) %>
 			<% end %></td>
 		<td style="text-align:right;"><%= number_to_currency(c.object.total_pay_out) %></td>
-		<td><%= link_to raw("<i class='icon-th-list'></i> Roster"), [:scheduler, c.object], :class => "btn btn-block btn-small"%>
+		<td><%= link_to raw("<i class='fa fa-list'></i> Roster"), [:scheduler, c.object], :class => "btn btn-block btn-small"%>
 		
-			<%= link_to "Change Pay Out", "#", :class => 'btn btn-small btn-block div-toggle', :data => { :target => "change_pay_out" } if current_admin.admin? %>
+			<%= link_to "Change Pay Out", "#", :class => 'btn btn-sm btn-default div-toggle', :data => { :target => "change_pay_out" } if current_admin.admin? %>
 			        <div id="change_pay_out" style="display:none;">
-			        PayOut: <%= c.select :pay_out_id, PayOut.where(:paid_date => nil).collect { |p| ["#{p.teacher.full_name} -- #{p.start_date.strftime('%m/%d/%Y')} - #{p.end_date.strftime('%m/%d/%Y')}", p.id] } %><%= link_to "cancel", "#", :class => 'btn btn-mini btn-danger div-un-toggle', :data => { :target => "change_pay_out" } %>
+			        PayOut: <%= c.select :pay_out_id, PayOut.where(:paid_date => nil).collect { |p| ["#{p.teacher.full_name} -- #{p.start_date.strftime('%m/%d/%Y')} - #{p.end_date.strftime('%m/%d/%Y')}", p.id] } %><%= link_to "cancel", "#", :class => 'btn btn-xs btn-danger div-un-toggle', :data => { :target => "change_pay_out" } %>
 			        </div>
 		
 		
@@ -112,7 +112,7 @@
 
 <div class="form-actions">
 	<%= f.label :comment, :class => "control-label" %><br>
-	<%= f.text_area :comment, :rows => "5", :class => "span6" %>
+	<%= f.text_area :comment, :rows => "5", :class => "form-control", style: "width: 50%;" %>
 	<br><br>
     <%= f.submit :class => "btn btn-primary"%>
 </div> 

@@ -1,3 +1,6 @@
+<% content_for :sidebar do %><%= raw @sidebar.text %><% end %>
+
+<% content_for :body do %>
 <h1 class="lefttab" id="offeringsList">Trainings</h1>
 <%= @body.text.html_safe %>
 
@@ -6,3 +9,5 @@
 <% else %>
     <%= render @trainings %>
 <% end %>    
+
+<% end %>

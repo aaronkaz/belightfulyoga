@@ -1,13 +1,13 @@
 <div class="page-header"><%= content_tag :h1, "Pay Outs" %></div>
 
 <ul class="breadcrumb">
-	<li><%= link_to "Dashboard", scheduler_root_path %> <span class="divider">/</span></li>
-	<li>Pay Outs <span class="divider">/</span></li>
+	<li><%= link_to "Dashboard", scheduler_root_path %></li>
+	<li>Pay Outs</li>
 </ul>
 
 <ul class="nav nav-tabs">
-	<li class="active"><%= link_to raw("<i class='icon-th-list'></i> List"), "" %></li>
-	<%= content_tag :li, link_to(raw("<i class='icon-plus'></i> Create Pay Outs"), new_scheduler_pay_out_path) if current_admin.admin? %>
+	<li class="active"><%= link_to raw("<i class='fa fa-list'></i> List"), "" %></li>
+	<%= content_tag :li, link_to(raw("<i class='fa fa-plus'></i> Create Pay Outs"), new_scheduler_pay_out_path) if current_admin.admin? %>
 
 </ul>
 
@@ -21,7 +21,7 @@
 		<%= hidden_field_tag :direction, params[:direction] %>
 		<%= hidden_field_tag :sort, params[:sort] %>
 
-		<%= button_tag raw("<i class='icon-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
+		<%= button_tag raw("<i class='fa fa-refresh icon-white'></i> Refresh"), :name => nil, :class => "btn btn-primary" %>
 		<%= link_to "Reset", unpaid_scheduler_pay_outs_path, :class => "btn" %>
 		</div>	
 <% end %>
@@ -59,8 +59,8 @@
 			</div>
 			<% end %>
 		</td>
-		<td nowrap><%= link_to raw("<i class='icon-eye-open'></i> Details / Edit"), [:scheduler, pay_out], :class => "btn btn-small" %>
-		<%= link_to raw("<i class='icon-remove'></i> Delete"), [:scheduler, pay_out], :method => :delete, :confirm => "Are you sure?", :class => "btn btn-small btn-danger" if current_admin.admin? %></td>
+		<td nowrap><%= link_to raw("<i class='fa fa-edit'></i> Details / Edit"), [:scheduler, pay_out], :class => "btn btn-sm" %>
+		<%= link_to raw("<i class='fa fa-remove'></i> Delete"), [:scheduler, pay_out], :method => :delete, :confirm => "Are you sure?", :class => "btn btn-sm btn-danger" if current_admin.admin? %></td>
 	</tr>	
 	<% end %>
 </tbody>	
