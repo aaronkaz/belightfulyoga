@@ -90,7 +90,7 @@ class Training < Course
             end
           end
           field :price
-          field :notes
+          field :notes, :ck_editor
           field :image, :carrierwave    
         end
       end

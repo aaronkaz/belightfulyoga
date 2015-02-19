@@ -6,4 +6,3 @@
 //= require spectrum
 //= require_tree ./admin
 //= require_tree ./scheduler
-//= require ckeditor/init
