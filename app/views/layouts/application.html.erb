@@ -8,10 +8,10 @@
 		
   <%= stylesheet_link_tag "application", :media => "all" %>		
   <%= stylesheet_link_tag    "/stylesheets/belightful.css", :media => "all" %>
-	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" unless @page.add_css.blank? rescue nil %>
+	<%= stylesheet_link_tag    "#{@page.add_css}", :media => "all" if defined?(@page) && @page.add_css.blank? rescue nil %>
 	<%= yield(:stylesheets) %>
 
-  <%= javascript_include_tag "site" %>
+  <%= javascript_include_tag "application" %>
 	<%= javascript_include_tag "/javascripts/jquery.innerfade.js" %>
 	<%= javascript_include_tag "/javascripts/home_rotator.js" %>
 	
@@ -37,7 +37,7 @@
 			
 			<div class="col-md-4">
 			  <div id="home_rotate" class="pull-right hidden-sm">
-			      <% if !@top_right_image.nil? && ! @top_right_image.text.blank? %>
+			      <% if defined?(@top_right_image) && !@top_right_image.text.blank? %>
 			        <%= @top_right_image.text.html_safe %>
 			      <% else %>
 			        <%= image_tag("/images/circle_boutique_01.png", :alt => "Belightful Yoga") %>
@@ -47,13 +47,15 @@
 			
 		</div>
 
+		<% flash.each do |key, msg| %>
+			<% alert_css = key == :alert || key == "alert" || key == :notice || key == "notice" ? "warning" : key %>
+	
+			<%= content_tag :div, :class => "alert alert-#{alert_css}" do %>
+				<i class='fa fa-exclamation-triangle'></i> <%= msg.html_safe %>
+			<% end %>
+	
+		<% end %>
 
-
-   	<% flash.each do |key, msg| %>
-   		<%= content_tag :div, :class => "alert alert-#{key}", :style => 'color:#000;' do %>
-   			<%= msg %>
-   		<% end %>
-   	<% end %>
 	 	
 		<% if content_for(:sidebar).present? && !content_for(:sidebar).blank? %>
 	 	<div class="row">
@@ -61,7 +63,7 @@
 	 		<div class="col-md-9">
 				<div id="body-content">
 	 				<%= yield(:body) %>
-	 				<%= render '/layouts/hero' if @page.present? && @page.home? %>
+					<%= yield :hero %>
 					<br style="clear:both;">
 				</div>
 	 		</div>
@@ -78,7 +80,7 @@
 		<% else %>
 			<div id="body-content">
  				<%= yield(:body) %>
- 				<%= render '/layouts/hero' if @page.present? && @page.home? %>
+ 				<%= yield :hero %>
 				<br style="clear:both;">
 			</div>
 		<% end %>

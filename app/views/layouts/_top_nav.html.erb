@@ -4,7 +4,7 @@
   <% if user_signed_in? %>
   	<%= content_tag :li, link_to(raw("<i class='fa fa-building'></i> Private Classes"), client_group_courses_path(current_user.client_group)) if current_user.client_group.present? %>
   	<%= content_tag :li, link_to(raw("<i class='fa fa-user'></i> Your Account"), edit_user_registration_path) %>
-  	<%= content_tag :li, link_to(raw("<i class='fa fa-sign-out'></i> Logout"), destroy_user_session_path, :method => :delete) %>
+  	<%= content_tag :li, link_to(raw("<i class='fa fa-sign-out'></i> Logout"), destroy_user_session_path, method: :delete) %>
   <% else %>
   	<%= content_tag :li, link_to(raw("<i class='fa fa-sign-in'></i> Login/Register"), new_user_session_path) %>
   <% end %>

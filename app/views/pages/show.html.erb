@@ -1,2 +1,8 @@
 <% content_for :sidebar do %><%= raw @sidebar.text %><% end %>
 <% content_for :body do %><%= raw @body.text %><% end %>
+<% content_for :hero do %>
+<div class="video-container">
+         <iframe src="http://www.youtube.com/embed/Y-PBPsWHwkE" frameborder="0" width="560" height="315"></iframe>
+</div>
+
+<% end if @page.home? %>
