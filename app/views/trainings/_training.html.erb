@@ -4,7 +4,7 @@
 				<%= image_tag(training.image_url, class: "img-responsive") unless training.image.blank? %>
 			</div>
 			<div class="span8">
-			  <%= content_tag :h3, "#{training.title} Belightful Yoga" %>
+			  <%= content_tag :h3, "#{training.title}" %>
 				<%= content_tag :p, training.description unless training.description.blank? %>
 				<%= content_tag :h2, "#{training.start_date.strftime('%m/%d/%Y')} to #{training.end_date.strftime('%m/%d/%Y')}"%>
 				<p>

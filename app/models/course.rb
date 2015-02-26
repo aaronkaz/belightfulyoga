@@ -62,7 +62,7 @@ class Course < AbstractModel
   end
   
   def default_title
-    "Belightful Yoga #{self.title}"
+    "#{self.title}"
   end
   
   def address

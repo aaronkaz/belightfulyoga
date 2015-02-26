@@ -1,0 +1,2 @@
+module ProfessionalDevelopmentsHelper
+end

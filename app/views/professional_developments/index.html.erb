@@ -1,0 +1,13 @@
+<% content_for :sidebar do %><%= raw @sidebar.text %><% end %>
+
+<% content_for :body do %>
+<h1 class="lefttab" id="offeringsList">Professional Development</h1>
+<%= @body.text.html_safe %>
+
+<% if @professional_developments.empty? %>
+    <div class="alert alert-warning">No Professional Development Courses are currently scheduled.</div>
+<% else %>
+    <%= render @professional_developments %>
+<% end %>    
+
+<% end %>

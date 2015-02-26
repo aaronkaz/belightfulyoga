@@ -1,0 +1,36 @@
+<div class="offering">
+		<div class="row-fluid">
+			<div class="span4">
+				<%= image_tag(professional_development.image_url, class: "img-responsive") unless professional_development.image.blank? %>
+			</div>
+			<div class="span8">
+			  <%= content_tag :h3, "#{professional_development.title}" %>
+				<%= content_tag :p, professional_development.description unless professional_development.description.blank? %>
+				<%= content_tag :h2, "#{professional_development.start_date.strftime('%m/%d/%Y')} to #{professional_development.end_date.strftime('%m/%d/%Y')}"%>
+				<p>
+					<% if professional_development.frequency == 'weekly' %>
+						<%= professional_development.day.pluralize %><br>
+					<% end %>
+					<%= raw("#{professional_development.start_time.strftime('%l:%M%p')} - #{professional_development.end_time.strftime('%l:%M%p')}") %>
+				</p>
+				
+				<dl>
+			   	    <dt>Location/Room:</dt>
+			   	    <dd><%= simple_format(professional_development.location) %></dd>
+				
+			   	    <% unless professional_development.notes.blank? %>
+			   	    <dt>Notes:</dt>
+			   	    <dd><%= simple_format(professional_development.notes) %></dd>	
+			   	    <% end %>
+			  </dl>
+				
+				
+			</div>
+		</div>
+
+		
+	
+	
+
+    <br style="clear:both;">
+</div>    

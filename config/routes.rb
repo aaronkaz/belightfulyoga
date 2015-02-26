@@ -68,6 +68,7 @@ Belightfulyoga::Application.routes.draw do
   end
   
   resources :trainings
+  resources :professional_developments, path: "/professional-development"
   
   resources :courses do
     member do
