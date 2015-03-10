@@ -36,7 +36,7 @@ class Cart < ActiveRecord::Base
   before_update :shipping_uncomfirm, :if => lambda { self.shipping_address_id_changed? || self.line_items_changed? }
   
   after_update :check_promos
-  after_commit :find_or_create_registrations, :if => lambda { self.status == "Completed" }
+  after_save :find_or_create_registrations, :if => lambda { self.status == "Completed" }
   
   def total_weight
     total_weight = 0
@@ -184,14 +184,15 @@ protected
     #course_promos = self.promo_codes.where(:line_itemable_type => "Course").where(:discount_type => "dollar").sum(:amount)
     course_promos = self.promo_codes.where(:discount_type => "dollar").sum(:amount)
     distributed_discount = (course_promos / self.courses.where('unit_price > 0').sum('qty'))
+    #logger.info "\n\n\n\n FIND CREATE REGISTRATIONS \n\n\n"
     
     self.courses.each do |course|
       class_paid = course.unit_price.to_i == 0 ? "0" : ( course.unit_price - distributed_discount )
-      registration = self.course_registrations.find_or_create_by_course_id_and_registerable_type_and_registerable_id(course.line_itemable_id, "User", self.user_id)
+      registration = self.course_registrations.find_or_create_by(course_id: course.line_itemable_id, registerable_type: "User", registerable_id: self.user_id)
       registration.update_attributes(:registration_type => "online", :paid => class_paid)
       
       course.non_users.each do |non_user|
-        registration = self.course_registrations.find_or_create_by_course_id_and_registerable_type_and_registerable_id(course.line_itemable_id, "NonUser", non_user.id)
+        registration = self.course_registrations.find_or_create_by(course_id: course.line_itemable_id, registerable_type: "NonUser", registerable_id: non_user.id)
         registration.update_attributes(:registration_type => "online", :paid => class_paid)
       end
     end  
