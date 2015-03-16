@@ -26,8 +26,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessor :code
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :client_group_id, :synced_to_mailchimp, :first_name, :middle_initial, :last_name, :address_1, :address_2, 
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :client_group_id, :synced_to_mailchimp, :first_name, :middle_initial, :last_name, :address_1, :address_2, 
   :city, :state, :zip, :home_phone, :work_phone, :work_phone_ext, :cell_phone, :occupation, :emergency_contact, :birthdate, :guardian, :code,
   :walkins_attributes, :course_registrations_attributes, :addresses_attributes
   
