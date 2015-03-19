@@ -1,8 +1,59 @@
 <% content_for :sidebar do %><%= raw @sidebar.text %><% end %>
 <% content_for :body do %><%= raw @body.text %><% end %>
+
+
 <% content_for :hero do %>
+<!--
 <div class="video-container">
          <iframe src="http://www.youtube.com/embed/Y-PBPsWHwkE" frameborder="0" width="560" height="315"></iframe>
 </div>
+-->
+
+<%
+@slides = CarouselSlide.where(active: true).order(:position)	
+%>
+
+<% if @slides.any? %>
+<%
+@first_col_a = col_array(@slides, 0)
+@second_col_a = col_array(@slides, 1)
+%>
+
+<div class="row">
+	<div class="col-md-6">
+		<div id="carousel-col-1" class="carousel slide" data-ride="carousel">
+
+		  <div class="carousel-inner" role="listbox">
+				<% @first_col_a.each_with_index do |i, index| %>
+				<% item = @slides[i] %>
+		    <div class="item <%= 'active' if index == 0 %>">
+		      <%= link_to_unless item.url.blank?, image_tag(item.image.url, style: 'width:100%;height:auto;'), item.url %>
+
+		    </div>
+				<% end %>
+		  </div>
+
+		</div>
+	</div>
+	
+	<div class="col-md-6">
+		<div id="carousel-col-2" class="carousel slide" data-ride="carousel">
+
+		  <div class="carousel-inner" role="listbox">
+				<% @second_col_a.each_with_index do |i, index| %>
+				<% item = @slides[i] %>
+		    <div class="item <%= 'active' if index == 0 %>">
+		      <%= link_to_unless item.url.blank?, image_tag(item.image.url, style: 'width:100%;height:auto;'), item.url %>
+
+		    </div>
+				<% end %>
+		  </div>
+
+		</div>
+	</div>
+	
+</div>
+
+<% end %>
 
 <% end if @page.home? %>

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  helper_method :current_cart
+  helper_method :current_cart, :col_array
   
 private
 
@@ -50,6 +50,18 @@ private
     path << "#{n}" if n
     path << "#{prefix}#{t}-#{$$}-#{rand(0x100000000).to_s(36)}"
     path << suffix
+  end
+  
+  def col_array(items, start_at)
+  	items_count = (items.length - 1)
+  	i = start_at
+  	a = Array.new
+  
+  	while i <= items_count
+  		a << i
+  		i += 2
+  	end
+    return a
   end
   
 end

@@ -5,7 +5,9 @@
 <%= @body.text.html_safe %>
 
 <% if @professional_developments.empty? %>
+<!-- 
     <div class="alert alert-warning">No Professional Development Courses are currently scheduled.</div>
+-->
 <% else %>
     <%= render @professional_developments %>
 <% end %>    
